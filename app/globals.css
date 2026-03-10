@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+/* Global Text Hyperlink Styles */
+p a,
+span a,
+.content a {
+    color: #0d9488;
+    /* tailwind teal-600 */
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: #5eead4;
+    /* tailwind teal-300 */
+    transition: color 0.2s, text-decoration-color 0.2s;
+}
+
+p a:hover,
+span a:hover,
+.content a:hover {
+    color: #0f766e;
+    /* tailwind teal-700 */
+    text-decoration-color: #0d9488;
+}
+
+/* Global Interactive Card Hover Effect */
+.interactive-card {
+    transition: all 0.3s ease-in-out;
+}
+
+.interactive-card:hover {
+    transform: scale(0.98);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
