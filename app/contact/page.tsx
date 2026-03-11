@@ -5,7 +5,7 @@ export default function Contact() {
     <div className="max-w-4xl mx-auto space-y-16 pb-16 pt-8">
       {/* Header */}
       <section className="space-y-8 border-b border-slate-200/60 pb-8">
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-[#2d4a3e] font-mono">
+        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-[#2d4a3e]">
           Get in Touch
         </h1>
         <div className="space-y-4">
@@ -18,7 +18,7 @@ export default function Contact() {
 
       {/* Email Section */}
       <section className="space-y-6">
-        <h2 className="text-3xl font-bold tracking-tight text-[#2d4a3e] font-mono">Email</h2>
+        <h2 className="text-3xl font-bold tracking-tight text-[#2d4a3e]">Email</h2>
         <ul className="space-y-4 text-lg">
           <li className="flex items-center gap-3">
             <span className="text-xl">📧</span>
@@ -37,19 +37,19 @@ export default function Contact() {
 
       {/* Social Media Section */}
       <section className="space-y-6">
-        <h2 className="text-3xl font-bold tracking-tight text-[#2d4a3e] font-mono">Connect with me on Social Media!</h2>
+        <h2 className="text-3xl font-bold tracking-tight text-[#2d4a3e]">Connect with me on Social Media!</h2>
         <div className="flex gap-6 pt-2">
-          <a 
-            href="https://github.com/Muhit1204" 
-            target="_blank" 
+          <a
+            href="https://github.com/Muhit1204"
+            target="_blank"
             rel="noopener noreferrer"
             className="w-20 h-20 bg-[#fbdca4] rounded-[2rem] flex items-center justify-center text-white hover:scale-110 hover:-translate-y-1 transition-all duration-300 shadow-sm"
           >
             <Github className="w-10 h-10" strokeWidth={3} />
           </a>
-          <a 
-            href="https://linkedin.com/in/mdmuntasirhossain98" 
-            target="_blank" 
+          <a
+            href="https://linkedin.com/in/mdmuntasirhossain98"
+            target="_blank"
             rel="noopener noreferrer"
             className="w-20 h-20 bg-[#fbdca4] rounded-[2rem] flex items-center justify-center text-white hover:scale-110 hover:-translate-y-1 transition-all duration-300 shadow-sm"
           >
@@ -60,12 +60,12 @@ export default function Contact() {
 
       {/* Book a Chat Section */}
       <section className="space-y-8">
-        <h2 className="text-3xl font-bold tracking-tight text-[#2d4a3e] font-mono">Book a time to chat!</h2>
+        <h2 className="text-3xl font-bold tracking-tight text-[#2d4a3e]">Book a time to chat!</h2>
         <div className="space-y-6">
           <div className="flex items-center gap-3">
             <span className="text-xl">🗓️</span>
-            <a 
-              href="https://calendar.app.google/7bicmniscwJYaoA36" 
+            <a
+              href="https://calendar.app.google/7bicmniscwJYaoA36"
               target="_blank"
               rel="noopener noreferrer"
               className="text-lg font-bold text-blue-500 hover:text-blue-600 transition-colors"
@@ -84,7 +84,7 @@ export default function Contact() {
               <li className="leading-relaxed">If you don't see an open slot, just reach out by email and we'll find another time!</li>
             </ul>
           </div>
-          
+
           <p className="text-lg text-[#2d4a3e] font-medium pt-4">Looking forward to connecting!</p>
         </div>
       </section>

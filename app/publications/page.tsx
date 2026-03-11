@@ -60,7 +60,7 @@ export default function Publications() {
       <motion.div variants={itemVariants} className="space-y-4 pt-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-4">
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 font-mono">Research & Publications</h1>
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900">Research & Publications</h1>
             <p className="text-xl text-slate-600 font-light leading-relaxed max-w-3xl">
               A collection of my academic research, conference proceedings, and thesis work focused on satellite communications and network resilience.
             </p>

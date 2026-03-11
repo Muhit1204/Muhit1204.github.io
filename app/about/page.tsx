@@ -8,7 +8,7 @@ export default function About() {
       <section className="space-y-6 pt-8">
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
           <div className="space-y-6 max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 font-mono">About Me</h1>
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900">About Me</h1>
             <p className="text-xl text-slate-600 font-light leading-relaxed">
               Beyond the code and the lab, I am an explorer at heart—whether that means navigating the complexities of satellite networks or finding the best hiking trails.
             </p>

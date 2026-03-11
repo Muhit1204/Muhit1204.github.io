@@ -79,7 +79,7 @@ export default function Experience() {
       className="space-y-16 max-w-5xl mx-auto pb-12"
     >
       <motion.div variants={itemVariants} className="space-y-4 pt-8">
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 font-mono">Professional Experience</h1>
+        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900">Professional Experience</h1>
         <p className="text-xl text-slate-600 font-light leading-relaxed max-w-3xl">
           My academic and industry work experience.
         </p>

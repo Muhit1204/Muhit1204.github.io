@@ -19,7 +19,7 @@ export default function Home() {
           />
         </div>
         <div className="flex-1 space-y-6 flex flex-col justify-center py-4">
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 font-mono tracking-tight">
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 tracking-tight">
             Md Muntasir Hossain
           </h1>
           <p className="text-lg text-slate-700 leading-relaxed">

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, JetBrains_Mono } from 'next/font/google';
+import { Inter, JetBrains_Mono, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -14,6 +14,12 @@ const jetbrainsMono = JetBrains_Mono({
   variable: '--font-mono',
 });
 
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-heading',
+  weight: ['400', '500', '600', '700', '800', '900'],
+});
+
 export const metadata: Metadata = {
   title: 'Md Muntasir Hossain | Research Portfolio',
   description: 'Interactive research portfolio of Md Muntasir Hossain. MS in Computer Science at Lamar University.',
@@ -21,7 +27,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} ${playfair.variable}`}>
       <body className="font-sans bg-slate-50 text-slate-900 min-h-screen flex flex-col selection:bg-indigo-500/30 relative" suppressHydrationWarning>
         {/* Dynamic Background */}
         <div className="fixed inset-0 z-[-1] pointer-events-none overflow-hidden">
