@@ -76,16 +76,16 @@ export default function Experience() {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="space-y-16 max-w-5xl mx-auto pb-12"
+      className="space-y-8 md:space-y-16 max-w-5xl mx-auto pb-6 md:pb-12"
     >
-      <motion.div variants={itemVariants} className="space-y-4 pt-8">
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900">Professional Experience</h1>
+      <motion.div variants={itemVariants} className="space-y-4 pt-4 md:pt-8">
+        <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-slate-900">Professional Experience</h1>
         <p className="text-xl text-slate-600 font-light leading-relaxed max-w-3xl">
           My academic and industry work experience.
         </p>
       </motion.div>
 
-      <div className="space-y-12 relative">
+      <div className="space-y-6 md:space-y-12 relative">
         {/* Glowing Timeline Line */}
         <div className="hidden md:block absolute left-[20%] top-2 bottom-2 w-px bg-gradient-to-b from-indigo-200 via-emerald-200 to-transparent" />
 

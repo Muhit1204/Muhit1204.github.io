@@ -78,16 +78,16 @@ export default function Projects() {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="space-y-16 max-w-5xl mx-auto pb-12"
+      className="space-y-8 md:space-y-16 max-w-5xl mx-auto pb-6 md:pb-12"
     >
-      <motion.div variants={itemVariants} className="space-y-4 pt-8">
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900">Projects</h1>
+      <motion.div variants={itemVariants} className="space-y-4 pt-4 md:pt-8">
+        <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-slate-900">Projects</h1>
         <p className="text-xl text-slate-600 font-light leading-relaxed max-w-3xl">
           A showcase of my technical projects spanning machine learning, networking, and data analysis.
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-1 gap-8">
+      <div className="grid grid-cols-1 gap-4 md:gap-8">
         {projects.map((project, index) => (
           <motion.div variants={itemVariants} key={index} className="interactive-card group bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm hover:border-indigo-300 flex flex-col h-full">
             <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6">

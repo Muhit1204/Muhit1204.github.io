@@ -3,13 +3,13 @@ import Image from 'next/image';
 
 export default function About() {
   return (
-    <div className="space-y-20 max-w-5xl mx-auto pb-12">
+    <div className="space-y-10 md:space-y-20 max-w-5xl mx-auto pb-6 md:pb-12">
       {/* Header */}
-      <section className="space-y-6 pt-8">
+      <section className="space-y-4 md:space-y-6 pt-4 md:pt-8">
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
           <div className="space-y-6 max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900">About Me</h1>
-            <p className="text-xl text-slate-600 font-light leading-relaxed">
+            <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-slate-900">About Me</h1>
+            <p className="text-lg md:text-xl text-slate-600 font-light leading-relaxed">
               Beyond the code and the lab, I am an explorer at heart—whether that means navigating the complexities of satellite networks or finding the best hiking trails.
             </p>
           </div>
@@ -27,12 +27,12 @@ export default function About() {
 
 
       {/* Education */}
-      <section id="education" className="space-y-8">
+      <section id="education" className="space-y-4 md:space-y-8">
         <div className="flex items-center gap-3 border-b border-slate-200 pb-4">
           <GraduationCap className="w-8 h-8 text-blue-600" />
           <h2 className="text-3xl font-bold tracking-tight text-slate-900">Education</h2>
         </div>
-        <div className="space-y-12 relative">
+        <div className="space-y-6 md:space-y-12 relative">
           {/* Glowing Timeline Line */}
           <div className="hidden md:block absolute left-[20%] top-2 bottom-2 w-px bg-gradient-to-b from-blue-200 via-indigo-200 to-transparent" />
 
@@ -61,7 +61,7 @@ export default function About() {
                   </div>
                   <p className="md:hidden text-sm font-bold text-blue-600 mb-4 uppercase tracking-wider">2023 – Present</p>
 
-                  <div className="space-y-2 mb-8">
+                  <div className="space-y-2 mb-4 md:mb-8">
                     <span className="font-semibold text-slate-900 text-sm uppercase tracking-wider">Relevant Coursework</span>
                     <p className="text-slate-600 leading-relaxed">
                       Software Engineering, Analysis of Algorithms, Computer Networks, Big Data, Machine Learning, Advance Operating Systems.
@@ -69,7 +69,7 @@ export default function About() {
                   </div>
 
                   {/* THESIS NESTED CARD */}
-                  <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 relative overflow-hidden">
+                  <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 md:p-6 relative overflow-hidden">
                     <div className="absolute top-0 left-0 w-1 h-full bg-blue-400" />
                     <div className="flex items-center gap-2 mb-3">
                       <FileText className="w-4 h-4 text-blue-600" />
@@ -123,7 +123,7 @@ export default function About() {
                   </div>
                   <p className="md:hidden text-sm font-bold text-slate-500 mb-4 uppercase tracking-wider">2017 – 2021</p>
 
-                  <div className="space-y-2 mb-8">
+                  <div className="space-y-2 mb-4 md:mb-8">
                     <span className="font-semibold text-slate-900 text-sm uppercase tracking-wider">Relevant Coursework</span>
                     <p className="text-slate-600 leading-relaxed">
                       Data Structures, Algorithms, Cloud Computing, Data Mining, Cybersecurity, Data communication.
@@ -131,7 +131,7 @@ export default function About() {
                   </div>
 
                   {/* THESIS NESTED CARD */}
-                  <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 relative overflow-hidden">
+                  <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 md:p-6 relative overflow-hidden">
                     <div className="absolute top-0 left-0 w-1 h-full bg-slate-400" />
                     <div className="flex items-center gap-2 mb-3">
                       <FileText className="w-4 h-4 text-slate-500" />
@@ -163,14 +163,14 @@ export default function About() {
       </section>
 
       {/* Awards and Grants */}
-      <section className="space-y-8">
+      <section className="space-y-4 md:space-y-8">
         <div className="flex items-center gap-3 border-b border-slate-200 pb-4">
           <Award className="w-8 h-8 text-amber-500" />
           <h2 className="text-3xl font-bold tracking-tight text-slate-900">Awards & Grants</h2>
         </div>
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-4 md:gap-6">
           {/* US DOE Grant */}
-          <div className="interactive-card bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-6 hover:shadow">
+          <div className="interactive-card bg-white p-4 md:p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6 hover:shadow">
             <div className="relative w-28 h-28 shrink-0 rounded-2xl border border-slate-100 p-3 flex items-center justify-center bg-white">
               <div className="relative w-full h-full">
                 <Image
@@ -194,7 +194,7 @@ export default function About() {
           </div>
 
           {/* Lamar University Grant */}
-          <div className="interactive-card bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-6 hover:shadow">
+          <div className="interactive-card bg-white p-4 md:p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6 hover:shadow">
             <div className="relative w-28 h-28 shrink-0 rounded-2xl border border-slate-100 p-3 flex items-center justify-center bg-white">
               <div className="relative w-full h-full">
                 <Image
@@ -218,7 +218,7 @@ export default function About() {
           </div>
 
           {/* AIUB Scholarship */}
-          <div className="interactive-card bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-6 hover:shadow">
+          <div className="interactive-card bg-white p-4 md:p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6 hover:shadow">
             <div className="relative w-28 h-28 shrink-0 rounded-2xl border border-slate-100 p-3 flex items-center justify-center bg-white">
               <div className="relative w-full h-full">
                 <Image
@@ -242,7 +242,7 @@ export default function About() {
           </div>
 
           {/* Dean's List Award */}
-          <div className="interactive-card bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-6 hover:shadow">
+          <div className="interactive-card bg-white p-4 md:p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6 hover:shadow">
             <div className="relative w-28 h-28 shrink-0 rounded-2xl border border-rose-100 bg-rose-50 p-3 flex items-center justify-center text-rose-500">
               <Award className="w-12 h-12" />
             </div>
@@ -261,14 +261,14 @@ export default function About() {
       </section>
 
       {/* Certifications & Courses */}
-      <section className="space-y-8">
+      <section className="space-y-4 md:space-y-8">
         <div className="flex items-center gap-3 border-b border-slate-200 pb-4">
           <Code className="w-8 h-8 text-purple-600" />
           <h2 className="text-3xl font-bold tracking-tight text-slate-900">Certifications & Courses</h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           {/* Intermediate Python */}
-          <div className="interactive-card group bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:border-purple-300 flex flex-col gap-4">
+          <div className="interactive-card group bg-white p-4 md:p-6 rounded-3xl border border-slate-200 shadow-sm hover:border-purple-300 flex flex-col gap-3 md:gap-4">
             <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden border border-slate-100 mb-2">
               <Image
                 src="/cert-python-intermediate.jpg"
@@ -284,7 +284,7 @@ export default function About() {
           </div>
 
           {/* Intro to Python */}
-          <div className="interactive-card group bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:border-purple-300 flex flex-col gap-4">
+          <div className="interactive-card group bg-white p-4 md:p-6 rounded-3xl border border-slate-200 shadow-sm hover:border-purple-300 flex flex-col gap-3 md:gap-4">
             <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden border border-slate-100 mb-2">
               <Image
                 src="/cert-python-intro.jpg"
@@ -301,7 +301,7 @@ export default function About() {
         </div>
       </section>
 
-      <section className="space-y-8">
+      <section className="space-y-4 md:space-y-8">
         <div className="flex items-center gap-3 border-b border-slate-200 pb-4">
           <Tent className="w-8 h-8 text-emerald-600" />
           <h2 className="text-3xl font-bold tracking-tight text-slate-900">Personal Hobbies</h2>
@@ -310,43 +310,43 @@ export default function About() {
           When I'm not analyzing network topologies or writing NS-3 simulation models, you can usually find me outdoors. I believe that stepping away from the screen is the best way to solve complex problems.
         </p>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-          <div className="interactive-card bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col items-center text-center gap-4 hover:border-emerald-300">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
+          <div className="interactive-card bg-white p-4 md:p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col items-center text-center gap-3 md:gap-4 hover:border-emerald-300">
             <div className="p-4 bg-emerald-50 text-emerald-600 rounded-2xl">
               <Tent className="w-8 h-8" />
             </div>
             <h3 className="font-bold text-slate-900 text-lg">Camping</h3>
           </div>
 
-          <div className="interactive-card bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col items-center text-center gap-4 hover:border-amber-300">
+          <div className="interactive-card bg-white p-4 md:p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col items-center text-center gap-3 md:gap-4 hover:border-amber-300">
             <div className="p-4 bg-amber-50 text-amber-600 rounded-2xl">
               <Mountain className="w-8 h-8" />
             </div>
             <h3 className="font-bold text-slate-900 text-lg">Hiking</h3>
           </div>
 
-          <div className="interactive-card bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col items-center text-center gap-4 hover:border-blue-300">
+          <div className="interactive-card bg-white p-4 md:p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col items-center text-center gap-3 md:gap-4 hover:border-blue-300">
             <div className="p-4 bg-blue-50 text-blue-600 rounded-2xl">
               <Bike className="w-8 h-8" />
             </div>
             <h3 className="font-bold text-slate-900 text-lg">Cycling</h3>
           </div>
 
-          <div className="interactive-card bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col items-center text-center gap-4 hover:border-orange-300">
+          <div className="interactive-card bg-white p-4 md:p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col items-center text-center gap-3 md:gap-4 hover:border-orange-300">
             <div className="p-4 bg-orange-50 text-orange-600 rounded-2xl">
               <Flame className="w-8 h-8" />
             </div>
             <h3 className="font-bold text-slate-900 text-lg">BBQ</h3>
           </div>
 
-          <div className="interactive-card bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col items-center text-center gap-4 hover:border-indigo-300">
+          <div className="interactive-card bg-white p-4 md:p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col items-center text-center gap-3 md:gap-4 hover:border-indigo-300">
             <div className="p-4 bg-indigo-50 text-indigo-600 rounded-2xl">
               <Plane className="w-8 h-8" />
             </div>
             <h3 className="font-bold text-slate-900 text-lg">Traveling</h3>
           </div>
 
-          <div className="interactive-card bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col items-center text-center gap-4 hover:border-cyan-300">
+          <div className="interactive-card bg-white p-4 md:p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col items-center text-center gap-3 md:gap-4 hover:border-cyan-300">
             <div className="p-4 bg-cyan-50 text-cyan-600 rounded-2xl">
               <Waves className="w-8 h-8" />
             </div>

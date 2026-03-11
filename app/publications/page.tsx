@@ -55,12 +55,12 @@ export default function Publications() {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="space-y-16 max-w-5xl mx-auto pb-12"
+      className="space-y-8 md:space-y-16 max-w-5xl mx-auto pb-6 md:pb-12"
     >
-      <motion.div variants={itemVariants} className="space-y-4 pt-8">
+      <motion.div variants={itemVariants} className="space-y-4 pt-4 md:pt-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-4">
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900">Research & Publications</h1>
+            <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-slate-900">Research & Publications</h1>
             <p className="text-xl text-slate-600 font-light leading-relaxed max-w-3xl">
               A collection of my academic research, conference proceedings, and thesis work focused on satellite communications and network resilience.
             </p>
@@ -78,12 +78,12 @@ export default function Publications() {
       </motion.div>
 
 
-      <motion.section variants={itemVariants} className="space-y-8">
+      <motion.section variants={itemVariants} className="space-y-4 md:space-y-8">
         <div className="flex items-center gap-3 border-b border-slate-200 pb-4">
           <FileText className="w-8 h-8 text-indigo-600" />
           <h2 className="text-3xl font-bold tracking-tight text-slate-900">Published Papers</h2>
         </div>
-        <div className="space-y-8">
+        <div className="space-y-4 md:space-y-8">
           {publications.map((pub, index) => (
             <article key={index} className="interactive-card group bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm hover:border-indigo-300">
               <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-4">
@@ -151,12 +151,12 @@ export default function Publications() {
       </motion.section>
 
       {/* Datasets Section */}
-      <motion.section variants={itemVariants} className="space-y-8">
+      <motion.section variants={itemVariants} className="space-y-4 md:space-y-8">
         <div className="flex items-center gap-3 border-b border-slate-200 pb-4">
           <Database className="w-8 h-8 text-emerald-600" />
           <h2 className="text-3xl font-bold tracking-tight text-slate-900">Datasets</h2>
         </div>
-        <div className="space-y-8">
+        <div className="space-y-4 md:space-y-8">
           {datasets.map((dataset, index) => (
             <article key={index} className="interactive-card group bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm hover:border-emerald-300">
               <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-4">

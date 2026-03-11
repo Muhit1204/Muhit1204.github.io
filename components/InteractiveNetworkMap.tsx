@@ -20,7 +20,7 @@ export default function InteractiveNetworkMap() {
   ];
 
   return (
-    <div className="relative w-full aspect-[4/3] md:aspect-[16/10] bg-[#fdfbf7] rounded-3xl overflow-hidden shadow-xl border border-slate-200 group">
+    <div className="relative w-full aspect-[3/2] md:aspect-[16/10] bg-[#fdfbf7] rounded-3xl overflow-hidden shadow-xl border border-slate-200 group">
       {/* Background Image - The NEW Isometric City */}
       <img
         src="/city-map.png"

@@ -2,10 +2,10 @@ import { Calendar, Github, Linkedin, Mail, Briefcase } from 'lucide-react';
 
 export default function Contact() {
   return (
-    <div className="max-w-4xl mx-auto space-y-16 pb-16 pt-8">
+    <div className="max-w-4xl mx-auto space-y-8 md:space-y-16 pb-8 md:pb-16 pt-4 md:pt-8">
       {/* Header */}
       <section className="space-y-8 border-b border-slate-200/60 pb-8">
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-[#2d4a3e]">
+        <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-[#2d4a3e]">
           Get in Touch
         </h1>
         <div className="space-y-4">
