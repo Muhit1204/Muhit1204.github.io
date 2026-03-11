@@ -5,7 +5,7 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-[#f9f8f6]/90 backdrop-blur-md">
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 font-mono font-bold text-xl tracking-tight text-slate-900">
+        <Link href="/" className="flex items-center gap-2 font-bold text-xl tracking-tight text-slate-900" style={{ fontFamily: 'var(--font-heading), Playfair Display, Georgia, serif' }}>
           Md Muntasir Hossain
         </Link>
         <div className="flex items-center gap-6">
