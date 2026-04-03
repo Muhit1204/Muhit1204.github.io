@@ -169,6 +169,23 @@ export default function About() {
           <h2 className="text-3xl font-bold tracking-tight text-slate-900">Awards & Grants</h2>
         </div>
         <div className="flex flex-col gap-4 md:gap-6">
+          {/* AWS Pitch Competition */}
+          <div className="interactive-card bg-white p-4 md:p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6 hover:shadow">
+            <div className="relative w-28 h-28 shrink-0 rounded-2xl border border-orange-100 bg-orange-50 p-3 flex items-center justify-center text-orange-500">
+              <Award className="w-12 h-12" />
+            </div>
+            <div className="flex-1 space-y-2">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-1 w-full">
+                <h3 className="text-xl font-bold text-slate-900">2nd Place — AWS AI Pitch Competition</h3>
+                <span className="text-sm font-bold text-amber-600 tracking-wider uppercase md:ml-auto">April 2026</span>
+              </div>
+              <p className="text-slate-700 font-medium">Small Business Development Center at Lamar University × Amazon Web Services</p>
+              <p className="text-slate-600 leading-relaxed text-sm md:text-base">
+                Awarded $35,000 in AWS credits for SatLink AI — a predictive connectivity intelligence platform for maritime and port operations. Recognized for bridging academic research with entrepreneurial commercialization for Gulf Coast port operators.
+              </p>
+            </div>
+          </div>
+
           {/* US DOE Grant */}
           <div className="interactive-card bg-white p-4 md:p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6 hover:shadow">
             <div className="relative w-28 h-28 shrink-0 rounded-2xl border border-slate-100 p-3 flex items-center justify-center bg-white">

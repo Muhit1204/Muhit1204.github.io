@@ -124,7 +124,15 @@ export default function Home() {
       <section className="space-y-4 md:space-y-6">
         <h2 className="text-2xl font-bold tracking-tight text-slate-900 border-b border-slate-200 pb-2">Recent News</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-          {/* Example News Items */}
+          <a href="https://www.linkedin.com/posts/mdmuntasirhossain98_aws-amazonwebservices-artificialintelligence-activity-7444969525290381313-KE_I" target="_blank" rel="noopener noreferrer" className="interactive-card group bg-white p-4 md:p-6 rounded-2xl border border-slate-200 hover:border-teal-300 transition-all flex flex-col gap-3 md:gap-4">
+            <div className="flex justify-between items-start">
+              <span className="text-sm font-bold text-teal-600 tracking-wider uppercase">April 2026</span>
+              <ExternalLink className="w-5 h-5 text-slate-400 group-hover:text-teal-600 transition-colors" />
+            </div>
+            <h3 className="text-xl font-bold text-slate-900 group-hover:text-teal-700 transition-colors">🥈 2nd Place — AWS AI Pitch Competition</h3>
+            <p className="text-slate-600 line-clamp-2">Awarded $35,000 in AWS credits for SatLink AI, a predictive connectivity intelligence platform for maritime and port operations, at Lamar University&apos;s SBDC competition.</p>
+          </a>
+
           <a href="https://linkedin.com/in/mdmuntasirhossain98" target="_blank" rel="noopener noreferrer" className="interactive-card group bg-white p-4 md:p-6 rounded-2xl border border-slate-200 hover:border-teal-300 transition-all flex flex-col gap-3 md:gap-4">
             <div className="flex justify-between items-start">
               <span className="text-sm font-bold text-teal-600 tracking-wider uppercase">March 2026</span>
@@ -132,15 +140,6 @@ export default function Home() {
             </div>
             <h3 className="text-xl font-bold text-slate-900 group-hover:text-teal-700 transition-colors">Published new research on Maritime LEO Connectivity</h3>
             <p className="text-slate-600 line-clamp-2">Our latest paper exploring the resilience of satellite networks in maritime environments has been accepted. Read more about our findings on dynamic data-driven optimization.</p>
-          </a>
-
-          <a href="https://linkedin.com/in/mdmuntasirhossain98" target="_blank" rel="noopener noreferrer" className="interactive-card group bg-white p-4 md:p-6 rounded-2xl border border-slate-200 hover:border-teal-300 transition-all flex flex-col gap-3 md:gap-4">
-            <div className="flex justify-between items-start">
-              <span className="text-sm font-bold text-teal-600 tracking-wider uppercase">January 2026</span>
-              <ExternalLink className="w-5 h-5 text-slate-400 group-hover:text-teal-600 transition-colors" />
-            </div>
-            <h3 className="text-xl font-bold text-slate-900 group-hover:text-teal-700 transition-colors">Joined Center for Data Analytics and Cybersecurity</h3>
-            <p className="text-slate-600 line-clamp-2">Excited to start my new role as a Graduate Research Assistant at Lamar University, focusing on intelligent networking systems and cybersecurity.</p>
           </a>
         </div>
       </section>
