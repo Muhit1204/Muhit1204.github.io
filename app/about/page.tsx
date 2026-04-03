@@ -171,8 +171,15 @@ export default function About() {
         <div className="flex flex-col gap-4 md:gap-6">
           {/* AWS Pitch Competition */}
           <div className="interactive-card bg-white p-4 md:p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6 hover:shadow">
-            <div className="relative w-28 h-28 shrink-0 rounded-2xl border border-orange-100 bg-orange-50 p-3 flex items-center justify-center text-orange-500">
-              <Award className="w-12 h-12" />
+            <div className="relative w-28 h-28 shrink-0 rounded-2xl border border-orange-100 p-3 flex items-center justify-center bg-white">
+              <div className="relative w-full h-full">
+                <Image
+                  src="/aws-logo.png"
+                  alt="Amazon Web Services"
+                  fill
+                  className="object-contain"
+                />
+              </div>
             </div>
             <div className="flex-1 space-y-2">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-1 w-full">

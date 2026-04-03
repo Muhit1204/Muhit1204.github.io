@@ -133,13 +133,13 @@ export default function Home() {
             <p className="text-slate-600 line-clamp-2">Awarded $35,000 in AWS credits for SatLink AI, a predictive connectivity intelligence platform for maritime and port operations, at Lamar University&apos;s SBDC competition.</p>
           </a>
 
-          <a href="https://www.linkedin.com/posts/mdmuntasirhossain98_activity-7433392557843193858" target="_blank" rel="noopener noreferrer" className="interactive-card group bg-white p-4 md:p-6 rounded-2xl border border-slate-200 hover:border-teal-300 transition-all flex flex-col gap-3 md:gap-4">
+          <a href="https://www.linkedin.com/posts/mdmuntasirhossain98_ieee-icaic-starlink-activity-7433392560175226880-bhmp" target="_blank" rel="noopener noreferrer" className="interactive-card group bg-white p-4 md:p-6 rounded-2xl border border-slate-200 hover:border-teal-300 transition-all flex flex-col gap-3 md:gap-4">
             <div className="flex justify-between items-start">
-              <span className="text-sm font-bold text-teal-600 tracking-wider uppercase">March 2026</span>
+              <span className="text-sm font-bold text-teal-600 tracking-wider uppercase">February 2026</span>
               <ExternalLink className="w-5 h-5 text-slate-400 group-hover:text-teal-600 transition-colors" />
             </div>
-            <h3 className="text-xl font-bold text-slate-900 group-hover:text-teal-700 transition-colors">Published new research on Maritime LEO Connectivity</h3>
-            <p className="text-slate-600 line-clamp-2">Our latest paper exploring the resilience of satellite networks in maritime environments has been accepted. Read more about our findings on dynamic data-driven optimization.</p>
+            <h3 className="text-xl font-bold text-slate-900 group-hover:text-teal-700 transition-colors">IEEE ICAIC 2026 — Paper Accepted & Presented</h3>
+            <p className="text-slate-600 line-clamp-2">Presented "A Dual-Task Prediction Model for Starlink Maritime Performance" at the 5th IEEE International Conference on AI in Cybersecurity, University of Houston.</p>
           </a>
         </div>
       </section>
