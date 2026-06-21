@@ -23,7 +23,7 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: 'Md Muntasir Hossain | Research Portfolio',
-  description: 'Interactive research portfolio of Md Muntasir Hossain. MS in Computer Science at Lamar University.',
+  description: 'Interactive research portfolio of Md Muntasir Hossain. Doctor of Engineering student in Electrical Engineering at Lamar University, researching deep space and LEO satellite communication.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -1,5 +1,6 @@
 import { Terminal, BookOpen, Briefcase, Globe, Award, ExternalLink } from 'lucide-react';
 import InteractiveNetworkMap from '@/components/InteractiveNetworkMap';
+import Counter from '@/components/Counter';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -23,13 +24,13 @@ export default function Home() {
             Md Muntasir Hossain
           </h1>
           <p className="text-base md:text-lg text-slate-700 leading-relaxed">
-            I am a Graduate Research Assistant at <span className="text-teal-600 font-medium">Lamar University</span>, Center for Data Analytics and Cybersecurity, where I work on improving the reliability and resilience of Maritime Satellite Communications and intelligent networking systems.
+            I am a Doctor of Engineering student and Graduate Research Assistant at <span className="text-teal-600 font-medium">Lamar University</span>, Center for Data Analytics and Cybersecurity, where I work on the reliability and resilience of satellite communication systems, from maritime LEO broadband to interplanetary deep space networks.
           </p>
           <p className="text-base md:text-lg text-slate-700 leading-relaxed">
-            My research focuses on satellite-based communication, wireless network resilience, machine learning for predictive analytics, and cybersecurity analysis of LEO satellite networks. I'm particularly interested in data-driven optimization for maritime broadband connectivity.
+            My research spans satellite-based communication, Delay Tolerant Networking for deep space and cislunar relays, wireless network resilience, machine learning for predictive analytics, and cybersecurity analysis of LEO satellite networks.
           </p>
           <div className="flex flex-wrap gap-2 md:gap-3 pt-1 md:pt-2">
-            {['Satellite Communication', 'Machine Learning', 'Cybersecurity', 'Maritime Networks', 'LEO Satellites'].map(tag => (
+            {['Satellite Communication', 'Machine Learning', 'Cybersecurity', 'Maritime Networks', 'LEO Satellites', 'Deep Space Networks'].map(tag => (
               <span key={tag} className="px-4 py-1.5 bg-teal-50/80 text-teal-700 rounded-full text-sm font-medium border border-teal-100">
                 {tag}
               </span>
@@ -70,28 +71,28 @@ export default function Home() {
                 <div className="p-4 bg-white/10 text-white rounded-2xl backdrop-blur-md border border-white/20">
                   <BookOpen className="w-8 h-8" />
                 </div>
-                <h3 className="text-3xl md:text-5xl font-bold text-white">4+</h3>
+                <h3 className="text-3xl md:text-5xl font-bold text-white"><Counter value={4} suffix="+" /></h3>
                 <p className="text-sm font-medium text-slate-300 uppercase tracking-wider">Years in Academic Research</p>
               </div>
               <div className="flex flex-col items-center text-center gap-3">
                 <div className="p-4 bg-white/10 text-white rounded-2xl backdrop-blur-md border border-white/20">
                   <Briefcase className="w-8 h-8" />
                 </div>
-                <h3 className="text-3xl md:text-5xl font-bold text-white">5+</h3>
+                <h3 className="text-3xl md:text-5xl font-bold text-white"><Counter value={5} suffix="+" /></h3>
                 <p className="text-sm font-medium text-slate-300 uppercase tracking-wider">Major Projects</p>
               </div>
               <div className="flex flex-col items-center text-center gap-3">
                 <div className="p-4 bg-white/10 text-white rounded-2xl backdrop-blur-md border border-white/20">
                   <Globe className="w-8 h-8" />
                 </div>
-                <h3 className="text-3xl md:text-5xl font-bold text-white">2</h3>
+                <h3 className="text-3xl md:text-5xl font-bold text-white"><Counter value={2} /></h3>
                 <p className="text-sm font-medium text-slate-300 uppercase tracking-wider">Continents of Experience</p>
               </div>
               <div className="flex flex-col items-center text-center gap-3">
                 <div className="p-4 bg-white/10 text-white rounded-2xl backdrop-blur-md border border-white/20">
                   <Award className="w-8 h-8" />
                 </div>
-                <h3 className="text-3xl md:text-5xl font-bold text-white">2</h3>
+                <h3 className="text-3xl md:text-5xl font-bold text-white"><Counter value={2} /></h3>
                 <p className="text-sm font-medium text-slate-300 uppercase tracking-wider">IEEE Publications</p>
               </div>
             </div>
@@ -124,6 +125,14 @@ export default function Home() {
       <section className="space-y-4 md:space-y-6">
         <h2 className="text-2xl font-bold tracking-tight text-slate-900 border-b border-slate-200 pb-2">Recent News</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+          <div className="interactive-card group bg-white p-4 md:p-6 rounded-2xl border border-slate-200 hover:border-teal-300 transition-all flex flex-col gap-3 md:gap-4">
+            <div className="flex justify-between items-start">
+              <span className="text-sm font-bold text-teal-600 tracking-wider uppercase">May 2026</span>
+            </div>
+            <h3 className="text-xl font-bold text-slate-900 group-hover:text-teal-700 transition-colors">Completed MS and Began Doctoral Research</h3>
+            <p className="text-slate-600 line-clamp-2">I was conferred the Master of Science in Computer Science at Lamar University on May 15, 2026, and began the Doctor of Engineering in Electrical Engineering on May 26, 2026. My doctoral research extends the LEO satellite work toward interplanetary deep space communication and Delay Tolerant Networking.</p>
+          </div>
+
           <a href="https://www.linkedin.com/posts/mdmuntasirhossain98_aws-amazonwebservices-artificialintelligence-activity-7444969525290381313-KE_I" target="_blank" rel="noopener noreferrer" className="interactive-card group bg-white p-4 md:p-6 rounded-2xl border border-slate-200 hover:border-teal-300 transition-all flex flex-col gap-3 md:gap-4">
             <div className="flex justify-between items-start">
               <span className="text-sm font-bold text-teal-600 tracking-wider uppercase">April 2026</span>

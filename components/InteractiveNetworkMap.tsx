@@ -22,11 +22,27 @@ export default function InteractiveNetworkMap() {
   return (
     <div className="relative w-full aspect-[3/2] md:aspect-[16/10] bg-[#fdfbf7] rounded-3xl overflow-hidden shadow-xl border border-slate-200 group">
       {/* Background Image - The NEW Isometric City */}
-      <img
-        src="/city-map.png"
-        alt="Interactive City Map"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
+      <picture>
+        <source
+          type="image/avif"
+          sizes="100vw"
+          srcSet="/city/optimized/scene-768.avif 768w, /city/optimized/scene-1280.avif 1280w, /city/optimized/scene-1920.avif 1920w, /city/optimized/scene-2560.avif 2560w"
+        />
+        <source
+          type="image/webp"
+          sizes="100vw"
+          srcSet="/city/optimized/scene-768.webp 768w, /city/optimized/scene-1280.webp 1280w, /city/optimized/scene-1920.webp 1920w, /city/optimized/scene-2560.webp 2560w"
+        />
+        <img
+          src="/city-map.png"
+          alt="Interactive City Map"
+          width="1536"
+          height="1024"
+          decoding="async"
+          fetchPriority="high"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+      </picture>
 
       {/* --- DYNAMIC ANIMATIONS OVERLAY --- */}
 

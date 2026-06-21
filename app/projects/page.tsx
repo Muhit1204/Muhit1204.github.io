@@ -27,6 +27,22 @@ export default function Projects() {
       concepts: ["Time-series forecasting", "Anomaly Detection", "EMA", "REST API", "UI/UX Design"]
     },
     {
+      title: "AI Agentic Workflow Orchestration for System Development",
+      isOngoing: true,
+      icon: <Server className="w-6 h-6 text-indigo-400 group-hover:text-indigo-300 transition-colors" />,
+      description: [
+        <span key="0">A fully local, multi-agent system that orchestrates the software development lifecycle on a single workstation, coordinating planning, coding, testing, and deployment agents through a LangGraph state machine.</span>,
+        "Designed a four-agent LangGraph orchestration (Planner, Developer, Tester, Deploy) that decomposes a development task and routes it through a shared state graph, running entirely on local hardware (NVIDIA DGX Spark, GB10, 128 GB unified memory).",
+        "Runs open-weight coding models locally through Ollama, with Open WebUI as the interface and Langfuse for end-to-end tracing and observability, all on loopback with no external data exposure during inference.",
+        "Built a write-capable tool layer over the Model Context Protocol so agents can read, edit, and execute against a target repository, exposing function-level edit and diff-application tools alongside a test runner.",
+        "Designed surgical-mcp-rag, a custom MCP server that performs AST-aware, function-level code retrieval using tree-sitter and ChromaDB, replacing naive whole-file reading with targeted code-chunk retrieval to accelerate codebase comprehension and bug localization.",
+        "Kept the pipeline local-first by using on-device embedding models (nomic-embed-text or mxbai-embed-large via Ollama) instead of hosted embedding APIs, preserving the privacy of the codebase.",
+        "Integrated the retrieval server as an external tool layer through langchain-mcp-adapters rather than fine-tuning, so the system stays adaptable as the target codebase evolves."
+      ],
+      techStack: ["Python", "LangGraph", "LangChain", "Ollama", "Model Context Protocol (MCP)", "FastMCP", "ChromaDB", "tree-sitter", "Langfuse", "Open WebUI"],
+      concepts: ["Multi-agent orchestration", "Agentic coding", "Retrieval-Augmented Generation", "AST parsing", "Local-first inference", "Observability"]
+    },
+    {
       title: "Banknote Authentication Using Machine Learning",
       link: "https://github.com/Muhit1204/BankNote-Authentication-Model",
       icon: <Database className="w-6 h-6 text-amber-400 group-hover:text-amber-300 transition-colors" />,
@@ -38,25 +54,32 @@ export default function Projects() {
       ]
     },
     {
-      title: "Multithreaded FTP Server",
+      title: "Token Anatomy — Local Claude Code Analytics Dashboard",
+      link: "https://github.com/Muhit1204/token-anatomy",
       icon: <Server className="w-6 h-6 text-blue-400 group-hover:text-blue-300 transition-colors" />,
       description: [
-        "Developed a multithreaded FTP server to support concurrent file operations using socket programming in C.",
-        "Implemented core FTP functionalities: file download, deletion, and renaming, ensuring secure and efficient file handling.",
-        "Enabled support for multiple clients to interact with the server simultaneously, evaluating the server's robustness and concurrency.",
-        "Enhanced the server's architecture by incorporating thread management for handling multiple client requests."
-      ]
+        "Built a pure Python, zero-dependency local dashboard that reads Claude Code session logs and reports exactly where tokens and cost are going.",
+        "Implemented daily and all-time cost tracking, cache hit rate analysis, hourly usage heatmaps, per-project cost breakdown, and a searchable chat cost browser.",
+        "Added a retrospective layer that clusters sessions by topic and working style, plus a plain-English insights advisor that surfaces usage patterns and suggests improvements.",
+        "Kept the tool fully local: it parses session files directly from disk and serves the dashboard on localhost, with no data leaving the machine.",
+        "Designed a sticky jump-navigation UI with auto-refresh, so the dashboard updates live without a page reload while a session is active."
+      ],
+      techStack: ["Python", "HTML/CSS/JS", "SQLite"],
+      concepts: ["Log parsing", "Cost analytics", "Local-first tooling", "Data visualization"]
     },
     {
-      title: "Employee Salaries Analysis Project",
+      title: "ICS-ThreatLens",
+      link: "https://github.com/Muhit1204/ics_threatlens",
       icon: <Database className="w-6 h-6 text-rose-400 group-hover:text-rose-300 transition-colors" />,
       description: [
-        "Analyzed employee salary data using Big Data tools to assess compensation structures.",
-        "Built a linear regression model to identify significant gender pay disparities.",
-        "Applied K-means clustering to reveal salary distribution patterns across departments.",
-        "Conducted multivariate analysis with a correlation matrix to evaluate pay components.",
-        "Provided actionable insights to improve pay equity and competitiveness."
-      ]
+        "Built a local-first Python CLI that parses public ICS/SCADA security advisories and maps them to MITRE ATT&CK for ICS techniques.",
+        "Matches parsed advisories against a private local asset inventory to identify which assets are exposed to a given vulnerability, without exposing the inventory itself.",
+        "Generates prioritized Markdown reports ranking advisories by relevance to the operator's actual asset footprint.",
+        "Enforced a strict trust boundary: only public advisory text may be sent to an approved AI parser, while asset inventory, network zones, matching results, and reports stay on the local machine.",
+        "Implemented an offline mode using bundled fixtures with no network calls, alongside a configurable live-parsing mode for public advisory text."
+      ],
+      techStack: ["Python", "MITRE ATT&CK for ICS", "YAML"],
+      concepts: ["Local-first security tooling", "Threat intelligence", "Asset inventory matching", "Trust boundary design"]
     }
   ];
 
