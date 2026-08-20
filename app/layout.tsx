@@ -1,34 +1,25 @@
 import type { Metadata } from 'next';
-import { Inter, JetBrains_Mono, Playfair_Display } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import Script from 'next/script';
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
+// Single typeface across the whole site — body copy and headings alike.
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-mono',
-});
-
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-heading',
-  weight: ['400', '500', '600', '700', '800', '900'],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
   title: 'Md Muntasir Hossain | Research Portfolio',
-  description: 'Interactive research portfolio of Md Muntasir Hossain. Doctor of Engineering student in Electrical Engineering at Lamar University, researching deep space and LEO satellite communication.',
+  description: 'Interactive research portfolio of Md Muntasir Hossain. Doctor of Engineering student in Electrical & Computer Engineering at Lamar University, researching deep space and LEO satellite communication.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} ${playfair.variable}`}>
+    <html lang="en" className={inter.variable}>
       <head>
         <Script async src="https://www.googletagmanager.com/gtag/js?id=G-FTSNVMRKNX" strategy="afterInteractive" />
         <Script id="google-analytics" strategy="afterInteractive">{`

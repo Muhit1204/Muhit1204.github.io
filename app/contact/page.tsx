@@ -1,8 +1,8 @@
-import { Calendar, Github, Linkedin, Mail, Briefcase } from 'lucide-react';
+import { Github, Linkedin, Briefcase, User } from 'lucide-react';
 
 export default function Contact() {
   return (
-    <div className="max-w-4xl mx-auto space-y-8 md:space-y-16 pb-8 md:pb-16 pt-4 md:pt-8">
+    <div className="max-w-4xl mx-auto space-y-8 md:space-y-16 pb-8 md:pb-16 pt-4 md:pt-8 text-center">
       {/* Header */}
       <section className="space-y-8 border-b border-slate-200/60 pb-8">
         <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-[#2d4a3e]">
@@ -10,8 +10,8 @@ export default function Contact() {
         </h1>
         <div className="space-y-4">
           <h2 className="text-xl font-bold text-slate-800">I would love to connect!</h2>
-          <p className="text-lg text-slate-600 leading-relaxed max-w-2xl">
-            If you have questions, ideas for collaboration, or want to chat, here's how to find me. I typically respond within 2 business days.
+          <p className="text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
+            If you have questions, ideas for collaboration, or want to chat, here&apos;s how to find me.
           </p>
         </div>
       </section>
@@ -19,26 +19,24 @@ export default function Contact() {
       {/* Email Section */}
       <section className="space-y-6">
         <h2 className="text-3xl font-bold tracking-tight text-[#2d4a3e]">Email</h2>
-        <ul className="space-y-4 text-lg">
-          <li className="flex items-center gap-3">
-            <span className="text-xl">📧</span>
-            <a href="mailto:m.hossain1@lamar.edu" className="text-[#d88965] hover:text-[#c47754] underline underline-offset-4 decoration-2 decoration-[#d88965]/40 hover:decoration-[#d88965] transition-all">
-              Email me at work
-            </a>
-          </li>
-          <li className="flex items-center gap-3">
-            <span className="text-xl">🙋🏽‍♂️</span>
-            <a href="mailto:muntasir.hossain007@gmail.com" className="text-[#d88965] hover:text-[#c47754] underline underline-offset-4 decoration-2 decoration-[#d88965]/40 hover:decoration-[#d88965] transition-all">
-              Email me personally
-            </a>
-          </li>
-        </ul>
+        <div className="inline-grid grid-cols-1 sm:grid-cols-[auto_auto] items-center justify-items-center sm:justify-items-start gap-x-4 gap-y-3">
+          <span className="inline-flex w-full items-center justify-center gap-2 bg-[#fbdca4] text-[#2d4a3e] font-bold px-5 py-2.5 rounded-2xl shadow-sm">
+            <Briefcase className="w-5 h-5" strokeWidth={2.5} />
+            Work
+          </span>
+          <span className="text-lg text-slate-700 font-medium break-words">mhossain54@lamar.edu</span>
+          <span className="inline-flex w-full items-center justify-center gap-2 bg-[#fbdca4] text-[#2d4a3e] font-bold px-5 py-2.5 rounded-2xl shadow-sm">
+            <User className="w-5 h-5" strokeWidth={2.5} />
+            Personal
+          </span>
+          <span className="text-lg text-slate-700 font-medium break-words">muntasir.hossain007@gmail.com</span>
+        </div>
       </section>
 
       {/* Social Media Section */}
       <section className="space-y-6">
         <h2 className="text-3xl font-bold tracking-tight text-[#2d4a3e]">Connect with me on Social Media!</h2>
-        <div className="flex gap-6 pt-2">
+        <div className="flex justify-center gap-6 pt-2">
           <a
             href="https://github.com/Muhit1204"
             target="_blank"
@@ -62,7 +60,7 @@ export default function Contact() {
       <section className="space-y-8">
         <h2 className="text-3xl font-bold tracking-tight text-[#2d4a3e]">Book a time to chat!</h2>
         <div className="space-y-6">
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
             <span className="text-xl">🗓️</span>
             <a
               href="https://calendar.app.google/7bicmniscwJYaoA36"
@@ -73,16 +71,6 @@ export default function Contact() {
               Schedule time with me
             </a>
             <span className="text-lg text-slate-800">at your convenience using my Google Calendar.</span>
-          </div>
-
-          <div className="space-y-4">
-            <p className="text-lg text-[#2d4a3e] font-medium">Here's what to know:</p>
-            <ul className="space-y-3 text-lg text-[#2d4a3e] list-disc list-inside ml-2 marker:text-[#2d4a3e]">
-              <li className="leading-relaxed">Choose a time that fits your schedule (no need to wait for back-and-forth emails)</li>
-              <li className="leading-relaxed">Great for brainstorming sessions, or just a friendly catch-up</li>
-              <li className="leading-relaxed">If you have any specific topic in mind, or you feel I should prepare something in advance, let me know through the Booking Form!</li>
-              <li className="leading-relaxed">If you don't see an open slot, just reach out by email and we'll find another time!</li>
-            </ul>
           </div>
 
           <p className="text-lg text-[#2d4a3e] font-medium pt-4">Looking forward to connecting!</p>

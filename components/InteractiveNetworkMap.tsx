@@ -16,7 +16,7 @@ export default function InteractiveNetworkMap() {
     // Contact (Cafe Contact, Right)
     { id: 'contact', label: 'Contact', icon: Mail, href: '/contact', top: '56%', left: '76%', color: 'text-cyan-600' },
     // Education (School at bottom)
-    { id: 'education', label: 'Education', icon: GraduationCap, href: '/about#education', top: '80%', left: '55%', color: 'text-blue-600' },
+    { id: 'education', label: 'Education', icon: GraduationCap, href: '/education', top: '80%', left: '55%', color: 'text-blue-600' },
   ];
 
   return (

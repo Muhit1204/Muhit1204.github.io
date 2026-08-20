@@ -1,8 +1,27 @@
-import { Terminal, BookOpen, Briefcase, Globe, Award, ExternalLink } from 'lucide-react';
+import { Terminal, Award, ExternalLink, Tent, Mountain, Bike, Flame, Plane, Waves } from 'lucide-react';
 import InteractiveNetworkMap from '@/components/InteractiveNetworkMap';
 import Counter from '@/components/Counter';
 import Image from 'next/image';
 import Link from 'next/link';
+
+const metrics = [
+  { value: 4, suffix: '+', unit: 'years', caption: 'In academic research' },
+  { value: 5, suffix: '+', unit: 'projects', caption: 'Shipped from idea to impact' },
+  { value: 2, suffix: '', unit: 'continents', caption: 'Experience in North America and Asia' },
+  { value: 2, suffix: '', unit: 'publications', caption: 'IEEE conference papers' },
+];
+
+const skills = [
+  { category: 'Languages', tools: ['Python', 'TypeScript', 'JavaScript', 'PHP', 'SQL'] },
+  { category: 'Machine Learning & Data', tools: ['Random Forest', 'SVM', 'KNN', 'Decision Trees', 'Time-Series Forecasting', 'Pandas', 'NumPy'] },
+  { category: 'Networking & Simulation', tools: ['NS-3', 'Wireshark', 'Delay Tolerant Networking', 'LEO Satellite Link Modeling', 'Routing Analysis'] },
+  { category: 'Geospatial & UAS', tools: ['ArcGIS Pro', 'ArcGIS Online', 'Pix4Dmapper', 'Photogrammetry', 'Open3D', 'UAS Flight Operations'] },
+  { category: 'LLMs & Multi-Model Orchestration', tools: ['Large Language Models (LLMs)', 'OmniRoute', 'Multi-model agent workflows', 'Local & hosted inference', 'Retrieval-Augmented Generation'] },
+  { category: 'AI & Agentic Systems', tools: ['LangGraph', 'LangChain', 'Ollama', 'Model Context Protocol (MCP)', 'ChromaDB', 'tree-sitter', 'Langfuse'] },
+  { category: 'MCP Servers', tools: ['Higgsfield MCP', 'Novamira MCP', 'Autodesk MCP Server', 'surgical-mcp-rag', 'FastMCP', 'langchain-mcp-adapters'] },
+  { category: 'Web & Tooling', tools: ['React', 'Next.js', 'Tailwind CSS', 'Recharts', 'Laravel', 'Git', 'SQLite'] },
+  { category: 'Security', tools: ['MITRE ATT&CK for ICS', 'ICS/SCADA Security', 'Threat Intelligence', 'Spoofing & Data Integrity Analysis'] },
+];
 
 export default function Home() {
   return (
@@ -50,52 +69,46 @@ export default function Home() {
       </section>
 
       {/* Quantitative Values / Key Metrics */}
-      <section className="relative rounded-3xl overflow-hidden shadow-xl border border-slate-200 group">
-        <Image
-          src="/key-metric-bg.jpeg"
-          alt="Key Metrics Background"
-          fill
-          className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
-          quality={100}
-          priority
-        />
-        <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-[2px]" />
+      <section className="space-y-6 md:space-y-10">
+        <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900 text-center">
+          Key metrics that define my journey
+        </h2>
+        <div className="relative">
+          {/* Field photo — anchored right on desktop so the cards can overlap its left edge */}
+          <div className="hidden lg:block absolute right-0 top-0 bottom-0 w-[54%] rounded-3xl overflow-hidden border border-slate-200 shadow-sm group">
+            <Image
+              src="/key-metrics-photo.jpeg"
+              alt="Md Muntasir Hossain preparing the UAS for a mapping flight at the LNVA canal site"
+              fill
+              className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
+              quality={90}
+            />
+          </div>
 
-        <div className="relative z-10 py-10 px-4 md:py-20 md:px-8">
-          <div className="max-w-4xl mx-auto space-y-6 md:space-y-12">
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white text-center">
-              Key metrics that define my journey
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-              <div className="flex flex-col items-center text-center gap-3">
-                <div className="p-4 bg-white/10 text-white rounded-2xl backdrop-blur-md border border-white/20">
-                  <BookOpen className="w-8 h-8" />
-                </div>
-                <h3 className="text-3xl md:text-5xl font-bold text-white"><Counter value={4} suffix="+" /></h3>
-                <p className="text-sm font-medium text-slate-300 uppercase tracking-wider">Years in Academic Research</p>
+          {/* Metric cards — float above the photo */}
+          <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 lg:w-[62%] lg:py-16">
+            {metrics.map(({ value, suffix, unit, caption }) => (
+              <div
+                key={caption}
+                className="interactive-card bg-white rounded-3xl border border-slate-100 shadow-[0_10px_35px_-12px_rgba(15,23,42,0.25)] p-6 md:p-8 flex flex-col items-center justify-center text-center gap-2 min-h-[9rem] md:min-h-[10rem]"
+              >
+                <h3 className="text-3xl md:text-4xl font-bold text-slate-900">
+                  <Counter value={value} suffix={suffix} /> {unit}
+                </h3>
+                <p className="text-sm md:text-base text-slate-500 leading-snug">{caption}</p>
               </div>
-              <div className="flex flex-col items-center text-center gap-3">
-                <div className="p-4 bg-white/10 text-white rounded-2xl backdrop-blur-md border border-white/20">
-                  <Briefcase className="w-8 h-8" />
-                </div>
-                <h3 className="text-3xl md:text-5xl font-bold text-white"><Counter value={5} suffix="+" /></h3>
-                <p className="text-sm font-medium text-slate-300 uppercase tracking-wider">Major Projects</p>
-              </div>
-              <div className="flex flex-col items-center text-center gap-3">
-                <div className="p-4 bg-white/10 text-white rounded-2xl backdrop-blur-md border border-white/20">
-                  <Globe className="w-8 h-8" />
-                </div>
-                <h3 className="text-3xl md:text-5xl font-bold text-white"><Counter value={2} /></h3>
-                <p className="text-sm font-medium text-slate-300 uppercase tracking-wider">Continents of Experience</p>
-              </div>
-              <div className="flex flex-col items-center text-center gap-3">
-                <div className="p-4 bg-white/10 text-white rounded-2xl backdrop-blur-md border border-white/20">
-                  <Award className="w-8 h-8" />
-                </div>
-                <h3 className="text-3xl md:text-5xl font-bold text-white"><Counter value={2} /></h3>
-                <p className="text-sm font-medium text-slate-300 uppercase tracking-wider">IEEE Publications</p>
-              </div>
-            </div>
+            ))}
+          </div>
+
+          {/* Field photo — stacked below the cards on smaller screens */}
+          <div className="lg:hidden relative mt-4 h-64 sm:h-80 rounded-3xl overflow-hidden border border-slate-200 shadow-sm">
+            <Image
+              src="/key-metrics-photo.jpeg"
+              alt="Md Muntasir Hossain preparing the UAS for a mapping flight at the LNVA canal site"
+              fill
+              className="object-cover object-center"
+              quality={90}
+            />
           </div>
         </div>
       </section>
@@ -121,6 +134,25 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Skills & Tools */}
+      <section className="space-y-4 md:space-y-6">
+        <h2 className="text-2xl font-bold tracking-tight text-slate-900 border-b border-slate-200 pb-2">Skills &amp; Tools</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+          {skills.map(({ category, tools }) => (
+            <div key={category} className="bg-white p-4 md:p-6 rounded-2xl border border-slate-200 hover:shadow-md transition-shadow space-y-3">
+              <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">{category}</h3>
+              <div className="flex flex-wrap gap-2">
+                {tools.map(tool => (
+                  <span key={tool} className="px-2.5 py-1 bg-teal-50/80 text-teal-700 text-xs font-semibold rounded border border-teal-100">
+                    {tool}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Recent News */}
       <section className="space-y-4 md:space-y-6">
         <h2 className="text-2xl font-bold tracking-tight text-slate-900 border-b border-slate-200 pb-2">Recent News</h2>
@@ -130,7 +162,7 @@ export default function Home() {
               <span className="text-sm font-bold text-teal-600 tracking-wider uppercase">May 2026</span>
             </div>
             <h3 className="text-xl font-bold text-slate-900 group-hover:text-teal-700 transition-colors">Completed MS and Began Doctoral Research</h3>
-            <p className="text-slate-600 line-clamp-2">I was conferred the Master of Science in Computer Science at Lamar University on May 15, 2026, and began the Doctor of Engineering in Electrical Engineering on May 26, 2026. My doctoral research extends the LEO satellite work toward interplanetary deep space communication and Delay Tolerant Networking.</p>
+            <p className="text-slate-600 line-clamp-2">I was conferred the Master of Science in Computer Science at Lamar University on May 15, 2026, and began the Doctor of Engineering in Electrical &amp; Computer Engineering on May 26, 2026. My doctoral research extends the LEO satellite work toward interplanetary deep space communication and Delay Tolerant Networking.</p>
           </div>
 
           <a href="https://www.linkedin.com/posts/mdmuntasirhossain98_aws-amazonwebservices-artificialintelligence-activity-7444969525290381313-KE_I" target="_blank" rel="noopener noreferrer" className="interactive-card group bg-white p-4 md:p-6 rounded-2xl border border-slate-200 hover:border-teal-300 transition-all flex flex-col gap-3 md:gap-4">
@@ -148,8 +180,137 @@ export default function Home() {
               <ExternalLink className="w-5 h-5 text-slate-400 group-hover:text-teal-600 transition-colors" />
             </div>
             <h3 className="text-xl font-bold text-slate-900 group-hover:text-teal-700 transition-colors">IEEE ICAIC 2026 — Paper Accepted & Presented</h3>
-            <p className="text-slate-600 line-clamp-2">Presented "A Dual-Task Prediction Model for Starlink Maritime Performance" at the 5th IEEE International Conference on AI in Cybersecurity, University of Houston.</p>
+            <p className="text-slate-600 line-clamp-2">Presented &ldquo;A Dual-Task Prediction Model for Starlink Maritime Performance&rdquo; at the 5th IEEE International Conference on AI in Cybersecurity, University of Houston.</p>
           </a>
+        </div>
+      </section>
+
+      {/* Awards and Grants */}
+      <section className="space-y-4 md:space-y-6">
+        <div className="flex items-center gap-3 border-b border-slate-200 pb-2">
+          <Award className="w-7 h-7 text-amber-500" />
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900">Awards &amp; Grants</h2>
+        </div>
+        <div className="flex flex-col gap-4 md:gap-6">
+          {/* AWS Pitch Competition */}
+          <div className="interactive-card bg-white p-4 md:p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6 hover:shadow">
+            <div className="relative w-28 h-28 shrink-0 rounded-2xl border border-orange-100 p-3 flex items-center justify-center bg-white">
+              <div className="relative w-full h-full">
+                <Image
+                  src="/aws-logo.png"
+                  alt="Amazon Web Services"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+            </div>
+            <div className="flex-1 space-y-2">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-1 w-full">
+                <h3 className="text-xl font-bold text-slate-900">2nd Place — AWS AI Pitch Competition</h3>
+                <span className="text-sm font-bold text-amber-600 tracking-wider uppercase md:ml-auto">April 2026</span>
+              </div>
+              <p className="text-slate-700 font-medium">Small Business Development Center at Lamar University × Amazon Web Services</p>
+              <p className="text-slate-600 leading-relaxed text-sm md:text-base">
+                Awarded $35,000 in AWS credits for SatLink AI — a predictive connectivity intelligence platform for maritime and port operations. Recognized for bridging academic research with entrepreneurial commercialization for Gulf Coast port operators.
+              </p>
+            </div>
+          </div>
+
+          {/* AIUB Scholarship */}
+          <div className="interactive-card bg-white p-4 md:p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6 hover:shadow">
+            <div className="relative w-28 h-28 shrink-0 rounded-2xl border border-slate-100 p-3 flex items-center justify-center bg-white">
+              <div className="relative w-full h-full">
+                <Image
+                  src="/aiub-logo.png"
+                  alt="AIUB Scholarship Grant"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+            </div>
+            <div className="flex-1 space-y-2">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-1 w-full">
+                <h3 className="text-xl font-bold text-slate-900">Dr. Anwarul Abedin Scholarship Grant</h3>
+                <span className="text-sm font-bold text-amber-600 tracking-wider uppercase md:ml-auto">2017 – 2021</span>
+              </div>
+              <p className="text-slate-700 font-medium">American International University-Bangladesh</p>
+              <p className="text-slate-600 leading-relaxed text-sm md:text-base">
+                Awarded for outstanding academic performance and consistent excellence during undergraduate studies in Computer Science and Engineering.
+              </p>
+            </div>
+          </div>
+
+          {/* Dean's List Award */}
+          <div className="interactive-card bg-white p-4 md:p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6 hover:shadow">
+            <div className="relative w-28 h-28 shrink-0 rounded-2xl border border-rose-100 bg-rose-50 p-3 flex items-center justify-center text-rose-500">
+              <Award className="w-12 h-12" />
+            </div>
+            <div className="flex-1 space-y-2">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-1 w-full">
+                <h3 className="text-xl font-bold text-slate-900">Dean&apos;s List Award</h3>
+                <span className="text-sm font-bold text-amber-600 tracking-wider uppercase md:ml-auto">2019</span>
+              </div>
+              <p className="text-slate-700 font-medium">American International University-Bangladesh</p>
+              <p className="text-slate-600 leading-relaxed text-sm md:text-base">
+                Recognized for outstanding academic performance and ranking among the top students in the Department of Computer Science. Awarded for consistent academic excellence and exemplary GPA achievement.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Personal Hobbies */}
+      <section className="space-y-4 md:space-y-6">
+        <div className="flex items-center gap-3 border-b border-slate-200 pb-2">
+          <Tent className="w-7 h-7 text-emerald-600" />
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900">Personal Hobbies</h2>
+        </div>
+        <p className="text-lg text-slate-600 max-w-3xl leading-relaxed">
+          Beyond the code and the lab, I am an explorer at heart. When I&apos;m not analyzing network topologies or writing NS-3 simulation models, you can usually find me outdoors — I believe that stepping away from the screen is the best way to solve complex problems.
+        </p>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
+          <div className="interactive-card bg-white p-4 md:p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col items-center text-center gap-3 md:gap-4 hover:border-emerald-300">
+            <div className="p-4 bg-emerald-50 text-emerald-600 rounded-2xl">
+              <Tent className="w-8 h-8" />
+            </div>
+            <h3 className="font-bold text-slate-900 text-lg">Camping</h3>
+          </div>
+
+          <div className="interactive-card bg-white p-4 md:p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col items-center text-center gap-3 md:gap-4 hover:border-amber-300">
+            <div className="p-4 bg-amber-50 text-amber-600 rounded-2xl">
+              <Mountain className="w-8 h-8" />
+            </div>
+            <h3 className="font-bold text-slate-900 text-lg">Hiking</h3>
+          </div>
+
+          <div className="interactive-card bg-white p-4 md:p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col items-center text-center gap-3 md:gap-4 hover:border-blue-300">
+            <div className="p-4 bg-blue-50 text-blue-600 rounded-2xl">
+              <Bike className="w-8 h-8" />
+            </div>
+            <h3 className="font-bold text-slate-900 text-lg">Cycling</h3>
+          </div>
+
+          <div className="interactive-card bg-white p-4 md:p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col items-center text-center gap-3 md:gap-4 hover:border-orange-300">
+            <div className="p-4 bg-orange-50 text-orange-600 rounded-2xl">
+              <Flame className="w-8 h-8" />
+            </div>
+            <h3 className="font-bold text-slate-900 text-lg">BBQ</h3>
+          </div>
+
+          <div className="interactive-card bg-white p-4 md:p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col items-center text-center gap-3 md:gap-4 hover:border-indigo-300">
+            <div className="p-4 bg-indigo-50 text-indigo-600 rounded-2xl">
+              <Plane className="w-8 h-8" />
+            </div>
+            <h3 className="font-bold text-slate-900 text-lg">Traveling</h3>
+          </div>
+
+          <div className="interactive-card bg-white p-4 md:p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col items-center text-center gap-3 md:gap-4 hover:border-cyan-300">
+            <div className="p-4 bg-cyan-50 text-cyan-600 rounded-2xl">
+              <Waves className="w-8 h-8" />
+            </div>
+            <h3 className="font-bold text-slate-900 text-lg">Swimming</h3>
+          </div>
         </div>
       </section>
     </div>

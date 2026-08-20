@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Github, Linkedin, Mail, Menu, X } from 'lucide-react';
+import { Github, Linkedin, Mail, Menu, X, Download } from 'lucide-react';
 
 const navLinks = [
-  { href: '/about', label: 'About' },
+  { href: '/education', label: 'Education' },
   { href: '/experience', label: 'Experience' },
   { href: '/publications', label: 'Publications' },
   { href: '/projects', label: 'Projects' },
@@ -17,10 +17,21 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-[#f9f8f6]/90 backdrop-blur-md">
-      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 font-bold text-xl tracking-tight text-slate-900" style={{ fontFamily: 'var(--font-heading), Playfair Display, Georgia, serif' }}>
-          Md Muntasir Hossain
-        </Link>
+      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
+        <div className="flex items-center gap-3 md:gap-5 min-w-0">
+          <a
+            href="/resume.pdf"
+            download
+            className="inline-flex items-center gap-2 bg-slate-900 text-white text-sm font-medium px-3 md:px-4 py-2 rounded-xl hover:bg-slate-800 transition-colors shadow-sm shrink-0"
+          >
+            <Download className="w-4 h-4" />
+            <span className="hidden sm:inline">Download Resume</span>
+            <span className="sr-only sm:hidden">Download Resume</span>
+          </a>
+          <Link href="/" className="flex items-center gap-2 font-bold text-lg md:text-xl tracking-tight text-slate-900 truncate">
+            Md Muntasir Hossain
+          </Link>
+        </div>
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-6">
@@ -51,7 +62,7 @@ export default function Navbar() {
         {/* Mobile Hamburger Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 transition-colors"
+          className="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 transition-colors shrink-0"
           aria-label="Toggle navigation menu"
         >
           {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -72,6 +83,15 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
+            <a
+              href="/resume.pdf"
+              download
+              onClick={() => setIsOpen(false)}
+              className="mt-2 inline-flex items-center gap-2 bg-slate-900 text-white py-3 px-3 text-base font-medium rounded-lg hover:bg-slate-800 transition-colors"
+            >
+              <Download className="w-5 h-5" />
+              Download Resume
+            </a>
           </nav>
           <div className="border-t border-slate-200 px-6 py-4 flex items-center gap-6">
             <a href="https://github.com/Muhit1204" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-slate-900 transition-colors">

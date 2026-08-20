@@ -2,14 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Academic Formal Heading Font */
+/* One typeface site-wide: headings inherit the same sans stack as body copy. */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-    font-family: var(--font-heading), 'Playfair Display', Georgia, 'Times New Roman', serif;
+    font-family: inherit;
+    letter-spacing: -0.02em;
 }
 
 /* Global Text Hyperlink Styles */

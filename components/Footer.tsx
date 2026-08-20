@@ -6,7 +6,7 @@ export default function Footer() {
           © {new Date().getFullYear()} Md Muntasir Hossain. All rights reserved.
         </p>
         <div className="text-sm text-slate-500 flex gap-4">
-          <span>Beaumont, TX 77705</span>
+          <span>Beaumont, TX</span>
         </div>
       </div>
     </footer>

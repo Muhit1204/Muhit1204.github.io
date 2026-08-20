@@ -2,13 +2,29 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Server, Database, Image as ImageIcon, X } from 'lucide-react';
+import { Server, Database, Image as ImageIcon, X, Map, FileText, Cpu } from 'lucide-react';
 import Image from 'next/image';
 
 export default function Projects() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const projects = [
+    {
+      title: "Unmanned Aircraft System Mapping of the LNVA Canal Site",
+      link: "/UAS_LNVA_Project_Closing_Summary.pdf",
+      linkLabel: "Summary Deck",
+      icon: <Map className="w-6 h-6 text-emerald-400 group-hover:text-emerald-300 transition-colors" />,
+      description: [
+        <span key="0">Produced a georeferenced 3D surface model of an approximately 8-acre canal site (project designation CAWAQ_LNVA) from UAS imagery, as Research Assistant to Dr. Feilin Lai in the Geology Department at Lamar University. Flown at 35 m above ground level and 3.16 m/s for a 0.59 cm ground sample distance.</span>,
+        <span key="1"><strong>Field Data Collection:</strong> Recovered 182 overlapping nadir images totalling 9.1 GB on a 15-minute reflight after the first flight&apos;s image set proved unreadable due to a format mismatch — the resulting procedure change is an on-site format and readability check immediately after landing, converting a lost flight day into a 5-minute verification.</span>,
+        <span key="2"><strong>Photogrammetric Processing:</strong> Ran the full Pix4Dmapper 3D Maps pipeline (keypoint extraction and calibration, densification, digital surface model and orthomosaic generation), achieving a mean reprojection error of 0.131 pixels with outputs as GeoTIFF rasters and a dense LAS point cloud.</span>,
+        <span key="3"><strong>3D Scene Construction:</strong> Built a local ArcGIS Pro 3.6 scene in WGS 84 / UTM zone 15N with the digital surface model as ground elevation source and the orthomosaic draped over it, removing the WorldElevation3D basemap surface that would otherwise drape imagery over Esri terrain and produce a plausible but incorrect scene.</span>,
+        <span key="4"><strong>Hydro-Flattening:</strong> Corrected the canal water surface within the elevation model using Zonal Statistics to derive a median water elevation, Polygon to Raster for a constant water surface, Raster Calculator substitution, and Feature Preserving Smoothing to reduce residual noise.</span>,
+        <span key="5"><strong>Automated 3D Export:</strong> Established a 7-step geoprocessing chain (Raster Calculator, Raster To TIN, Raster Domain, Interpolate Polygon To Multipatch, Project Raster, Add 3D Formats To Multipatch, Export 3D Objects) to write the corrected surface to OBJ format, and published the scene to ArcGIS Online as a supporting deliverable.</span>
+      ],
+      techStack: ["ArcGIS Pro 3.6", "Pix4Dmapper", "ArcGIS Online", "Open3D", "Sony ILX-LR1 (61 MP)", "WGS 84 / UTM 15N"],
+      concepts: ["Photogrammetry", "Digital Surface Modeling", "Hydro-flattening", "Geoprocessing Automation", "3D Scene Construction"]
+    },
     {
       title: "Starlink Maritime Performance Prediction & Decision-Support Dashboard",
       isOngoing: true,
@@ -18,8 +34,8 @@ export default function Projects() {
         <span key="0">Developed a real-time, predictive decision-support web application for maritime Starlink users, ingesting live network telemetry to forecast throughput and latency up to 15 minutes ahead.</span>,
         <span key="1"><strong>Predictive Forecasting & Confidence Intervals:</strong> Implemented a forecasting engine (based on Random Forest regression logic) that projects network throughput and latency across a 15-minute horizon, visualizing the trend curve alongside dynamic confidence intervals that expand with time.</span>,
         <span key="2"><strong>Early Warning & Anomaly Detection:</strong> Engineered an analytical system that monitors the relationship between latency and throughput to preemptively detect satellite handoffs and issue early warnings when rising latency indicates an impending drop in bandwidth.</span>,
-        <span key="3"><strong>Actionable Decision Support:</strong> Designed a "Task Readiness" algorithm that translates raw network forecasts into practical recommendations, calculating the exact "Safe Duration" (in minutes) for specific operations like Video Calling, VoIP, and Large File Transfers.</span>,
-        <span key="4"><strong>Real-Time Accuracy Tracking:</strong> Built a continuous feedback loop that stores short-term predictions and evaluates them against actual incoming telemetry, displaying a live Exponential Moving Average (EMA) of the model's accuracy.</span>,
+        <span key="3"><strong>Actionable Decision Support:</strong> Designed a &ldquo;Task Readiness&rdquo; algorithm that translates raw network forecasts into practical recommendations, calculating the exact &ldquo;Safe Duration&rdquo; (in minutes) for specific operations like Video Calling, VoIP, and Large File Transfers.</span>,
+        <span key="4"><strong>Real-Time Accuracy Tracking:</strong> Built a continuous feedback loop that stores short-term predictions and evaluates them against actual incoming telemetry, displaying a live Exponential Moving Average (EMA) of the model&apos;s accuracy.</span>,
         <span key="5"><strong>Live Data & Contextual Integration:</strong> Developed features for both live telemetry simulation and historical CSV data ingestion, alongside a REST API integration (Open-Meteo) to fetch real-time weather data for environmental context.</span>,
         <span key="6"><strong>Interactive Data Visualization:</strong> Created a responsive, dark-themed maritime UI using Next.js and Tailwind CSS, featuring complex Recharts visualizations that seamlessly combine historical data, future trend lines, and shaded uncertainty ranges.</span>
       ],
@@ -29,6 +45,8 @@ export default function Projects() {
     {
       title: "AI Agentic Workflow Orchestration for System Development",
       isOngoing: true,
+      link: "/ai-systems-portfolio.pdf",
+      linkLabel: "AI Systems Portfolio",
       icon: <Server className="w-6 h-6 text-indigo-400 group-hover:text-indigo-300 transition-colors" />,
       description: [
         <span key="0">A fully local, multi-agent system that orchestrates the software development lifecycle on a single workstation, coordinating planning, coding, testing, and deployment agents through a LangGraph state machine.</span>,
@@ -39,8 +57,23 @@ export default function Projects() {
         "Kept the pipeline local-first by using on-device embedding models (nomic-embed-text or mxbai-embed-large via Ollama) instead of hosted embedding APIs, preserving the privacy of the codebase.",
         "Integrated the retrieval server as an external tool layer through langchain-mcp-adapters rather than fine-tuning, so the system stays adaptable as the target codebase evolves."
       ],
-      techStack: ["Python", "LangGraph", "LangChain", "Ollama", "Model Context Protocol (MCP)", "FastMCP", "ChromaDB", "tree-sitter", "Langfuse", "Open WebUI"],
+      techStack: ["Python", "LangGraph", "LangChain", "Ollama", "Model Context Protocol (MCP)", "surgical-mcp-rag", "FastMCP", "ChromaDB", "tree-sitter", "Langfuse", "Open WebUI"],
       concepts: ["Multi-agent orchestration", "Agentic coding", "Retrieval-Augmented Generation", "AST parsing", "Local-first inference", "Observability"]
+    },
+    {
+      title: "Jetson Post-Boot — Setup Assistant for NVIDIA Jetson Orin Nano",
+      link: "https://github.com/Muhit1204/jetson-postboot",
+      icon: <Cpu className="w-6 h-6 text-emerald-400 group-hover:text-emerald-300 transition-colors" />,
+      description: [
+        <span key="0">A zero-dependency Python assistant that takes a brand-new Jetson Orin Nano Developer Kit from first boot to a production-ready AI workstation, diagnosing the configuration gaps a fresh JetPack 6.x install leaves behind.</span>,
+        <span key="1"><strong>Safe by Default:</strong> Runs read-only inspection first, with an opt-in apply mode for reversible changes only. The tool performs no flashing, firmware, QSPI, or UEFI modification — risky fixes are reported with the exact commands to run manually rather than applied automatically.</span>,
+        <span key="2"><strong>Storage &amp; Boot Diagnostics:</strong> Detects disk space left unreclaimed after an SD-card-to-SSD migration and the boot-order problems that migration commonly introduces, printing the corrective commands for each.</span>,
+        <span key="3"><strong>Memory &amp; Swap Tuning:</strong> Adjusts the factory memory and swap settings that otherwise cap the size of models the board can hold, keeping every change reversible.</span>,
+        <span key="4"><strong>ML Stack Validation:</strong> Confirms the health of the NVIDIA CUDA and AI stack, and can install Ollama while recommending chat models sized to the hardware actually available.</span>,
+        <span key="5"><strong>Reporting &amp; Testing:</strong> Emits categorized reports across system, storage, swap, boot, and ML-stack checks with PASS / WARN / ACTION status per item, and ships a simulation mode plus test suite so the full flow can be exercised without a board attached.</span>
+      ],
+      techStack: ["Python 3.8+", "NVIDIA Jetson Orin Nano", "JetPack 6.x", "CUDA", "Ollama"],
+      concepts: ["Edge AI provisioning", "System diagnostics", "Safe-by-default tooling", "Zero-dependency CLI", "Hardware simulation testing"]
     },
     {
       title: "Banknote Authentication Using Machine Learning",
@@ -139,8 +172,10 @@ export default function Projects() {
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 px-4 py-2 bg-slate-50 text-slate-700 text-sm font-bold rounded-xl border border-slate-200 hover:bg-slate-100 hover:border-slate-300 transition-all shrink-0"
                   >
-                    <Database className="w-4 h-4" />
-                    <span className="hidden sm:inline">View Project</span>
+                    {/* @ts-ignore - Ignore optional field dynamically */}
+                    {project.linkLabel ? <FileText className="w-4 h-4" /> : <Database className="w-4 h-4" />}
+                    {/* @ts-ignore - Ignore optional field dynamically */}
+                    <span className="hidden sm:inline">{project.linkLabel || 'View Project'}</span>
                   </a>
                 )}
                 {/* @ts-ignore - Ignore optional field dynamically */}
