@@ -29,14 +29,19 @@ export default function Home() {
       {/* Hero Section */}
       <section className="flex flex-col md:flex-row items-stretch gap-6 md:gap-12 pt-6 md:pt-20">
         <div className="relative w-full md:w-[22rem] min-h-[280px] md:min-h-[400px] shrink-0 rounded-3xl overflow-hidden shadow-xl border border-slate-200 group flex-1">
-          <Image
-            src="/profile-image.jpeg"
-            alt="Md Muntasir Hossain"
-            fill
-            className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
-            quality={100}
-            priority
-          />
+          <picture>
+            <source type="image/avif" sizes="(min-width: 768px) 352px, 100vw" srcSet="/optimized/profile-704.avif 704w, /optimized/profile-1056.avif 1056w, /optimized/profile-1408.avif 1408w" />
+            <source type="image/webp" sizes="(min-width: 768px) 352px, 100vw" srcSet="/optimized/profile-704.webp 704w, /optimized/profile-1056.webp 1056w, /optimized/profile-1408.webp 1408w" />
+            <img
+              src="/optimized/profile-1056.jpg"
+              alt="Md Muntasir Hossain"
+              width={1056}
+              height={1408}
+              fetchPriority="high"
+              decoding="async"
+              className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+            />
+          </picture>
         </div>
         <div className="flex-1 space-y-4 md:space-y-6 flex flex-col justify-center py-2 md:py-4">
           <h1 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">
@@ -76,13 +81,19 @@ export default function Home() {
         <div className="relative">
           {/* Field photo — anchored right on desktop so the cards can overlap its left edge */}
           <div className="hidden lg:block absolute right-0 top-0 bottom-0 w-[54%] rounded-3xl overflow-hidden border border-slate-200 shadow-sm group">
-            <Image
-              src="/key-metrics-photo.jpeg"
-              alt="Md Muntasir Hossain preparing the UAS for a mapping flight at the LNVA canal site"
-              fill
-              className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
-              quality={90}
-            />
+            <picture>
+              <source type="image/avif" sizes="(min-width: 1024px) 54vw, 100vw" srcSet="/optimized/key-metrics-640.avif 640w, /optimized/key-metrics-1280.avif 1280w, /optimized/key-metrics-1920.avif 1920w" />
+              <source type="image/webp" sizes="(min-width: 1024px) 54vw, 100vw" srcSet="/optimized/key-metrics-640.webp 640w, /optimized/key-metrics-1280.webp 1280w, /optimized/key-metrics-1920.webp 1920w" />
+              <img
+                src="/optimized/key-metrics-1280.jpg"
+                alt="Md Muntasir Hossain preparing the UAS for a mapping flight at the LNVA canal site"
+                width={1280}
+                height={1707}
+                loading="lazy"
+                decoding="async"
+                className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+              />
+            </picture>
           </div>
 
           {/* Metric cards — float above the photo */}
@@ -102,13 +113,19 @@ export default function Home() {
 
           {/* Field photo — stacked below the cards on smaller screens */}
           <div className="lg:hidden relative mt-4 h-64 sm:h-80 rounded-3xl overflow-hidden border border-slate-200 shadow-sm">
-            <Image
-              src="/key-metrics-photo.jpeg"
-              alt="Md Muntasir Hossain preparing the UAS for a mapping flight at the LNVA canal site"
-              fill
-              className="object-cover object-center"
-              quality={90}
-            />
+            <picture>
+              <source type="image/avif" sizes="100vw" srcSet="/optimized/key-metrics-640.avif 640w, /optimized/key-metrics-1280.avif 1280w, /optimized/key-metrics-1920.avif 1920w" />
+              <source type="image/webp" sizes="100vw" srcSet="/optimized/key-metrics-640.webp 640w, /optimized/key-metrics-1280.webp 1280w, /optimized/key-metrics-1920.webp 1920w" />
+              <img
+                src="/optimized/key-metrics-1280.jpg"
+                alt="Md Muntasir Hossain preparing the UAS for a mapping flight at the LNVA canal site"
+                width={1280}
+                height={1707}
+                loading="lazy"
+                decoding="async"
+                className="absolute inset-0 w-full h-full object-cover object-center"
+              />
+            </picture>
           </div>
         </div>
       </section>
@@ -220,12 +237,19 @@ export default function Home() {
           <div className="interactive-card bg-white p-4 md:p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6 hover:shadow">
             <div className="relative w-28 h-28 shrink-0 rounded-2xl border border-slate-100 p-3 flex items-center justify-center bg-white">
               <div className="relative w-full h-full">
-                <Image
-                  src="/aiub-logo.png"
-                  alt="AIUB Scholarship Grant"
-                  fill
-                  className="object-contain"
-                />
+                <picture>
+                  <source type="image/avif" sizes="112px" srcSet="/optimized/aiub-logo-224.avif 224w, /optimized/aiub-logo-448.avif 448w" />
+                  <source type="image/webp" sizes="112px" srcSet="/optimized/aiub-logo-224.webp 224w, /optimized/aiub-logo-448.webp 448w" />
+                  <img
+                    src="/optimized/aiub-logo-448.png"
+                    alt="AIUB Scholarship Grant"
+                    width={448}
+                    height={244}
+                    loading="lazy"
+                    decoding="async"
+                    className="absolute inset-0 w-full h-full object-contain"
+                  />
+                </picture>
               </div>
             </div>
             <div className="flex-1 space-y-2">

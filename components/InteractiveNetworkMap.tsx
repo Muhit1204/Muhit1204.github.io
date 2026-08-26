@@ -34,7 +34,9 @@ export default function InteractiveNetworkMap() {
           srcSet="/city/optimized/scene-768.webp 768w, /city/optimized/scene-1280.webp 1280w, /city/optimized/scene-1920.webp 1920w, /city/optimized/scene-2560.webp 2560w"
         />
         <img
-          src="/city-map.png"
+          src="/city/optimized/scene-1280.png"
+          srcSet="/city/optimized/scene-768.png 768w, /city/optimized/scene-1280.png 1280w, /city/optimized/scene-1920.png 1920w"
+          sizes="100vw"
           alt="Interactive City Map"
           width="1536"
           height="1024"

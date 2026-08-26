@@ -6,4 +6,6 @@ coverage/
 *.log
 .env*
 !.env.example
-source-docs/
+source-docs/*
+# Full-resolution image sources for scripts/optimize-images.mjs.
+!source-docs/image-originals/
