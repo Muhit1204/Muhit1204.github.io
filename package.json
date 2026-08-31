@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "clean": "next clean",
     "test": "vitest run",
-    "optimize:images": "node scripts/optimize-images.mjs"
+    "optimize:images": "node scripts/optimize-images.mjs",
+    "sync:pdf-worker": "node -e \"require('fs').copyFileSync('node_modules/pdfjs-dist/build/pdf.worker.min.mjs','public/pdf.worker.min.mjs')\""
   },
   "dependencies": {
     "@google/genai": "^1.17.0",
@@ -19,6 +20,7 @@
     "lucide-react": "^0.553.0",
     "motion": "^12.23.24",
     "next": "^15.4.9",
+    "pdfjs-dist": "^6.3.289",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
     "recharts": "^3.7.0",

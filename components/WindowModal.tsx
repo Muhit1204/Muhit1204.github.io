@@ -3,11 +3,17 @@
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { createPortal } from 'react-dom';
 import { ExternalLink, X } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { audio } from '@/lib/audio';
+
+// pdfjs is heavy and only needed once a document window opens.
+const PdfViewer = dynamic(() => import('@/components/PdfViewer'), { ssr: false });
 
 /*
  * A draggable console window for things that would otherwise open in a new
- * tab — the summary deck, the AI systems PDF, project screenshots.
+ * tab — the summary deck, the AI systems PDF, project screenshots. PDFs are
+ * rendered page by page by PdfViewer rather than handed to an <iframe>, so
+ * the browser's own viewer chrome never appears inside the window.
  *
  * Rendered through a portal into <body>. That is not a style choice: an
  * ancestor with a transform or a will-change on transform becomes the
@@ -68,7 +74,7 @@ export default function WindowModal({
       if (event.key !== 'Tab') return;
 
       const focusables = dialogRef.current?.querySelectorAll<HTMLElement>(
-        'a[href], button, iframe, [tabindex]:not([tabindex="-1"])',
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
       );
       if (!focusables || focusables.length === 0) return;
 
@@ -91,8 +97,7 @@ export default function WindowModal({
   }, [open, hide]);
 
   /* Dragging by the title bar. Pointer capture keeps the moves coming even
-     when the cursor crosses the PDF iframe, which would otherwise swallow
-     them. */
+     when the cursor leaves the bar mid-drag. */
   const onPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
     if ((event.target as HTMLElement).closest('button, a')) return;
     event.currentTarget.setPointerCapture(event.pointerId);
@@ -156,7 +161,7 @@ export default function WindowModal({
 
         <div className="flex-1 min-h-0 bg-bg">
           {kind === 'pdf' ? (
-            <iframe src={src} title={title} className="w-full h-full border-0" />
+            <PdfViewer src={src} title={title} />
           ) : (
             <div className="w-full h-full overflow-auto p-4">
               {/* eslint-disable-next-line @next/next/no-img-element */}
