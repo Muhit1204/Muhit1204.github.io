@@ -25,10 +25,14 @@ To run a single test file: `npx vitest run __tests__/yourfile.test.tsx`
 Experience and project content lives in [lib/work.ts](lib/work.ts) as plain data (no JSX), which is what lets the home page stay a server component.
 
 **Components** in [components/](components/):
-- `BootSequence` — terminal boot overlay; decorative, skippable, once per session, skipped under `prefers-reduced-motion`
-- `SatelliteOrbitDiagram` — custom SVG orbit animation, used as the hero visual
-- `PredictionDashboard` — time-series chart using Recharts with confidence intervals
-- `CybersecurityPanel` — security metrics dashboard
+- `BootSequence` — terminal boot overlay; decorative, skippable, replays every load, skipped under `prefers-reduced-motion`
+- `TerminalPrompt` — a working shell in the hero (`help`, `ls`, `cd`, `open`, …)
+- `HeroVisual` / `LeoGlobe` / `SatelliteOrbitDiagram` — the three.js constellation, gated to wide screens with the SVG diagram as fallback
+- `TracedList` / `ExperienceTimeline` — the scroll-traced rail used by every list section
+- `WindowModal` / `PdfViewer` — the draggable console window and the in-house PDF renderer
+- `GlyphField` / `StatusTicker` / `ScrambleText` / `Reveal` — ambient and scroll effects
+
+**Audio** lives in [lib/audio.ts](lib/audio.ts) as a single Web Audio graph. Nothing may be scheduled before the visitor's first gesture: a context created earlier starts suspended, its clock does not advance, and everything queued at `t=0` would fire at once on resume. Use `audio.onUnlock()` to make a sound that would otherwise happen too early.
 
 Pages that need interactivity (click handlers, `useState`) must have `'use client'` at the top.
 
@@ -38,15 +42,14 @@ Pages that need interactivity (click handlers, `useState`) must have `'use clien
 
 **Path alias:** `@/*` maps to the repo root (defined in [tsconfig.json](tsconfig.json) and [vitest.config.ts](vitest.config.ts)).
 
-## Environment Variables
+## Deployment
 
-See [.env.example](.env.example). Key vars:
-- `GEMINI_API_KEY` — Google Gemini AI API key
-- `APP_URL` — injected at runtime by AI Studio (Cloud Run URL)
+Pushing to `main` triggers [.github/workflows/nextjs.yml](.github/workflows/nextjs.yml), which runs `next build` and publishes `out/` to GitHub Pages. `out/` is generated on CI and is **not** committed.
 
 ## Key Constraints
 
 - ESLint is **disabled during builds** (`eslint: { ignoreDuringBuilds: true }` in next.config.ts), but TypeScript errors will still fail the build.
 - Images are unoptimized (`unoptimized: true`) due to static export — use `<Image>` from `next/image` but don't rely on server-side optimization.
 - The `motion` package must be listed under `transpilePackages` in next.config.ts (already configured).
+- `pdfjs-dist` needs its worker served from `public/`. After upgrading it, run `npm run sync:pdf-worker`.
 - HMR can be disabled via `DISABLE_HMR=true` env var (used in AI Studio environment).

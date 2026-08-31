@@ -12,3 +12,6 @@ source-docs/*
 
 # QA screenshot captures (large, regenerable)
 qa-captures/
+
+# TypeScript incremental build cache
+*.tsbuildinfo
