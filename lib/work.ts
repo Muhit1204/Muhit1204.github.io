@@ -87,37 +87,6 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    title: 'Unmanned Aircraft System Mapping of the LNVA Canal Site',
-    icon: 'map',
-    link: '/UAS_LNVA_Project_Closing_Summary.pdf',
-    linkLabel: 'Summary Deck',
-    description: [
-      'Produced a georeferenced 3D surface model of an approximately 8-acre canal site (project designation CAWAQ_LNVA) from UAS imagery, as Research Assistant to Dr. Feilin Lai in the Geology Department at Lamar University. Flown at 35 m above ground level and 3.16 m/s for a 0.59 cm ground sample distance.',
-      {
-        lead: 'Field Data Collection:',
-        text: 'Recovered 182 overlapping nadir images totalling 9.1 GB on a 15-minute reflight after the first flight’s image set proved unreadable due to a format mismatch — the resulting procedure change is an on-site format and readability check immediately after landing, converting a lost flight day into a 5-minute verification.',
-      },
-      {
-        lead: 'Photogrammetric Processing:',
-        text: 'Ran the full Pix4Dmapper 3D Maps pipeline (keypoint extraction and calibration, densification, digital surface model and orthomosaic generation), achieving a mean reprojection error of 0.131 pixels with outputs as GeoTIFF rasters and a dense LAS point cloud.',
-      },
-      {
-        lead: '3D Scene Construction:',
-        text: 'Built a local ArcGIS Pro 3.6 scene in WGS 84 / UTM zone 15N with the digital surface model as ground elevation source and the orthomosaic draped over it, removing the WorldElevation3D basemap surface that would otherwise drape imagery over Esri terrain and produce a plausible but incorrect scene.',
-      },
-      {
-        lead: 'Hydro-Flattening:',
-        text: 'Corrected the canal water surface within the elevation model using Zonal Statistics to derive a median water elevation, Polygon to Raster for a constant water surface, Raster Calculator substitution, and Feature Preserving Smoothing to reduce residual noise.',
-      },
-      {
-        lead: 'Automated 3D Export:',
-        text: 'Established a 7-step geoprocessing chain (Raster Calculator, Raster To TIN, Raster Domain, Interpolate Polygon To Multipatch, Project Raster, Add 3D Formats To Multipatch, Export 3D Objects) to write the corrected surface to OBJ format, and published the scene to ArcGIS Online as a supporting deliverable.',
-      },
-    ],
-    techStack: ['ArcGIS Pro 3.6', 'Pix4Dmapper', 'ArcGIS Online', 'Open3D', 'Sony ILX-LR1 (61 MP)', 'WGS 84 / UTM 15N'],
-    concepts: ['Photogrammetry', 'Digital Surface Modeling', 'Hydro-flattening', 'Geoprocessing Automation', '3D Scene Construction'],
-  },
-  {
     title: 'Starlink Maritime Performance Prediction & Decision-Support Dashboard',
     icon: 'server',
     isOngoing: true,
@@ -151,6 +120,37 @@ export const projects: Project[] = [
     ],
     techStack: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Recharts', 'PapaParse', 'date-fns'],
     concepts: ['Time-series forecasting', 'Anomaly Detection', 'EMA', 'REST API', 'UI/UX Design'],
+  },
+  {
+    title: 'Unmanned Aircraft System Mapping of the LNVA Canal Site',
+    icon: 'map',
+    link: '/UAS_LNVA_Project_Closing_Summary.pdf',
+    linkLabel: 'Summary Deck',
+    description: [
+      'Produced a georeferenced 3D surface model of an approximately 8-acre canal site (project designation CAWAQ_LNVA) from UAS imagery, as Research Assistant to Dr. Feilin Lai in the Geology Department at Lamar University. Flown at 35 m above ground level and 3.16 m/s for a 0.59 cm ground sample distance.',
+      {
+        lead: 'Field Data Collection:',
+        text: 'Recovered 182 overlapping nadir images totalling 9.1 GB on a 15-minute reflight after the first flight’s image set proved unreadable due to a format mismatch — the resulting procedure change is an on-site format and readability check immediately after landing, converting a lost flight day into a 5-minute verification.',
+      },
+      {
+        lead: 'Photogrammetric Processing:',
+        text: 'Ran the full Pix4Dmapper 3D Maps pipeline (keypoint extraction and calibration, densification, digital surface model and orthomosaic generation), achieving a mean reprojection error of 0.131 pixels with outputs as GeoTIFF rasters and a dense LAS point cloud.',
+      },
+      {
+        lead: '3D Scene Construction:',
+        text: 'Built a local ArcGIS Pro 3.6 scene in WGS 84 / UTM zone 15N with the digital surface model as ground elevation source and the orthomosaic draped over it, removing the WorldElevation3D basemap surface that would otherwise drape imagery over Esri terrain and produce a plausible but incorrect scene.',
+      },
+      {
+        lead: 'Hydro-Flattening:',
+        text: 'Corrected the canal water surface within the elevation model using Zonal Statistics to derive a median water elevation, Polygon to Raster for a constant water surface, Raster Calculator substitution, and Feature Preserving Smoothing to reduce residual noise.',
+      },
+      {
+        lead: 'Automated 3D Export:',
+        text: 'Established a 7-step geoprocessing chain (Raster Calculator, Raster To TIN, Raster Domain, Interpolate Polygon To Multipatch, Project Raster, Add 3D Formats To Multipatch, Export 3D Objects) to write the corrected surface to OBJ format, and published the scene to ArcGIS Online as a supporting deliverable.',
+      },
+    ],
+    techStack: ['ArcGIS Pro 3.6', 'Pix4Dmapper', 'ArcGIS Online', 'Open3D', 'Sony ILX-LR1 (61 MP)', 'WGS 84 / UTM 15N'],
+    concepts: ['Photogrammetry', 'Digital Surface Modeling', 'Hydro-flattening', 'Geoprocessing Automation', '3D Scene Construction'],
   },
   {
     title: 'AI Agentic Workflow Orchestration for System Development',

@@ -179,8 +179,8 @@ export default function Home() {
               maritime LEO and deep-space link work the models are trained on.
             </p>
             <p className="text-sm text-body border-l-2 border-accent-dim pl-3">
-              Open to research collaborations and industry roles in satellite network security and applied
-              ML — from 2027, on completion of the D.E.
+              Looking for internship positions in satellite communications, network security and applied
+              ML — and open to research collaborations.
             </p>
             <div className="flex flex-wrap gap-2">
               {['LEO satellites', 'DTN', 'ICS/SCADA security', 'MITRE ATT&CK', 'ML forecasting', 'agentic AI'].map((tag) => (
