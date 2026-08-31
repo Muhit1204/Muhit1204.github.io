@@ -13,10 +13,10 @@ import * as THREE from 'three';
  * for small screens and for prefers-reduced-motion, and loads this lazily.
  */
 
-const ACCENT = 0x2dd4bf;
-const DANGER = 0xef4444;
-const LINE = 0x1f2933;
-const MUTED = 0x5b6b7a;
+const ACCENT = 0x00ff9c;
+const DANGER = 0xff4438;
+const LINE = 0x1c2a20;
+const MUTED = 0x4a6b56;
 
 const EARTH_RADIUS = 1;
 const ORBIT_RADIUS = 1.42;
@@ -82,7 +82,7 @@ export default function LeoGlobe() {
     world.add(
       new THREE.Mesh(
         globeGeometry,
-        new THREE.MeshBasicMaterial({ color: 0x0d1520, transparent: true, opacity: 0.85 }),
+        new THREE.MeshBasicMaterial({ color: 0x081109, transparent: true, opacity: 0.85 }),
       ),
     );
     world.add(
@@ -298,7 +298,7 @@ export default function LeoGlobe() {
       <div ref={mountRef} className="absolute inset-0" aria-hidden="true" />
 
       {/* The same state in text, for anyone who cannot see the canvas. */}
-      <div className="absolute top-4 left-4 bg-surface/90 backdrop-blur border border-line rounded-lg px-3 py-2 text-xs font-mono">
+      <div className="absolute top-4 left-4 bg-surface/90 backdrop-blur border border-line rounded-none px-3 py-2 text-xs font-mono">
         <div className="flex items-center gap-2 mb-1">
           <span className="text-muted">Status:</span>
           {status.linked ? (

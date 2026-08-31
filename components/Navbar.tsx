@@ -109,7 +109,7 @@ export default function Navbar() {
           <a
             href="/resume.pdf"
             download
-            className="inline-flex items-center gap-2 font-mono text-xs px-3 py-2 rounded-md border border-accent-dim text-accent hover:bg-accent/10 transition-colors shrink-0"
+            className="inline-flex items-center gap-2 font-mono text-xs px-3 py-2 rounded-none border border-accent-dim text-accent hover:bg-accent/10 transition-colors shrink-0"
           >
             <Download className="w-4 h-4" />
             resume
@@ -156,7 +156,7 @@ export default function Navbar() {
             href="/resume.pdf"
             download
             onClick={() => setIsOpen(false)}
-            className="inline-flex items-center gap-2 px-3 py-2 rounded-md border border-accent-dim text-accent"
+            className="inline-flex items-center gap-2 px-3 py-2 rounded-none border border-accent-dim text-accent"
           >
             <Download className="w-4 h-4" />
             resume

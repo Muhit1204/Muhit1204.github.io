@@ -38,19 +38,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           gtag('config', 'G-FTSNVMRKNX');
         `}</Script>
       </head>
-      <body className="font-sans bg-bg text-body min-h-screen flex flex-col selection:bg-accent/30 relative" suppressHydrationWarning>
-        {/* Faint grid — reads as terminal chrome without competing with content. */}
-        <div
-          className="fixed inset-0 z-[-1] pointer-events-none"
-          style={{
-            backgroundImage:
-              'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)',
-            backgroundSize: '64px 64px',
-            opacity: 0.35,
-            maskImage: 'radial-gradient(ellipse at 50% 0%, black 0%, transparent 75%)',
-            WebkitMaskImage: 'radial-gradient(ellipse at 50% 0%, black 0%, transparent 75%)',
-          }}
-        />
+      <body className="font-mono bg-bg text-body min-h-screen flex flex-col selection:bg-accent/30 relative" suppressHydrationWarning>
+        {/* Scroll reveal starts hidden and is un-hidden by script. Without
+            script there is nothing to un-hide it, so show everything. */}
+        <noscript>
+          <style>{`.reveal { opacity: 1 !important; transform: none !important; }`}</style>
+        </noscript>
+
+        {/* CRT scanlines over everything. Purely decorative, never interactive. */}
+        <div className="scanlines" aria-hidden="true" />
 
         {/*
           Decorative overlay only. The page below renders from first paint so

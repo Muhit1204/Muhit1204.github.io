@@ -3,38 +3,37 @@
 @tailwind utilities;
 
 /*
- * Dark terminal palette. Every surface, border and text colour on the site
- * resolves through one of these tokens — Tailwind maps them to utility
- * classes (bg-surface, text-muted, border-line) in tailwind.config.js, so
- * components should never hardcode a slate/indigo value again.
+ * Phosphor terminal. Green on near-black, amber for warnings, red for
+ * alerts — the palette of a CRT console rather than a themed website.
+ * Tailwind maps these to utilities in tailwind.config.js; nothing should
+ * hardcode a hex value.
  */
 :root {
-    --bg: #0b0f14;
-    --surface: #11161d;
-    --surface-2: #161c25;
-    --border: #1f2933;
-    --text: #e6edf3;
-    --muted: #9aa5b1;
-    --accent: #2dd4bf;
-    --accent-dim: #0d9488;
-    --warn: #f59e0b;
-    --danger: #ef4444;
+    --bg: #050807;
+    --surface: #0a0f0c;
+    --surface-2: #0f1611;
+    --border: #1c2a20;
+    --text: #cfe8d6;
+    --muted: #7ba189;
+    --accent: #00ff9c;
+    --accent-dim: #00b36e;
+    --warn: #ffb000;
+    --danger: #ff4438;
 
     color-scheme: dark;
 }
 
-/*
- * Headings run monospace — the terminal voice. Body copy stays on Inter:
- * the research abstracts and publication summaries are long enough that
- * full-mono prose costs real readability.
- */
+/* Everything is monospace. This is a console, not a magazine. */
+html {
+    font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-    font-family: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
     letter-spacing: -0.01em;
 }
 
@@ -43,48 +42,43 @@ body {
     color: var(--text);
 }
 
+/* Phosphor bloom on the brightest text. Subtle — it should read as a screen,
+   not as a neon sign. */
+.glow {
+    text-shadow: 0 0 8px rgb(0 255 156 / 0.45);
+}
+
 /* Global Text Hyperlink Styles */
 p a,
 span a,
 .content a {
     color: var(--accent);
-    font-weight: 500;
     text-decoration: underline;
     text-underline-offset: 4px;
     text-decoration-color: var(--accent-dim);
-    transition: color 0.2s, text-decoration-color 0.2s;
+    transition: color 0.15s, text-decoration-color 0.15s;
 }
 
 p a:hover,
 span a:hover,
 .content a:hover {
-    color: #5eead4;
+    color: #7dffc6;
     text-decoration-color: var(--accent);
 }
 
-/*
- * Card hover. The old light-theme treatment (scale down + drop shadow) is
- * invisible on a dark ground, so lift happens through border and surface
- * instead.
- */
 .interactive-card {
     background-color: var(--surface);
     border: 1px solid var(--border);
-    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 
 .interactive-card:hover {
     background-color: var(--surface-2);
     border-color: var(--accent-dim);
-    transform: translateY(-2px);
 }
 
-/*
- * Section label above each heading — the `$ cat about.md` device. Applied
- * via the `.term-label` class rather than repeated Tailwind strings.
- */
+/* Section label above each heading — the `$ cat about.md` device. */
 .term-label {
-    font-family: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
     font-size: 0.75rem;
     letter-spacing: 0.08em;
     color: var(--muted);
@@ -95,7 +89,6 @@ span a:hover,
     color: var(--accent);
 }
 
-/* Blinking cursor used by the boot sequence and the hero prompt. */
 .term-cursor {
     display: inline-block;
     width: 0.55em;
@@ -112,16 +105,64 @@ span a:hover,
     }
 }
 
+/*
+ * Scroll reveal. A class toggled by an IntersectionObserver rather than an
+ * animation library — the whole effect is two CSS properties, so it costs
+ * nothing per element.
+ */
+.reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+/* CRT scanlines over the whole page. Fixed, non-interactive, very low
+   contrast — visible on a dark field, invisible over text. */
+.scanlines {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+        to bottom,
+        rgb(0 0 0 / 0) 0px,
+        rgb(0 0 0 / 0) 2px,
+        rgb(0 0 0 / 0.22) 3px,
+        rgb(0 0 0 / 0.22) 4px
+    );
+    mix-blend-mode: multiply;
+}
+
 /* Anchor targets sit under a 4rem sticky header. */
 [id] {
     scroll-margin-top: 5rem;
 }
 
+/* Terminal selection should look like a terminal selection. */
+::selection {
+    background: var(--accent);
+    color: var(--bg);
+}
+
 @media (prefers-reduced-motion: reduce) {
 
-    .interactive-card,
     .term-cursor {
-        transition: none;
         animation: none;
+    }
+
+    .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    .scanlines {
+        display: none;
     }
 }

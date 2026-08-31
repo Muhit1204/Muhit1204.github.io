@@ -24,6 +24,7 @@ import Link from 'next/link';
 import Counter from '@/components/Counter';
 import HeroVisual from '@/components/HeroVisual';
 import Pane from '@/components/Pane';
+import TerminalPrompt from '@/components/TerminalPrompt';
 import { experiences, projects, type Bullet, type ProjectIcon } from '@/lib/work';
 import { datasets, publications } from '@/lib/publications';
 
@@ -143,58 +144,60 @@ function Tag({ children }: { children: React.ReactNode }) {
 export default function Home() {
   return (
     <div className="space-y-16 md:space-y-28">
-      {/* Hero — terminal identity beside the live orbit visual. */}
-      <section className="grid lg:grid-cols-2 gap-8 items-center pt-4 md:pt-12">
-        <div className="rounded-xl border border-line bg-surface overflow-hidden">
-          {/* Window chrome */}
-          <div className="flex items-center gap-2 px-4 py-2.5 border-b border-line bg-surface-2">
-            <span className="w-3 h-3 rounded-full bg-danger/70" />
-            <span className="w-3 h-3 rounded-full bg-warn/70" />
-            <span className="w-3 h-3 rounded-full bg-accent/70" />
-            <span className="ml-3 font-mono text-xs text-muted">~/muntasir — zsh</span>
-          </div>
-
-          <div className="p-5 md:p-7 space-y-5">
-            <p className="font-mono text-sm text-muted">
+      {/* Hero — identity, the live constellation, and a working prompt. */}
+      <section className="space-y-6 pt-4 md:pt-10">
+        <div className="grid lg:grid-cols-2 gap-6 items-stretch">
+          <div className="space-y-5 flex flex-col justify-center">
+            <p className="text-sm text-muted">
               <span className="text-accent">$ </span>whoami
             </p>
-            <h1 className="text-2xl md:text-4xl font-bold text-body">
+            <h1 className="text-3xl md:text-5xl font-bold text-body glow">
               Md Muntasir Hossain
               <span className="term-cursor" />
             </h1>
-            <p className="text-muted leading-relaxed">
+            <p className="text-muted leading-relaxed max-w-xl">
               Doctor of Engineering student and Graduate Research Assistant at{' '}
               <a href="https://www.lamar.edu/center-data-analytics-cybersecurity/" target="_blank" rel="noopener noreferrer">
-                Lamar University
+                Lamar CDAC
               </a>
-              , Center for Data Analytics and Cybersecurity, working on the reliability and resilience of
-              satellite communication systems — from maritime LEO broadband to interplanetary deep space networks.
+              . I break and harden satellite links — maritime LEO, deep space relays — and build the ML
+              that predicts when they fail.
             </p>
-            <div className="flex flex-wrap gap-2 pt-1">
-              {['Satellite Communication', 'Machine Learning', 'Cybersecurity', 'Maritime Networks', 'LEO Satellites', 'Deep Space Networks'].map((tag) => (
+            <div className="flex flex-wrap gap-2">
+              {['LEO satellites', 'DTN', 'ICS/SCADA security', 'MITRE ATT&CK', 'ML forecasting', 'agentic AI'].map((tag) => (
                 <Tag key={tag}>{tag}</Tag>
               ))}
             </div>
-            <div className="flex flex-wrap gap-3 pt-2">
+            <div className="flex flex-wrap gap-3 pt-1 text-sm">
               <a
-                href="#work"
-                className="font-mono text-sm px-4 py-2 rounded-md border border-accent-dim text-accent hover:bg-accent/10 transition-colors"
+                href="#projects"
+                className="px-4 py-2 border border-accent-dim text-accent hover:bg-accent/10 transition-colors"
               >
-                view work
+                projects
               </a>
               <a
-                href="#contact"
-                className="font-mono text-sm px-4 py-2 rounded-md border border-line text-muted hover:border-accent-dim hover:text-accent transition-colors"
+                href="#publications"
+                className="px-4 py-2 border border-line text-muted hover:border-accent-dim hover:text-accent transition-colors"
               >
-                get in touch
+                papers
+              </a>
+              <a
+                href="/resume.pdf"
+                download
+                className="px-4 py-2 border border-line text-muted hover:border-accent-dim hover:text-accent transition-colors"
+              >
+                resume
               </a>
             </div>
           </div>
+
+          <div className="rounded-none border border-line overflow-hidden">
+            <HeroVisual />
+          </div>
         </div>
 
-        <div className="rounded-xl border border-line overflow-hidden">
-          <HeroVisual />
-        </div>
+        {/* Everything this reaches is also reachable by scrolling. */}
+        <TerminalPrompt />
       </section>
 
       {/* About */}
@@ -208,7 +211,7 @@ export default function Home() {
         status="identity"
       >
         <div className="grid md:grid-cols-[18rem_1fr] gap-6 md:gap-10 items-start">
-          <div className="relative w-full max-w-xs rounded-xl overflow-hidden border border-line">
+          <div className="relative w-full max-w-xs rounded-none overflow-hidden border border-line">
             <picture>
               <source type="image/avif" sizes="(min-width: 768px) 288px, 100vw" srcSet="/optimized/profile-704.avif 704w, /optimized/profile-1056.avif 1056w, /optimized/profile-1408.avif 1408w" />
               <source type="image/webp" sizes="(min-width: 768px) 288px, 100vw" srcSet="/optimized/profile-704.webp 704w, /optimized/profile-1056.webp 1056w, /optimized/profile-1408.webp 1408w" />
@@ -225,18 +228,16 @@ export default function Home() {
           </div>
           <div className="space-y-4 text-muted leading-relaxed">
             <p>
-              My research spans satellite-based communication, Delay Tolerant Networking for deep space and
-              cislunar relays, wireless network resilience, machine learning for predictive analytics, and
-              cybersecurity analysis of LEO satellite networks.
+              Federally funded work with the Port of Beaumont on maritime satellite reliability: NS-3 models,
+              real coastal measurement campaigns, and forecasting that has to survive live telemetry.
             </p>
             <p>
-              Day to day that means NS-3 simulation models, real coastal measurement campaigns, and prediction
-              models that have to hold up against live telemetry — alongside the security side of the same
-              systems: spoofing, signal manipulation, and data integrity in intelligent maritime infrastructure.
+              The security half is the same systems from the other side — spoofing, signal manipulation, and
+              data integrity in intelligent maritime infrastructure, plus ICS/SCADA advisory work mapped to
+              MITRE ATT&amp;CK.
             </p>
             <p>
-              Degrees and certifications live on the{' '}
-              <Link href="/education">education page</Link>.
+              Degrees and certifications: <Link href="/education">education</Link>.
             </p>
           </div>
         </div>
@@ -255,7 +256,7 @@ export default function Home() {
 
         <div className="space-y-5">
           {experiences.map((exp) => (
-            <article key={exp.title + exp.date} className="interactive-card rounded-xl p-5 md:p-7 space-y-4">
+            <article key={exp.title + exp.date} className="interactive-card rounded-none p-5 md:p-7 space-y-4">
               <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-2">
                 <h3 className="text-xl font-bold text-body">{exp.title}</h3>
                 <span className="font-mono text-xs uppercase tracking-wider text-accent shrink-0">{exp.date}</span>
@@ -296,9 +297,9 @@ export default function Home() {
           {projects.map((project) => {
             const Icon = projectIcons[project.icon];
             return (
-              <article key={project.title} className="interactive-card rounded-xl p-5 md:p-7 space-y-4">
+              <article key={project.title} className="interactive-card rounded-none p-5 md:p-7 space-y-4">
                 <div className="flex items-start gap-4">
-                  <span className="p-2 rounded-lg border border-line bg-surface-2 text-accent shrink-0">
+                  <span className="p-2 rounded-none border border-line bg-surface-2 text-accent shrink-0">
                     <Icon className="w-5 h-5" />
                   </span>
                   <div className="flex-1 space-y-2">
@@ -332,7 +333,7 @@ export default function Home() {
                     alt={`${project.title} dashboard`}
                     loading="lazy"
                     decoding="async"
-                    className="w-full rounded-lg border border-line"
+                    className="w-full rounded-none border border-line"
                   />
                 )}
 
@@ -369,7 +370,7 @@ export default function Home() {
       >
         <div className="space-y-5">
           {publications.map((pub) => (
-            <article key={pub.link} className="interactive-card rounded-xl p-5 md:p-7 space-y-4">
+            <article key={pub.link} className="interactive-card rounded-none p-5 md:p-7 space-y-4">
               <div className="flex items-start justify-between gap-4">
                 <h3 className="text-xl font-bold text-body leading-snug">{pub.title}</h3>
                 <a
@@ -423,7 +424,7 @@ export default function Home() {
               href={dataset.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="interactive-card block rounded-xl p-5 md:p-7 space-y-3"
+              className="interactive-card block rounded-none p-5 md:p-7 space-y-3"
             >
               <div className="flex items-start justify-between gap-4">
                 <h3 className="text-xl font-bold text-body leading-snug">{dataset.title}</h3>
@@ -466,7 +467,7 @@ export default function Home() {
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {skills.map(({ category, tools }) => (
-            <div key={category} className="interactive-card rounded-xl p-5 space-y-3">
+            <div key={category} className="interactive-card rounded-none p-5 space-y-3">
               <h3 className="font-mono text-xs uppercase tracking-widest text-accent">{category}</h3>
               <div className="flex flex-wrap gap-2">
                 {tools.map((tool) => (
@@ -510,7 +511,7 @@ export default function Home() {
                       alt={entry.logo.alt}
                       loading="lazy"
                       decoding="async"
-                      className="hidden sm:block w-20 h-20 object-contain rounded-lg border border-line bg-surface-2 p-2 shrink-0"
+                      className="hidden sm:block w-20 h-20 object-contain rounded-none border border-line bg-surface-2 p-2 shrink-0"
                     />
                   )}
                   <p className="text-muted leading-relaxed">{entry.body}</p>
@@ -524,12 +525,12 @@ export default function Home() {
                 href={entry.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="interactive-card block rounded-xl p-5 md:p-6 space-y-2"
+                className="interactive-card block rounded-none p-5 md:p-6 space-y-2"
               >
                 {inner}
               </a>
             ) : (
-              <div key={entry.title} className="interactive-card rounded-xl p-5 md:p-6 space-y-2">
+              <div key={entry.title} className="interactive-card rounded-none p-5 md:p-6 space-y-2">
                 {inner}
               </div>
             );
@@ -549,7 +550,7 @@ export default function Home() {
       >
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {metrics.map(({ value, suffix, unit, caption }) => (
-            <div key={caption} className="interactive-card rounded-xl p-5 md:p-6 text-center space-y-2">
+            <div key={caption} className="interactive-card rounded-none p-5 md:p-6 text-center space-y-2">
               <p className="font-mono text-2xl md:text-3xl font-bold text-accent">
                 <Counter value={value} suffix={suffix} />
               </p>
@@ -558,7 +559,7 @@ export default function Home() {
             </div>
           ))}
         </div>
-        <div className="rounded-xl overflow-hidden border border-line">
+        <div className="rounded-none overflow-hidden border border-line">
           <picture>
             <source type="image/avif" sizes="100vw" srcSet="/optimized/key-metrics-640.avif 640w, /optimized/key-metrics-1280.avif 1280w, /optimized/key-metrics-1920.avif 1920w" />
             <source type="image/webp" sizes="100vw" srcSet="/optimized/key-metrics-640.webp 640w, /optimized/key-metrics-1280.webp 1280w, /optimized/key-metrics-1920.webp 1920w" />
@@ -586,13 +587,11 @@ export default function Home() {
         status="no signal required"
       >
         <p className="text-muted leading-relaxed max-w-3xl">
-          Beyond the code and the lab, I am an explorer at heart. When I am not analyzing network topologies or
-          writing NS-3 simulation models, you can usually find me outdoors — stepping away from the screen is
-          the best way I know to solve a complex problem.
+          Best debugging happens away from the keyboard.
         </p>
         <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
           {hobbies.map(({ name, Icon }) => (
-            <div key={name} className="interactive-card rounded-xl p-4 flex flex-col items-center gap-3 text-center">
+            <div key={name} className="interactive-card rounded-none p-4 flex flex-col items-center gap-3 text-center">
               <Icon className="w-6 h-6 text-accent" />
               <span className="font-mono text-xs text-muted">{name}</span>
             </div>
@@ -610,7 +609,7 @@ export default function Home() {
         title="Get in touch"
         status="open for collaboration"
       >
-        <div className="rounded-xl border border-line bg-surface p-5 md:p-8 space-y-6 font-mono text-sm">
+        <div className="rounded-none border border-line bg-surface p-5 md:p-8 space-y-6 font-mono text-sm">
           <div className="space-y-3">
             <p className="text-muted">
               <span className="text-accent">$ </span>cat contacts
@@ -641,7 +640,7 @@ export default function Home() {
               href="https://github.com/Muhit1204"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-md border border-line text-muted hover:border-accent-dim hover:text-accent transition-colors"
+              className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-none border border-line text-muted hover:border-accent-dim hover:text-accent transition-colors"
             >
               <Github className="w-4 h-4" />
               GitHub
@@ -650,14 +649,14 @@ export default function Home() {
               href="https://linkedin.com/in/mdmuntasirhossain98"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-md border border-line text-muted hover:border-accent-dim hover:text-accent transition-colors"
+              className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-none border border-line text-muted hover:border-accent-dim hover:text-accent transition-colors"
             >
               <Linkedin className="w-4 h-4" />
               LinkedIn
             </a>
             <a
               href="mailto:mhossain54@lamar.edu"
-              className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-md border border-accent-dim text-accent hover:bg-accent/10 transition-colors"
+              className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-none border border-accent-dim text-accent hover:bg-accent/10 transition-colors"
             >
               <Mail className="w-4 h-4" />
               Email me

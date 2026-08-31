@@ -32,39 +32,39 @@ describe('BootSequence', () => {
     it('plays on every load and exposes a skip control', async () => {
         render(<BootSequence />)
 
-        expect(await screen.findByRole('button', { name: /skip animation/i })).toBeInTheDocument()
+        expect(await screen.findByRole('button', { name: /skip/i })).toBeInTheDocument()
     })
 
     it('dismisses on skip', async () => {
         render(<BootSequence />)
 
-        const skip = await screen.findByRole('button', { name: /skip animation/i })
+        const skip = await screen.findByRole('button', { name: /skip/i })
         fireEvent.click(skip)
 
         await waitFor(() => {
-            expect(screen.queryByRole('button', { name: /skip animation/i })).not.toBeInTheDocument()
+            expect(screen.queryByRole('button', { name: /skip/i })).not.toBeInTheDocument()
         })
     })
 
     it('dismisses on Escape', async () => {
         render(<BootSequence />)
 
-        await screen.findByRole('button', { name: /skip animation/i })
+        await screen.findByRole('button', { name: /skip/i })
         fireEvent.keyDown(window, { key: 'Escape' })
 
         await waitFor(() => {
-            expect(screen.queryByRole('button', { name: /skip animation/i })).not.toBeInTheDocument()
+            expect(screen.queryByRole('button', { name: /skip/i })).not.toBeInTheDocument()
         })
     })
 
     it('replays on a remount rather than remembering an earlier visit', async () => {
         const first = render(<BootSequence />)
-        fireEvent.click(await screen.findByRole('button', { name: /skip animation/i }))
+        fireEvent.click(await screen.findByRole('button', { name: /skip/i }))
         first.unmount()
 
         render(<BootSequence />)
 
-        expect(await screen.findByRole('button', { name: /skip animation/i })).toBeInTheDocument()
+        expect(await screen.findByRole('button', { name: /skip/i })).toBeInTheDocument()
     })
 
     it('renders nothing when the visitor prefers reduced motion', () => {
@@ -72,6 +72,6 @@ describe('BootSequence', () => {
 
         render(<BootSequence />)
 
-        expect(screen.queryByRole('button', { name: /skip animation/i })).not.toBeInTheDocument()
+        expect(screen.queryByRole('button', { name: /skip/i })).not.toBeInTheDocument()
     })
 })

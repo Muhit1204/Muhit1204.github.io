@@ -20,8 +20,8 @@ module.exports = {
           'Arial',
           'sans-serif',
         ],
-        // JetBrains Mono carries the terminal voice: headings, nav, labels,
-        // tags and every piece of metadata.
+        // JetBrains Mono is the only typeface on the site; `font-sans` is
+        // kept pointing at Inter for the rare block of long-form prose.
         mono: [
           'var(--font-mono)',
           'ui-monospace',
