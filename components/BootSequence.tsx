@@ -64,15 +64,37 @@ const TONE_CLASS: Record<Tone, string> = {
   danger: 'text-danger',
 };
 
+const SESSION_KEY = 'boot-seen';
+
 /*
- * The boot plays on every load by design — it is the front door. The only
- * thing that suppresses it is the visitor's motion preference: a typing
- * animation is exactly the pattern reduced-motion asks us to drop, so it is
- * skipped outright rather than shortened.
+ * The boot plays on every load — it is the front door. What changes is its
+ * length: the full sequence on a first visit, an abbreviated one thereafter
+ * within the same session, so a returning reader is not made to wait through
+ * six seconds again to re-read a section.
+ *
+ * Reduced motion still skips it entirely: a typing animation is exactly the
+ * pattern that preference asks us to drop.
  */
 function computeShouldPlay(): boolean {
   return !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
+
+function computeSeenBefore(): boolean {
+  try {
+    return sessionStorage.getItem(SESSION_KEY) === '1';
+  } catch {
+    return false; // Blocked storage — treat every load as the first.
+  }
+}
+
+/** The abbreviated run: identity and status, no firmware or module list. */
+const SHORT_LINES: Line[] = [
+  { kind: 'raw', text: 'Resuming session ...', tone: 'muted' },
+  { kind: 'svc', text: 'ground-station.service', ms: 60 },
+  { kind: 'svc', text: 'threat-monitor.service', ms: 45 },
+  { kind: 'raw', text: 'Md Muntasir Hossain — Doctor of Engineering, ECE', tone: 'accent' },
+  { kind: 'cmd', text: './portfolio --start' },
+];
 
 /** Never changes after first paint, so there is nothing to subscribe to. */
 const subscribe = () => () => {};
@@ -90,6 +112,17 @@ export default function BootSequence() {
   const shouldPlay = useSyncExternalStore(subscribe, getShouldPlay, () => false);
   const [dismissed, setDismissed] = useState(false);
   const visible = shouldPlay && !dismissed;
+
+  /* Read once per mount through the same snapshot pattern the play/skip
+     decision uses — the server has no sessionStorage, and reading a ref
+     during render is not allowed. */
+  const seenRef = useRef<boolean | null>(null);
+  const getSeen = useCallback(() => {
+    if (seenRef.current === null) seenRef.current = computeSeenBefore();
+    return seenRef.current;
+  }, []);
+  const seenBefore = useSyncExternalStore(subscribe, getSeen, () => false);
+  const lines = seenBefore ? SHORT_LINES : LINES;
 
   const [step, setStep] = useState(0);
   const [typed, setTyped] = useState('');
@@ -126,14 +159,14 @@ export default function BootSequence() {
       timer.current = setTimeout(fn, ms);
     };
 
-    if (step >= LINES.length) {
+    if (step >= lines.length) {
       schedule(dismiss, HOLD_MS);
       return () => {
         if (timer.current) clearTimeout(timer.current);
       };
     }
 
-    const line = LINES[step];
+    const line = lines[step];
 
     if (line.kind === 'cmd') {
       if (typed.length < line.text.length) {
@@ -161,10 +194,15 @@ export default function BootSequence() {
     return () => {
       if (timer.current) clearTimeout(timer.current);
     };
-  }, [visible, step, typed, bar, dismiss]);
+  }, [visible, step, typed, bar, dismiss, lines]);
 
   useEffect(() => {
     if (!visible) return;
+    try {
+      sessionStorage.setItem(SESSION_KEY, '1');
+    } catch {
+      // Blocked storage — the full boot simply plays again.
+    }
     skipRef.current?.focus();
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape' || e.key === 'Enter') {
@@ -189,9 +227,9 @@ export default function BootSequence() {
     [],
   );
 
-  const rendered = LINES.slice(0, step);
-  const active = step < LINES.length ? LINES[step] : null;
-  const progress = Math.round((step / LINES.length) * 100);
+  const rendered = lines.slice(0, step);
+  const active = step < lines.length ? lines[step] : null;
+  const progress = Math.round((step / lines.length) * 100);
 
   const renderLine = (line: Line, key: number, barFill = BAR_STEPS) => {
     switch (line.kind) {

@@ -1,26 +1,32 @@
 import { MapPin, GraduationCap, Code, FileText } from 'lucide-react';
 import Image from 'next/image';
+import Pane from '@/components/Pane';
+import Reveal from '@/components/Reveal';
 
 export default function Education() {
   return (
     <div className="space-y-10 md:space-y-20 max-w-5xl mx-auto pb-6 md:pb-12">
       {/* Header */}
-      <section className="space-y-4 md:space-y-6 pt-4 md:pt-8">
-        <div className="space-y-6 max-w-3xl">
-          <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight text-body">Education</h1>
-          <p className="text-lg md:text-xl text-muted font-light leading-relaxed">
-            My academic path from computer science fundamentals to doctoral research on satellite and deep space communication, along with the professional certifications that support it.
-          </p>
-        </div>
+      <section className="space-y-4 pt-4 md:pt-8">
+        <p className="term-label">cat education.log</p>
+        <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight text-body glow">Education</h1>
+        <p className="text-muted leading-relaxed max-w-2xl">
+          Computer science fundamentals through to doctoral research on satellite and deep space
+          communication, plus the ICS security certifications behind the applied work.
+        </p>
       </section>
 
 
       {/* Education */}
-      <section id="education" className="space-y-4 md:space-y-8">
-        <div className="flex items-center gap-3 border-b border-line pb-4">
-          <GraduationCap className="w-8 h-8 text-accent" />
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-body">Education</h2>
-        </div>
+      <Pane
+        id="education"
+        index={1}
+        total={2}
+        path="~/education/degrees"
+        command="ls degrees/"
+        title="Degrees"
+        status="3 degrees"
+      >
         <div className="space-y-6 md:space-y-12 relative">
           {/* Glowing Timeline Line */}
           <div className="hidden md:block absolute left-[20%] top-2 bottom-2 w-px bg-gradient-to-b from-accent-dim to-transparent" />
@@ -196,14 +202,18 @@ export default function Education() {
             </div>
           </div>
         </div>
-      </section>
+      </Pane>
 
       {/* Certifications & Courses */}
-      <section id="certifications" className="space-y-4 md:space-y-8">
-        <div className="flex items-center gap-3 border-b border-line pb-4">
-          <Code className="w-8 h-8 text-accent" />
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-body">Certifications & Courses</h2>
-        </div>
+      <Pane
+        id="certifications"
+        index={2}
+        total={2}
+        path="~/education/certs"
+        command="ls certifications/"
+        title="Certifications"
+        status="ICS security"
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           {/* ICS Cybersecurity 201 */}
           <div className="interactive-card group bg-surface p-4 md:p-6 rounded-none border border-line shadow-sm hover:border-accent-dim flex flex-col gap-3 md:gap-4">
@@ -253,7 +263,7 @@ export default function Education() {
             </div>
           </div>
         </div>
-      </section>
+      </Pane>
     </div>
   );
 }

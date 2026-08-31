@@ -15,6 +15,7 @@ describe('Education Page', () => {
         render(<Education />)
 
         expect(screen.getByRole('heading', { level: 1, name: 'Education' })).toBeInTheDocument()
-        expect(screen.getByRole('heading', { level: 2, name: 'Certifications & Courses' })).toBeInTheDocument()
+        expect(screen.getByRole('heading', { level: 2, name: 'Degrees' })).toBeInTheDocument()
+        expect(screen.getByRole('heading', { level: 2, name: 'Certifications' })).toBeInTheDocument()
     })
 })

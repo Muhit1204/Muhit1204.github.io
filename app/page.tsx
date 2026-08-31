@@ -22,6 +22,7 @@ import {
 import Link from 'next/link';
 import HeroVisual from '@/components/HeroVisual';
 import ExperienceTimeline from '@/components/ExperienceTimeline';
+import CiteButton from '@/components/CiteButton';
 import Pane from '@/components/Pane';
 import Reveal from '@/components/Reveal';
 import ScrambleText from '@/components/ScrambleText';
@@ -30,6 +31,7 @@ import WindowModal from '@/components/WindowModal';
 import TerminalPrompt from '@/components/TerminalPrompt';
 import { experiences, projects, type Bullet, type ProjectIcon } from '@/lib/work';
 import { datasets, publications } from '@/lib/publications';
+import { toBibTeX } from '@/lib/bibtex';
 
 const skills = [
   { category: 'Languages', tools: ['Python', 'TypeScript', 'JavaScript', 'PHP', 'SQL'] },
@@ -129,9 +131,17 @@ function BulletList({ items }: { items: Bullet[] }) {
   );
 }
 
-function Details({ label, children }: { label: string; children: React.ReactNode }) {
+function Details({
+  label,
+  children,
+  open = false,
+}: {
+  label: string;
+  children: React.ReactNode;
+  open?: boolean;
+}) {
   return (
-    <details className="border-t border-line pt-3">
+    <details open={open} className="border-t border-line pt-3">
       <summary className="text-xs text-muted hover:text-accent transition-colors select-none">{label}</summary>
       <div className="pt-4">{children}</div>
     </details>
@@ -167,6 +177,10 @@ export default function Home() {
               </a>
               . Current research: <span className="text-accent">AI-enabled cybersecurity for LEO satellite communications</span> — plus the
               maritime LEO and deep-space link work the models are trained on.
+            </p>
+            <p className="text-sm text-body border-l-2 border-accent-dim pl-3">
+              Open to research collaborations and industry roles in satellite network security and applied
+              ML — from 2027, on completion of the D.E.
             </p>
             <div className="flex flex-wrap gap-2">
               {['LEO satellites', 'DTN', 'ICS/SCADA security', 'MITRE ATT&CK', 'ML forecasting', 'agentic AI'].map((tag) => (
@@ -263,10 +277,111 @@ export default function Home() {
 
       </Pane>
 
+      {/* Publications — full detail; the separate route was the same material twice. */}
+      <Pane
+        id="publications"
+        index={3}
+        total={8}
+        path="~/research"
+        command="cat publications.bib"
+        title="Publications"
+        status="2 papers, 1 dataset"
+      >
+        <TracedList footer={`${publications.length} papers`}>
+          {publications.map((pub) => (
+            <article key={pub.link} className="interactive-card rounded-none p-5 md:p-7 space-y-4">
+              <div className="flex items-start justify-between gap-4">
+                <h3 className="text-lg sm:text-xl font-bold text-body leading-snug [overflow-wrap:anywhere]">{pub.title}</h3>
+                <a
+                  href={pub.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 font-mono text-xs text-accent hover:underline shrink-0"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  IEEE
+                </a>
+              </div>
+
+              <div className="space-y-1.5 text-xs [overflow-wrap:anywhere]">
+                <p className="flex items-start gap-2 text-muted">
+                  <Users className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+                  <span>{pub.authors}</span>
+                </p>
+                <p className="flex items-start gap-2 text-accent">
+                  <FileText className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+                  <span>{pub.venue}</span>
+                </p>
+                {pub.location && (
+                  <p className="flex items-start gap-2 text-muted">
+                    <MapPin className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+                    <span>{pub.location}</span>
+                  </p>
+                )}
+                <p className="flex items-start gap-2 text-muted">
+                  <Calendar className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+                  <span>{pub.date}</span>
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                {pub.keywords.map((keyword) => (
+                  <Tag key={keyword}>{keyword}</Tag>
+                ))}
+              </div>
+
+              <Details label="abstract" open>
+                <p className="text-muted leading-relaxed">{pub.abstract}</p>
+              </Details>
+
+              <CiteButton bibtex={toBibTeX(pub)} />
+            </article>
+          ))}
+        </TracedList>
+
+        <SubHeading label="ls datasets/" title="Datasets" />
+        <TracedList>
+          {datasets.map((dataset) => (
+            <a
+              key={dataset.link}
+              href={dataset.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="interactive-card block rounded-none p-5 md:p-7 space-y-3"
+            >
+              <div className="flex items-start justify-between gap-4">
+                <h3 className="text-lg sm:text-xl font-bold text-body leading-snug [overflow-wrap:anywhere]">{dataset.title}</h3>
+                <ExternalLink className="w-4 h-4 text-muted shrink-0 mt-1" />
+              </div>
+              <p className="font-mono text-xs text-muted flex items-center gap-1.5">
+                <Database className="w-3.5 h-3.5" />
+                {dataset.date}
+              </p>
+              <p className="text-muted leading-relaxed">{dataset.description}</p>
+              <div className="flex flex-wrap gap-2">
+                {dataset.keywords.map((keyword) => (
+                  <Tag key={keyword}>{keyword}</Tag>
+                ))}
+              </div>
+            </a>
+          ))}
+        </TracedList>
+
+        <a
+          href="https://scholar.google.com/citations?view_op=list_works&hl=en&user=guXY-gQAAAAJ"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 font-mono text-sm text-muted hover:text-accent transition-colors"
+        >
+          <ExternalLink className="w-4 h-4" />
+          Google Scholar
+        </a>
+      </Pane>
+
       {/* Projects */}
       <Pane
         id="projects"
-        index={3}
+        index={4}
         total={8}
         path="~/work/projects"
         command="ls projects/"
@@ -275,7 +390,7 @@ export default function Home() {
       >
 
         <TracedList footer={`${projects.length} builds`}>
-          {projects.map((project) => {
+          {projects.map((project, projectIndex) => {
             const Icon = projectIcons[project.icon];
             return (
               <article key={project.title} className="interactive-card rounded-none p-5 md:p-7 space-y-4">
@@ -326,7 +441,7 @@ export default function Home() {
                 )}
 
                 {project.description.length > 1 && (
-                  <Details label={`${project.description.length - 1} more`}>
+                  <Details label={`${project.description.length - 1} more`} open={projectIndex === 0}>
                     <BulletList items={project.description.slice(1)} />
                   </Details>
                 )}
@@ -350,105 +465,6 @@ export default function Home() {
             );
           })}
         </TracedList>
-      </Pane>
-
-      {/* Publications — full detail; the separate route was the same material twice. */}
-      <Pane
-        id="publications"
-        index={4}
-        total={8}
-        path="~/research"
-        command="cat publications.bib"
-        title="Publications"
-        status="2 papers, 1 dataset"
-      >
-        <TracedList footer={`${publications.length} papers`}>
-          {publications.map((pub) => (
-            <article key={pub.link} className="interactive-card rounded-none p-5 md:p-7 space-y-4">
-              <div className="flex items-start justify-between gap-4">
-                <h3 className="text-lg sm:text-xl font-bold text-body leading-snug [overflow-wrap:anywhere]">{pub.title}</h3>
-                <a
-                  href={pub.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 font-mono text-xs text-accent hover:underline shrink-0"
-                >
-                  <ExternalLink className="w-3.5 h-3.5" />
-                  IEEE
-                </a>
-              </div>
-
-              <div className="space-y-1.5 text-xs [overflow-wrap:anywhere]">
-                <p className="flex items-start gap-2 text-muted">
-                  <Users className="w-3.5 h-3.5 shrink-0 mt-0.5" />
-                  <span>{pub.authors}</span>
-                </p>
-                <p className="flex items-start gap-2 text-accent">
-                  <FileText className="w-3.5 h-3.5 shrink-0 mt-0.5" />
-                  <span>{pub.venue}</span>
-                </p>
-                {pub.location && (
-                  <p className="flex items-start gap-2 text-muted">
-                    <MapPin className="w-3.5 h-3.5 shrink-0 mt-0.5" />
-                    <span>{pub.location}</span>
-                  </p>
-                )}
-                <p className="flex items-start gap-2 text-muted">
-                  <Calendar className="w-3.5 h-3.5 shrink-0 mt-0.5" />
-                  <span>{pub.date}</span>
-                </p>
-              </div>
-
-              <div className="flex flex-wrap gap-2">
-                {pub.keywords.map((keyword) => (
-                  <Tag key={keyword}>{keyword}</Tag>
-                ))}
-              </div>
-
-              <Details label="abstract">
-                <p className="text-muted leading-relaxed">{pub.abstract}</p>
-              </Details>
-            </article>
-          ))}
-        </TracedList>
-
-        <SubHeading label="ls datasets/" title="Datasets" />
-        <TracedList>
-          {datasets.map((dataset) => (
-            <a
-              key={dataset.link}
-              href={dataset.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="interactive-card block rounded-none p-5 md:p-7 space-y-3"
-            >
-              <div className="flex items-start justify-between gap-4">
-                <h3 className="text-lg sm:text-xl font-bold text-body leading-snug [overflow-wrap:anywhere]">{dataset.title}</h3>
-                <ExternalLink className="w-4 h-4 text-muted shrink-0 mt-1" />
-              </div>
-              <p className="font-mono text-xs text-muted flex items-center gap-1.5">
-                <Database className="w-3.5 h-3.5" />
-                {dataset.date}
-              </p>
-              <p className="text-muted leading-relaxed">{dataset.description}</p>
-              <div className="flex flex-wrap gap-2">
-                {dataset.keywords.map((keyword) => (
-                  <Tag key={keyword}>{keyword}</Tag>
-                ))}
-              </div>
-            </a>
-          ))}
-        </TracedList>
-
-        <a
-          href="https://scholar.google.com/citations?view_op=list_works&hl=en&user=guXY-gQAAAAJ"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 font-mono text-sm text-muted hover:text-accent transition-colors"
-        >
-          <ExternalLink className="w-4 h-4" />
-          Google Scholar
-        </a>
       </Pane>
 
       {/* Skills */}

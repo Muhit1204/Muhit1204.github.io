@@ -17,8 +17,8 @@ type Output = { text: string; tone?: 'muted' | 'accent' | 'warn' };
 const SECTIONS: { id: string; blurb: string }[] = [
   { id: 'about', blurb: 'who I am and what I work on' },
   { id: 'experience', blurb: 'roles, 2021 to now' },
-  { id: 'projects', blurb: '7 builds, source where public' },
   { id: 'publications', blurb: '2 IEEE papers, 1 dataset' },
+  { id: 'projects', blurb: '7 builds, source where public' },
   { id: 'skills', blurb: 'languages, ML, networking, security' },
   { id: 'log', blurb: 'news and awards, newest first' },
   { id: 'hobbies', blurb: 'away from the screen' },

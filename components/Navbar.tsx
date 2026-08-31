@@ -18,8 +18,8 @@ import SoundToggle from '@/components/SoundToggle';
 const sectionLinks = [
   { id: 'about', label: 'about' },
   { id: 'experience', label: 'experience' },
-  { id: 'projects', label: 'projects' },
   { id: 'publications', label: 'publications' },
+  { id: 'projects', label: 'projects' },
 ];
 
 const routeLinks = [{ href: '/education', label: 'education' }];

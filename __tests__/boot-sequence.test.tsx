@@ -22,6 +22,7 @@ function mockReducedMotion(reduced: boolean) {
 
 describe('BootSequence', () => {
     beforeEach(() => {
+        sessionStorage.clear()
         mockReducedMotion(false)
     })
 
@@ -57,14 +58,23 @@ describe('BootSequence', () => {
         })
     })
 
-    it('replays on a remount rather than remembering an earlier visit', async () => {
+    it('runs the full script on a first visit', async () => {
+        render(<BootSequence />)
+
+        // Lines appear on a timer, so wait for the firmware banner.
+        expect(await screen.findByText(/ORBITAL BIOS/)).toBeInTheDocument()
+    })
+
+    it('abbreviates on a return visit within the session', async () => {
         const first = render(<BootSequence />)
-        fireEvent.click(await screen.findByRole('button', { name: /skip/i }))
+        await screen.findByText(/ORBITAL BIOS/)
+        fireEvent.click(screen.getByRole('button', { name: /skip/i }))
         first.unmount()
 
         render(<BootSequence />)
 
-        expect(await screen.findByRole('button', { name: /skip/i })).toBeInTheDocument()
+        expect(await screen.findByText(/Resuming session/)).toBeInTheDocument()
+        expect(screen.queryByText(/ORBITAL BIOS/)).not.toBeInTheDocument()
     })
 
     it('renders nothing when the visitor prefers reduced motion', () => {

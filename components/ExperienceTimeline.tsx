@@ -35,7 +35,7 @@ function BulletList({ items }: { items: Bullet[] }) {
 export default function ExperienceTimeline({ experiences }: { experiences: Experience[] }) {
   return (
     <TracedList footer={`route traced · ${experiences.length} nodes`}>
-      {experiences.map((exp) => {
+      {experiences.map((exp, index) => {
         const isCurrent = exp.date.includes('Present');
 
         return (
@@ -70,7 +70,7 @@ export default function ExperienceTimeline({ experiences }: { experiences: Exper
             <BulletList items={exp.description.slice(0, 1)} />
 
             {exp.description.length > 1 && (
-              <details className="border-t border-line pt-3">
+              <details open={index === 0} className="border-t border-line pt-3">
                 <summary className="text-xs text-muted hover:text-accent transition-colors select-none">
                   {exp.description.length - 1} more
                 </summary>

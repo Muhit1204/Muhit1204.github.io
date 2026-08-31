@@ -6,9 +6,11 @@ import { useEffect, useRef, useState } from 'react';
  * Text that resolves out of noise whenever it scrolls into view — every
  * pass, not just the first, so moving back up the page re-runs it.
  *
- * The element renders its final text on the server and on first paint, so
- * the content is correct before any script runs and correct for anyone who
- * prefers reduced motion.
+ * The scrambling characters are decoration and must never reach assistive
+ * technology: this sits inside headings, and a screen reader landing
+ * mid-animation would otherwise announce `!<>-_\` and re-announce it on
+ * every scroll. So the real text is always present in an sr-only span and
+ * the animating span is hidden from the accessibility tree.
  */
 
 const NOISE = '!<>-_\\/[]{}—=+*^?#01ABCDEF';
@@ -72,7 +74,9 @@ export default function ScrambleText({
 
   return (
     <span ref={ref} className={className}>
-      {output}
+      {/* What a screen reader reads, and what search indexes: never noise. */}
+      <span className="sr-only">{text}</span>
+      <span aria-hidden="true">{output}</span>
     </span>
   );
 }
