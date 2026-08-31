@@ -166,3 +166,31 @@ span a:hover,
         display: none;
     }
 }
+
+/*
+ * Collapsed detail. Native <details> so it works without JavaScript and
+ * carries its own keyboard and screen-reader semantics; only the marker is
+ * restyled, into a terminal-looking [+] / [-].
+ */
+details > summary {
+    list-style: none;
+    cursor: pointer;
+}
+
+details > summary::-webkit-details-marker {
+    display: none;
+}
+
+details > summary::before {
+    content: '[+] ';
+    color: var(--accent);
+}
+
+details[open] > summary::before {
+    content: '[-] ';
+}
+
+details > summary:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}

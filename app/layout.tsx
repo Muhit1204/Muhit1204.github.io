@@ -6,6 +6,8 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import BackToTop from '@/components/BackToTop';
 import BootSequence from '@/components/BootSequence';
+import GlyphField from '@/components/GlyphField';
+import StatusTicker from '@/components/StatusTicker';
 
 // Inter carries body copy — the long research prose stays readable.
 const inter = Inter({
@@ -45,8 +47,25 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <style>{`.reveal { opacity: 1 !important; transform: none !important; }`}</style>
         </noscript>
 
-        {/* CRT scanlines over everything. Purely decorative, never interactive. */}
+        {/* Ambient layers. All decorative, all hidden from assistive tech. */}
+        <GlyphField />
         <div className="scanlines" aria-hidden="true" />
+
+        {/* HUD corners */}
+        <div
+          aria-hidden="true"
+          className="hidden xl:block fixed left-4 top-3 z-30 pointer-events-none text-[0.62rem] tracking-widest"
+        >
+          <span className="bg-accent text-bg px-1.5 py-0.5">CONNECTED — CDAC/SATLINK</span>
+        </div>
+        <div
+          aria-hidden="true"
+          className="hidden xl:block fixed right-24 bottom-7 z-30 pointer-events-none text-[0.62rem] tracking-widest text-muted"
+        >
+          <span className="text-accent">30.08N 94.13W</span> · PORT OF BEAUMONT
+        </div>
+
+        <StatusTicker />
 
         {/*
           Decorative overlay only. The page below renders from first paint so

@@ -55,7 +55,7 @@ const logEntries = [
   {
     date: 'May 2026',
     title: 'Completed MS and began doctoral research',
-    body: 'Conferred the Master of Science in Computer Science at Lamar University on May 15, 2026, and began the Doctor of Engineering in Electrical & Computer Engineering on May 26, 2026. The doctoral research extends the LEO satellite work toward interplanetary deep space communication and Delay Tolerant Networking.',
+    body: 'MS conferred May 15. D.E. in Electrical & Computer Engineering started May 26, extending the LEO work toward deep space and Delay Tolerant Networking.',
   },
   {
     date: 'April 2026',
@@ -63,26 +63,26 @@ const logEntries = [
     tag: 'award',
     logo: { src: '/aws-logo.png', alt: 'Amazon Web Services' },
     href: 'https://www.linkedin.com/posts/mdmuntasirhossain98_aws-amazonwebservices-artificialintelligence-activity-7444969525290381313-KE_I',
-    body: 'Awarded $35,000 in AWS credits for SatLink AI, a predictive connectivity intelligence platform for maritime and port operations, at the Small Business Development Center at Lamar University × Amazon Web Services competition. Recognized for bridging academic research with entrepreneurial commercialization for Gulf Coast port operators.',
+    body: '$35,000 in AWS credits for SatLink AI — predictive connectivity intelligence for maritime and port operations.',
   },
   {
     date: 'February 2026',
     title: 'IEEE ICAIC 2026 — paper accepted and presented',
     href: 'https://www.linkedin.com/posts/mdmuntasirhossain98_ieee-icaic-starlink-activity-7433392560175226880-bhmp',
-    body: 'Presented “A Dual-Task Prediction Model for Starlink Maritime Performance” at the 5th IEEE International Conference on AI in Cybersecurity, University of Houston.',
+    body: '“A Dual-Task Prediction Model for Starlink Maritime Performance” — 5th IEEE ICAIC, University of Houston.',
   },
   {
     date: '2019',
     title: "Dean's List Award",
     tag: 'award',
-    body: 'American International University-Bangladesh. Recognized for ranking among the top students in the Department of Computer Science, for consistent academic excellence and exemplary GPA achievement.',
+    body: 'American International University-Bangladesh — top of the Computer Science department.',
   },
   {
     date: '2017 – 2021',
     title: 'Dr. Anwarul Abedin Scholarship Grant',
     tag: 'award',
     logo: { src: '/optimized/aiub-logo-448.png', alt: 'American International University-Bangladesh' },
-    body: 'American International University-Bangladesh. Awarded for outstanding academic performance and consistent excellence during undergraduate studies in Computer Science and Engineering.',
+    body: 'American International University-Bangladesh — four-year merit scholarship.',
   },
 ];
 
@@ -130,6 +130,15 @@ function BulletList({ items }: { items: Bullet[] }) {
         </li>
       ))}
     </ul>
+  );
+}
+
+function Details({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <details className="border-t border-line pt-3">
+      <summary className="text-xs text-muted hover:text-accent transition-colors select-none">{label}</summary>
+      <div className="pt-4">{children}</div>
+    </details>
   );
 }
 
@@ -275,7 +284,12 @@ export default function Home() {
                 <span className="hidden sm:inline text-line">•</span>
                 <span className="font-mono text-xs text-muted">{exp.location}</span>
               </div>
-              <BulletList items={exp.description} />
+              <BulletList items={exp.description.slice(0, 1)} />
+              {exp.description.length > 1 && (
+                <Details label={`${exp.description.length - 1} more`}>
+                  <BulletList items={exp.description.slice(1)} />
+                </Details>
+              )}
             </article>
           ))}
         </div>
@@ -325,16 +339,23 @@ export default function Home() {
                   </div>
                 </div>
 
-                <BulletList items={project.description} />
+                <BulletList items={project.description.slice(0, 1)} />
 
-                {project.image && (
-                  <img
-                    src={project.image}
-                    alt={`${project.title} dashboard`}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full rounded-none border border-line"
-                  />
+                {(project.description.length > 1 || project.image) && (
+                  <Details label={project.description.length > 1 ? `${project.description.length - 1} more` : 'screenshot'}>
+                    <div className="space-y-4">
+                      {project.description.length > 1 && <BulletList items={project.description.slice(1)} />}
+                      {project.image && (
+                        <img
+                          src={project.image}
+                          alt={`${project.title} dashboard`}
+                          loading="lazy"
+                          decoding="async"
+                          className="w-full rounded-none border border-line"
+                        />
+                      )}
+                    </div>
+                  </Details>
                 )}
 
                 {(project.techStack || project.concepts) && (
@@ -405,13 +426,15 @@ export default function Home() {
                 </p>
               </div>
 
-              <p className="text-muted leading-relaxed">{pub.abstract}</p>
-
               <div className="flex flex-wrap gap-2">
                 {pub.keywords.map((keyword) => (
                   <Tag key={keyword}>{keyword}</Tag>
                 ))}
               </div>
+
+              <Details label="abstract">
+                <p className="text-muted leading-relaxed">{pub.abstract}</p>
+              </Details>
             </article>
           ))}
         </div>
