@@ -249,7 +249,7 @@ export default function TerminalPrompt() {
         <span className="ml-auto text-muted hidden sm:inline">bash</span>
       </div>
 
-      <div ref={logRef} className="p-4 h-64 md:h-80 overflow-y-auto text-xs md:text-sm leading-relaxed space-y-1">
+      <div ref={logRef} className="p-3 sm:p-4 h-48 sm:h-64 md:h-80 overflow-y-auto text-xs md:text-sm leading-relaxed space-y-1">
         {history.map((entry, i) => (
           <div key={i} className="space-y-0.5">
             {entry.prompt !== undefined && (
@@ -262,6 +262,7 @@ export default function TerminalPrompt() {
             {entry.lines.map((output, j) => (
               <p
                 key={j}
+                style={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}
                 className={
                   output.tone === 'accent'
                     ? 'text-accent'
@@ -295,6 +296,24 @@ export default function TerminalPrompt() {
             className="flex-1 min-w-0 bg-transparent border-0 outline-none text-body caret-accent"
           />
         </label>
+      </div>
+
+      {/* Touch keyboards have no Tab and no arrow history, so the common
+          commands are one tap away instead. */}
+      <div className="md:hidden flex flex-wrap gap-2 px-3 pb-3 border-t border-line pt-3">
+        {['help', 'ls', 'whoami', 'contact', 'clear'].map((command) => (
+          <button
+            key={command}
+            type="button"
+            onClick={() => {
+              audio.key();
+              run(command);
+            }}
+            className="px-2.5 py-1.5 border border-line text-[0.7rem] text-muted active:border-accent-dim active:text-accent"
+          >
+            {command}
+          </button>
+        ))}
       </div>
     </div>
   );

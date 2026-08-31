@@ -113,13 +113,13 @@ export default function Navbar() {
           <SoundToggle />
 
           <div className="flex items-center gap-3 text-muted">
-            <a href="https://github.com/Muhit1204" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="hover:text-accent transition-colors">
+            <a href="https://github.com/Muhit1204" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="hover:text-accent transition-colors p-2 -m-2">
               <Github className="w-4 h-4" />
             </a>
-            <a href="https://linkedin.com/in/mdmuntasirhossain98" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="hover:text-accent transition-colors">
+            <a href="https://linkedin.com/in/mdmuntasirhossain98" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="hover:text-accent transition-colors p-2 -m-2">
               <Linkedin className="w-4 h-4" />
             </a>
-            <a href="mailto:mhossain54@lamar.edu" aria-label="Email" className="hover:text-accent transition-colors">
+            <a href="mailto:mhossain54@lamar.edu" aria-label="Email" className="hover:text-accent transition-colors p-2 -m-2">
               <Mail className="w-4 h-4" />
             </a>
           </div>
@@ -140,7 +140,7 @@ export default function Navbar() {
           onClick={() => setIsOpen((open) => !open)}
           aria-expanded={isOpen}
           aria-label={isOpen ? 'Close menu' : 'Open menu'}
-          className="md:hidden text-muted hover:text-accent transition-colors"
+          className="md:hidden text-muted hover:text-accent transition-colors p-2 -mr-2"
         >
           {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
@@ -149,13 +149,13 @@ export default function Navbar() {
       {/* Mobile menu. A hash link does not fire a route change, so the menu
           has to be closed explicitly on click. */}
       {isOpen && (
-        <nav className="md:hidden border-t border-line bg-surface px-4 py-4 space-y-3 font-mono text-sm">
+        <nav className="md:hidden border-t border-line bg-surface px-4 py-3 space-y-1 text-sm max-h-[70vh] overflow-y-auto">
           {sectionLinks.map((link) => (
             <a
               key={link.id}
               href={hrefFor(link.id)}
               onClick={() => setIsOpen(false)}
-              className="block text-muted hover:text-accent transition-colors"
+              className="block py-2 text-muted hover:text-accent transition-colors"
             >
               {link.label}
             </a>
@@ -165,7 +165,7 @@ export default function Navbar() {
               key={link.href}
               href={link.href}
               onClick={() => setIsOpen(false)}
-              className="block text-muted hover:text-accent transition-colors"
+              className="block py-2 text-muted hover:text-accent transition-colors"
             >
               {link.label}
             </Link>
@@ -173,7 +173,7 @@ export default function Navbar() {
           <a
             href={hrefFor(contactLink.id)}
             onClick={() => setIsOpen(false)}
-            className="block text-muted hover:text-accent transition-colors"
+            className="block py-2 text-muted hover:text-accent transition-colors"
           >
             {contactLink.label}
           </a>

@@ -156,7 +156,7 @@ export default function Home() {
             <p className="text-sm text-muted">
               <span className="text-accent">$ </span>whoami
             </p>
-            <h1 className="text-3xl md:text-5xl font-bold text-body glow">
+            <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-body glow [overflow-wrap:anywhere]">
               Md Muntasir Hossain
               <span className="term-cursor" />
             </h1>
@@ -173,23 +173,23 @@ export default function Home() {
                 <Tag key={tag}>{tag}</Tag>
               ))}
             </div>
-            <div className="flex flex-wrap gap-3 pt-1 text-sm">
+            <div className="flex flex-wrap gap-2 sm:gap-3 pt-1 text-sm">
               <a
                 href="#projects"
-                className="px-4 py-2 border border-accent-dim text-accent hover:bg-accent/10 transition-colors"
+                className="flex-1 sm:flex-none text-center px-4 py-2.5 sm:py-2 border border-accent-dim text-accent hover:bg-accent/10 transition-colors"
               >
                 projects
               </a>
               <a
                 href="#publications"
-                className="px-4 py-2 border border-line text-muted hover:border-accent-dim hover:text-accent transition-colors"
+                className="flex-1 sm:flex-none text-center px-4 py-2.5 sm:py-2 border border-line text-muted hover:border-accent-dim hover:text-accent transition-colors"
               >
                 papers
               </a>
               <a
                 href="/resume.pdf"
                 download
-                className="px-4 py-2 border border-line text-muted hover:border-accent-dim hover:text-accent transition-colors"
+                className="flex-1 sm:flex-none text-center px-4 py-2.5 sm:py-2 border border-line text-muted hover:border-accent-dim hover:text-accent transition-colors"
               >
                 resume
               </a>
@@ -285,7 +285,7 @@ export default function Home() {
                   </span>
                   <div className="flex-1 space-y-2">
                     <div className="flex flex-wrap items-center gap-3">
-                      <h3 className="text-xl font-bold text-body leading-tight">{project.title}</h3>
+                      <h3 className="text-lg sm:text-xl font-bold text-body leading-tight [overflow-wrap:anywhere]">{project.title}</h3>
                       {project.isOngoing && (
                         <span className="font-mono text-[0.65rem] uppercase tracking-widest px-2 py-0.5 rounded border border-warn/40 text-warn">
                           ongoing
@@ -366,7 +366,7 @@ export default function Home() {
           {publications.map((pub) => (
             <article key={pub.link} className="interactive-card rounded-none p-5 md:p-7 space-y-4">
               <div className="flex items-start justify-between gap-4">
-                <h3 className="text-xl font-bold text-body leading-snug">{pub.title}</h3>
+                <h3 className="text-lg sm:text-xl font-bold text-body leading-snug [overflow-wrap:anywhere]">{pub.title}</h3>
                 <a
                   href={pub.link}
                   target="_blank"
@@ -378,7 +378,7 @@ export default function Home() {
                 </a>
               </div>
 
-              <div className="space-y-1.5 font-mono text-xs">
+              <div className="space-y-1.5 text-xs [overflow-wrap:anywhere]">
                 <p className="flex items-start gap-2 text-muted">
                   <Users className="w-3.5 h-3.5 shrink-0 mt-0.5" />
                   <span>{pub.authors}</span>
@@ -423,7 +423,7 @@ export default function Home() {
               className="interactive-card block rounded-none p-5 md:p-7 space-y-3"
             >
               <div className="flex items-start justify-between gap-4">
-                <h3 className="text-xl font-bold text-body leading-snug">{dataset.title}</h3>
+                <h3 className="text-lg sm:text-xl font-bold text-body leading-snug [overflow-wrap:anywhere]">{dataset.title}</h3>
                 <ExternalLink className="w-4 h-4 text-muted shrink-0 mt-1" />
               </div>
               <p className="font-mono text-xs text-muted flex items-center gap-1.5">
@@ -503,7 +503,7 @@ export default function Home() {
                   )}
                   {entry.href && <ExternalLink className="w-4 h-4 text-muted ml-auto" />}
                 </div>
-                <h3 className="text-lg font-bold text-body">{entry.title}</h3>
+                <h3 className="text-base sm:text-lg font-bold text-body [overflow-wrap:anywhere]">{entry.title}</h3>
                 <div className="flex items-start gap-4">
                   {entry.logo && (
                     <img
@@ -578,7 +578,7 @@ export default function Home() {
             <p className="text-muted">
               <span className="text-accent">$ </span>cat contacts
             </p>
-            <div className="grid sm:grid-cols-[7rem_1fr] gap-x-6 gap-y-2">
+            <div className="grid grid-cols-1 sm:grid-cols-[7rem_1fr] gap-x-6 gap-y-1 sm:gap-y-2">
               <span className="text-muted">work</span>
               <a href="mailto:mhossain54@lamar.edu" className="text-body hover:text-accent transition-colors break-all">
                 mhossain54@lamar.edu
@@ -604,7 +604,7 @@ export default function Home() {
               href="https://github.com/Muhit1204"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-none border border-line text-muted hover:border-accent-dim hover:text-accent transition-colors"
+              className="inline-flex items-center gap-2 mt-4 px-4 py-2.5 rounded-none border border-line text-muted hover:border-accent-dim hover:text-accent transition-colors"
             >
               <Github className="w-4 h-4" />
               GitHub
@@ -613,14 +613,14 @@ export default function Home() {
               href="https://linkedin.com/in/mdmuntasirhossain98"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-none border border-line text-muted hover:border-accent-dim hover:text-accent transition-colors"
+              className="inline-flex items-center gap-2 mt-4 px-4 py-2.5 rounded-none border border-line text-muted hover:border-accent-dim hover:text-accent transition-colors"
             >
               <Linkedin className="w-4 h-4" />
               LinkedIn
             </a>
             <a
               href="mailto:mhossain54@lamar.edu"
-              className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-none border border-accent-dim text-accent hover:bg-accent/10 transition-colors"
+              className="inline-flex items-center gap-2 mt-4 px-4 py-2.5 rounded-none border border-accent-dim text-accent hover:bg-accent/10 transition-colors"
             >
               <Mail className="w-4 h-4" />
               Email me

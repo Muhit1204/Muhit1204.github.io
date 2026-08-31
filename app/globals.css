@@ -26,6 +26,9 @@
 /* Everything is monospace. This is a console, not a magazine. */
 html {
     font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    /* `clip` rather than `hidden`: it stops sideways overhang without making
+       the root a scroll container, which would break the sticky header. */
+    overflow-x: clip;
 }
 
 h1,

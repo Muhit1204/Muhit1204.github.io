@@ -7,7 +7,7 @@ export default function Education() {
       {/* Header */}
       <section className="space-y-4 md:space-y-6 pt-4 md:pt-8">
         <div className="space-y-6 max-w-3xl">
-          <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-body">Education</h1>
+          <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight text-body">Education</h1>
           <p className="text-lg md:text-xl text-muted font-light leading-relaxed">
             My academic path from computer science fundamentals to doctoral research on satellite and deep space communication, along with the professional certifications that support it.
           </p>
@@ -19,24 +19,24 @@ export default function Education() {
       <section id="education" className="space-y-4 md:space-y-8">
         <div className="flex items-center gap-3 border-b border-line pb-4">
           <GraduationCap className="w-8 h-8 text-accent" />
-          <h2 className="text-3xl font-bold tracking-tight text-body">Education</h2>
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-body">Education</h2>
         </div>
         <div className="space-y-6 md:space-y-12 relative">
           {/* Glowing Timeline Line */}
           <div className="hidden md:block absolute left-[20%] top-2 bottom-2 w-px bg-gradient-to-b from-accent-dim to-transparent" />
 
           {/* Doctoral Degree */}
-          <div className="relative pl-8 md:pl-0">
+          <div className="relative pl-6 sm:pl-8 md:pl-0">
             <div className="md:grid md:grid-cols-5 md:gap-8 items-start">
               <div className="hidden md:block col-span-1 pt-1 text-right pr-8">
                 <p className="text-sm font-bold text-accent uppercase tracking-wider">2026 – Present</p>
               </div>
               <div className="col-span-4 relative group">
                 {/* Timeline dot */}
-                <div className="absolute -left-8 md:-left-[2.4rem] top-1.5 w-3 h-3 bg-surface-2 rounded-full ring-4 ring-bg group-hover:scale-150 group-hover:bg-surface-2 transition-all duration-300 z-10" />
+                <div className="absolute -left-6 sm:-left-8 md:-left-[2.4rem] top-1.5 w-3 h-3 bg-surface-2 rounded-full ring-4 ring-bg group-hover:scale-150 group-hover:bg-surface-2 transition-all duration-300 z-10" />
 
-                <div className="interactive-card bg-surface p-6 md:p-8 rounded-none border border-line shadow-sm hover:border-accent-dim">
-                  <h3 className="text-2xl font-bold text-body mb-2 group-hover:text-accent transition-colors">Doctor of Engineering (D.E.) in Electrical &amp; Computer Engineering</h3>
+                <div className="interactive-card bg-surface p-4 sm:p-6 md:p-8 rounded-none border border-line shadow-sm hover:border-accent-dim">
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-body mb-2 group-hover:text-accent transition-colors [overflow-wrap:anywhere]">Doctor of Engineering (D.E.) in Electrical &amp; Computer Engineering</h3>
                   <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-muted mb-6 font-medium">
                     <span className="flex items-center gap-2 text-body">
                       <GraduationCap className="w-4 h-4" />
@@ -69,17 +69,17 @@ export default function Education() {
           </div>
 
           {/* Master's Degree */}
-          <div className="relative pl-8 md:pl-0">
+          <div className="relative pl-6 sm:pl-8 md:pl-0">
             <div className="md:grid md:grid-cols-5 md:gap-8 items-start">
               <div className="hidden md:block col-span-1 pt-1 text-right pr-8">
                 <p className="text-sm font-bold text-accent uppercase tracking-wider">2023 – 2026</p>
               </div>
               <div className="col-span-4 relative group">
                 {/* Timeline dot */}
-                <div className="absolute -left-8 md:-left-[2.4rem] top-1.5 w-3 h-3 bg-surface-2 rounded-full ring-4 ring-bg group-hover:scale-150 group-hover:bg-surface-2 transition-all duration-300 z-10" />
+                <div className="absolute -left-6 sm:-left-8 md:-left-[2.4rem] top-1.5 w-3 h-3 bg-surface-2 rounded-full ring-4 ring-bg group-hover:scale-150 group-hover:bg-surface-2 transition-all duration-300 z-10" />
 
-                <div className="interactive-card bg-surface p-6 md:p-8 rounded-none border border-line shadow-sm hover:border-accent-dim">
-                  <h3 className="text-2xl font-bold text-body mb-2 group-hover:text-accent transition-colors">Masters of Science (MS) in Computer Science</h3>
+                <div className="interactive-card bg-surface p-4 sm:p-6 md:p-8 rounded-none border border-line shadow-sm hover:border-accent-dim">
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-body mb-2 group-hover:text-accent transition-colors [overflow-wrap:anywhere]">Masters of Science (MS) in Computer Science</h3>
                   <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-muted mb-6 font-medium">
                     <span className="flex items-center gap-2 text-body">
                       <GraduationCap className="w-4 h-4" />
@@ -135,17 +135,17 @@ export default function Education() {
           </div>
 
           {/* Bachelor's Degree */}
-          <div className="relative pl-8 md:pl-0">
+          <div className="relative pl-6 sm:pl-8 md:pl-0">
             <div className="md:grid md:grid-cols-5 md:gap-8 items-start">
               <div className="hidden md:block col-span-1 pt-1 text-right pr-8">
                 <p className="text-sm font-bold text-muted uppercase tracking-wider">2017 – 2021</p>
               </div>
               <div className="col-span-4 relative group">
                 {/* Timeline dot */}
-                <div className="absolute -left-8 md:-left-[2.4rem] top-1.5 w-3 h-3 bg-accent rounded-full ring-4 ring-bg group-hover:scale-150 transition-all duration-300 z-10" />
+                <div className="absolute -left-6 sm:-left-8 md:-left-[2.4rem] top-1.5 w-3 h-3 bg-accent rounded-full ring-4 ring-bg group-hover:scale-150 transition-all duration-300 z-10" />
 
-                <div className="interactive-card bg-surface p-6 md:p-8 rounded-none border border-line shadow-sm hover:border-accent-dim">
-                  <h3 className="text-2xl font-bold text-body mb-2 group-hover:text-accent transition-colors">Bachelors of Science (B.Sc.) in Computer Science and Engineering</h3>
+                <div className="interactive-card bg-surface p-4 sm:p-6 md:p-8 rounded-none border border-line shadow-sm hover:border-accent-dim">
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-body mb-2 group-hover:text-accent transition-colors [overflow-wrap:anywhere]">Bachelors of Science (B.Sc.) in Computer Science and Engineering</h3>
                   <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-muted mb-6 font-medium">
                     <span className="flex items-center gap-2 text-body">
                       <GraduationCap className="w-4 h-4" />
@@ -202,7 +202,7 @@ export default function Education() {
       <section id="certifications" className="space-y-4 md:space-y-8">
         <div className="flex items-center gap-3 border-b border-line pb-4">
           <Code className="w-8 h-8 text-accent" />
-          <h2 className="text-3xl font-bold tracking-tight text-body">Certifications & Courses</h2>
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-body">Certifications & Courses</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           {/* ICS Cybersecurity 201 */}
@@ -216,7 +216,7 @@ export default function Education() {
               />
             </div>
             <div className="flex justify-between items-start gap-2">
-              <h3 className="text-xl font-bold text-body group-hover:text-accent transition-colors">Intermediate Cybersecurity for ICS (201)</h3>
+              <h3 className="text-base sm:text-xl font-bold text-body group-hover:text-accent transition-colors [overflow-wrap:anywhere]">Intermediate Cybersecurity for ICS (201)</h3>
               <span className="text-xs font-bold text-muted bg-surface-2 px-2 py-1 rounded-none uppercase tracking-wider shrink-0">CISA</span>
             </div>
           </div>
@@ -232,7 +232,7 @@ export default function Education() {
               />
             </div>
             <div className="flex justify-between items-start gap-2">
-              <h3 className="text-xl font-bold text-body group-hover:text-accent transition-colors">Intermediate Cybersecurity for ICS (202)</h3>
+              <h3 className="text-base sm:text-xl font-bold text-body group-hover:text-accent transition-colors [overflow-wrap:anywhere]">Intermediate Cybersecurity for ICS (202)</h3>
               <span className="text-xs font-bold text-muted bg-surface-2 px-2 py-1 rounded-none uppercase tracking-wider shrink-0">CISA</span>
             </div>
           </div>
@@ -248,7 +248,7 @@ export default function Education() {
               />
             </div>
             <div className="flex justify-between items-start gap-2">
-              <h3 className="text-xl font-bold text-body group-hover:text-accent transition-colors">CyberStrike Nemesis</h3>
+              <h3 className="text-base sm:text-xl font-bold text-body group-hover:text-accent transition-colors [overflow-wrap:anywhere]">CyberStrike Nemesis</h3>
               <span className="text-xs font-bold text-muted bg-surface-2 px-2 py-1 rounded-none uppercase tracking-wider shrink-0">DOE</span>
             </div>
           </div>

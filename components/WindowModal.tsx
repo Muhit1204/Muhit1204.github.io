@@ -44,6 +44,17 @@ export default function WindowModal({
   const closeRef = useRef<HTMLButtonElement>(null);
   const opener = useRef<HTMLElement | null>(null);
   const drag = useRef<{ startX: number; startY: number; originX: number; originY: number } | null>(null);
+  const [draggable, setDraggable] = useState(false);
+
+  // The window fills the screen on a phone, where there is nowhere to drag it
+  // to and the gesture would fight the page scroll.
+  useEffect(() => {
+    const query = window.matchMedia('(min-width: 768px)');
+    const sync = () => setDraggable(query.matches);
+    sync();
+    query.addEventListener('change', sync);
+    return () => query.removeEventListener('change', sync);
+  }, []);
 
   const show = useCallback(() => {
     opener.current = document.activeElement as HTMLElement;
@@ -99,6 +110,7 @@ export default function WindowModal({
   /* Dragging by the title bar. Pointer capture keeps the moves coming even
      when the cursor leaves the bar mid-drag. */
   const onPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!draggable) return;
     if ((event.target as HTMLElement).closest('button, a')) return;
     event.currentTarget.setPointerCapture(event.pointerId);
     drag.current = { startX: event.clientX, startY: event.clientY, originX: offset.x, originY: offset.y };
@@ -119,22 +131,22 @@ export default function WindowModal({
   };
 
   const modal = (
-    <div className="fixed inset-0 z-[90] flex items-center justify-center p-4 bg-bg/85" onClick={hide}>
+    <div className="fixed inset-0 z-[90] flex items-center justify-center md:p-4 bg-bg/95 md:bg-bg/85" onClick={hide}>
       <div
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-label={title}
         onClick={(event) => event.stopPropagation()}
-        style={{ transform: `translate(${offset.x}px, ${offset.y}px)` }}
-        className="w-full max-w-5xl h-[85vh] flex flex-col border border-accent-dim bg-surface shadow-[0_0_40px_rgba(0,255,156,0.15)]"
+        style={draggable ? { transform: `translate(${offset.x}px, ${offset.y}px)` } : undefined}
+        className="w-full h-full md:h-[85vh] md:max-w-5xl flex flex-col md:border border-accent-dim bg-surface md:shadow-[0_0_40px_rgba(0,255,156,0.15)]"
       >
         <div
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={endDrag}
           onPointerCancel={endDrag}
-          className="flex items-center gap-3 px-3 py-2 border-b border-line bg-surface-2 text-xs shrink-0 cursor-move touch-none select-none"
+          className={`flex items-center gap-3 px-3 py-2.5 border-b border-line bg-surface-2 text-xs shrink-0 select-none ${draggable ? 'cursor-move touch-none' : ''}`}
         >
           <span className="text-accent">●</span>
           <span className="text-muted truncate">{title}</span>
@@ -143,7 +155,7 @@ export default function WindowModal({
               href={src}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted hover:text-accent transition-colors"
+              className="text-muted hover:text-accent transition-colors py-1"
             >
               open in tab
             </a>
@@ -152,9 +164,9 @@ export default function WindowModal({
               type="button"
               onClick={hide}
               aria-label="Close window"
-              className="text-muted hover:text-danger transition-colors"
+              className="text-muted hover:text-danger transition-colors p-1 -m-1"
             >
-              <X className="w-4 h-4" />
+              <X className="w-5 h-5 md:w-4 md:h-4" />
             </button>
           </div>
         </div>
@@ -171,7 +183,8 @@ export default function WindowModal({
         </div>
 
         <div className="px-3 py-1.5 border-t border-line bg-surface-2 text-[0.65rem] text-muted shrink-0">
-          <span className="text-accent">esc</span> to close · drag the title bar to move
+          <span className="text-accent">esc</span> to close
+          {draggable && ' · drag the title bar to move'}
         </div>
       </div>
     </div>

@@ -50,7 +50,7 @@ function TracedNode({ index, children }: { index: number; children: ReactNode })
   return (
     <div
       ref={ref}
-      className={`relative pl-10 md:pl-14 transition-opacity duration-500 ${active ? 'opacity-100' : 'opacity-30'}`}
+      className={`relative pl-8 sm:pl-10 md:pl-14 transition-opacity duration-500 ${active ? 'opacity-100' : 'opacity-30'}`}
     >
       <span
         aria-hidden="true"
@@ -127,7 +127,7 @@ export default function TracedList({
       ))}
 
       {footer && (
-        <p aria-hidden="true" className="relative pl-10 md:pl-14 text-[0.65rem] text-muted">
+        <p aria-hidden="true" className="relative pl-8 sm:pl-10 md:pl-14 text-[0.65rem] text-muted">
           <span className="text-accent">◆</span> {footer}
         </p>
       )}

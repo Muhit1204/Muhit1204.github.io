@@ -7,12 +7,19 @@ import { useEffect, useRef } from 'react';
  * "there is a system running here" layer. Canvas rather than DOM: a few
  * hundred characters as elements would be a few hundred nodes to lay out.
  *
- * Cost control: it repaints at 30fps, not 60, and pauses with the tab.
+ * Cost control: it repaints well under 60fps and pauses with the tab.
  */
 
 const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/\\|+×÷◇◆○●□■△▽<>[]{}·:;=~^*';
-const DENSITY = 1 / 8000; // glyphs per square pixel
-const FPS = 30;
+
+/*
+ * Phones get a thinner, slower field. The effect is ambience either way, and
+ * a full-rate canvas behind a scrolling page is the kind of thing that heats
+ * a handset and flattens its battery for no benefit.
+ */
+const DESKTOP = { density: 1 / 8000, fps: 30 };
+const MOBILE = { density: 1 / 16000, fps: 15 };
+const MOBILE_MAX_WIDTH = 768;
 
 type Glyph = {
   x: number;
@@ -38,13 +45,18 @@ export default function GlyphField() {
     let width = 0;
     let height = 0;
     let glyphs: Glyph[] = [];
-    const ratio = Math.min(window.devicePixelRatio, 2);
+    let profile = DESKTOP;
+    // A phone's DPR is often 3; rasterising the whole viewport at 3x for a
+    // background is wasted work, so cap lower on small screens.
+    const small = window.innerWidth <= MOBILE_MAX_WIDTH;
+    const ratio = Math.min(window.devicePixelRatio, small ? 1.5 : 2);
 
     const randomChar = () => CHARS[Math.floor(Math.random() * CHARS.length)];
 
     const build = () => {
       width = window.innerWidth;
       height = window.innerHeight;
+      profile = width <= MOBILE_MAX_WIDTH ? MOBILE : DESKTOP;
       canvas.width = width * ratio;
       canvas.height = height * ratio;
       canvas.style.width = `${width}px`;
@@ -53,7 +65,7 @@ export default function GlyphField() {
       context.font = '13px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
       context.textBaseline = 'top';
 
-      const count = Math.round(width * height * DENSITY);
+      const count = Math.round(width * height * profile.density);
       glyphs = Array.from({ length: count }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
@@ -81,11 +93,10 @@ export default function GlyphField() {
 
     let frame = 0;
     let last = 0;
-    const interval = 1000 / FPS;
 
     const draw = (now: number) => {
       frame = requestAnimationFrame(draw);
-      if (!running || now - last < interval) return;
+      if (!running || now - last < 1000 / profile.fps) return;
       last = now;
 
       context.clearRect(0, 0, width, height);

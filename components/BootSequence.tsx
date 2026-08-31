@@ -207,7 +207,7 @@ export default function BootSequence() {
         );
       case 'svc':
         return (
-          <p key={key} className="flex gap-3 text-muted">
+          <p key={key} className="flex gap-2 sm:gap-3 text-muted">
             <span className={line.status === 'warn' ? 'text-warn' : 'text-accent'}>
               [{line.status === 'warn' ? 'WARN' : ' OK '}]
             </span>
@@ -245,9 +245,9 @@ export default function BootSequence() {
           transition={{ duration: 0.4, ease: 'easeInOut' }}
           className="fixed inset-0 z-[100] bg-bg flex flex-col"
         >
-          <div ref={scrollRef} className="flex-1 overflow-hidden px-4 py-6 md:px-10 md:py-10">
+          <div ref={scrollRef} className="flex-1 overflow-hidden px-3 py-5 md:px-10 md:py-10">
             {/* Decorative: everything here is on the page underneath. */}
-            <div aria-hidden="true" className="max-w-3xl mx-auto text-xs md:text-sm leading-relaxed space-y-0.5">
+            <div aria-hidden="true" className="max-w-3xl mx-auto text-[0.68rem] sm:text-xs md:text-sm leading-relaxed space-y-0.5">
               {rendered.map((line, i) => renderLine(line, i))}
 
               {active?.kind === 'cmd' && (
@@ -263,7 +263,7 @@ export default function BootSequence() {
           </div>
 
           {/* Fixed footer so the skip control never scrolls away. */}
-          <div className="border-t border-line px-4 py-3 md:px-10 flex items-center gap-4 text-xs">
+          <div className="border-t border-line px-3 py-3 md:px-10 flex items-center gap-3 sm:gap-4 text-xs">
             <span aria-hidden="true" className="text-muted tabular-nums hidden sm:inline">
               boot {progress}%
             </span>
@@ -277,7 +277,7 @@ export default function BootSequence() {
               ref={skipRef}
               type="button"
               onClick={dismiss}
-              className="border border-line px-3 py-1.5 uppercase tracking-widest text-muted transition-colors hover:border-accent-dim hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              className="border border-line px-4 py-2.5 sm:py-1.5 uppercase tracking-widest text-muted transition-colors shrink-0 hover:border-accent-dim hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             >
               Skip <span className="hidden sm:inline">— esc</span>
             </button>
