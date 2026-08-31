@@ -60,8 +60,8 @@ export default function Publications() {
       <motion.div variants={itemVariants} className="space-y-4 pt-4 md:pt-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-4">
-            <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-slate-900">Research & Publications</h1>
-            <p className="text-xl text-slate-600 font-light leading-relaxed max-w-3xl">
+            <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-body">Research & Publications</h1>
+            <p className="text-xl text-muted font-light leading-relaxed max-w-3xl">
               A collection of my academic research, conference proceedings, and thesis work focused on satellite communications and network resilience.
             </p>
           </div>
@@ -69,7 +69,7 @@ export default function Publications() {
             href="https://scholar.google.com/citations?view_op=list_works&hl=en&user=guXY-gQAAAAJ"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-slate-900 text-white px-6 py-3 rounded-xl font-medium hover:bg-slate-800 transition-colors shadow-sm hover:shadow-md shrink-0 w-fit"
+            className="inline-flex items-center gap-2 border border-accent-dim text-accent px-6 py-3 rounded-xl font-mono text-sm hover:bg-accent/10 transition-colors shrink-0 w-fit"
           >
             <ExternalLink className="w-4 h-4" />
             View Google Scholar
@@ -79,15 +79,15 @@ export default function Publications() {
 
 
       <motion.section variants={itemVariants} className="space-y-4 md:space-y-8">
-        <div className="flex items-center gap-3 border-b border-slate-200 pb-4">
-          <FileText className="w-8 h-8 text-indigo-600" />
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900">Published Papers</h2>
+        <div className="flex items-center gap-3 border-b border-line pb-4">
+          <FileText className="w-8 h-8 text-accent" />
+          <h2 className="text-3xl font-bold tracking-tight text-body">Published Papers</h2>
         </div>
         <div className="space-y-4 md:space-y-8">
           {publications.map((pub, index) => (
-            <article key={index} className="interactive-card group bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm hover:border-indigo-300">
+            <article key={index} className="interactive-card group bg-surface p-6 md:p-8 rounded-3xl border border-line shadow-sm hover:border-accent-dim">
               <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-4">
-                <h3 className="text-2xl font-bold text-slate-900 leading-tight group-hover:text-indigo-700 transition-colors">
+                <h3 className="text-2xl font-bold text-body leading-tight group-hover:text-accent transition-colors">
                   {pub.title}
                 </h3>
                 <div className="flex flex-col sm:flex-row gap-3 mt-4 sm:mt-0">
@@ -96,7 +96,7 @@ export default function Publications() {
                       href={pub.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-4 py-2 bg-indigo-50 text-indigo-700 text-sm font-bold rounded-xl border border-indigo-100 hover:bg-indigo-100 hover:border-indigo-200 transition-all shrink-0 uppercase tracking-wider"
+                      className="flex items-center gap-2 px-4 py-2 bg-surface-2 text-accent text-sm font-bold rounded-xl border border-accent-dim hover:bg-surface-2 hover:border-accent-dim transition-all shrink-0 uppercase tracking-wider"
                     >
                       <ExternalLink className="w-4 h-4" />
                       <span className="hidden sm:inline">View Paper</span>
@@ -105,22 +105,22 @@ export default function Publications() {
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center gap-y-2 gap-x-6 text-sm text-slate-500 mb-6 font-medium">
+              <div className="flex flex-wrap items-center gap-y-2 gap-x-6 text-sm text-muted mb-6 font-medium">
                 <div className="flex items-center gap-2">
-                  <Users className="w-4 h-4 text-slate-400 group-hover:text-indigo-500 transition-colors" />
-                  <span className="text-slate-700">{pub.authors}</span>
+                  <Users className="w-4 h-4 text-muted group-hover:text-accent transition-colors" />
+                  <span className="text-body">{pub.authors}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <FileText className="w-4 h-4 text-slate-400 group-hover:text-indigo-500 transition-colors" />
+                  <FileText className="w-4 h-4 text-muted group-hover:text-accent transition-colors" />
                   <span className="italic">{pub.venue}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-slate-400 group-hover:text-indigo-500 transition-colors" />
+                  <Calendar className="w-4 h-4 text-muted group-hover:text-accent transition-colors" />
                   <span>{pub.date}</span>
                 </div>
                 {pub.location && (
                   <div className="flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-slate-400 group-hover:text-indigo-500 transition-colors" />
+                    <MapPin className="w-4 h-4 text-muted group-hover:text-accent transition-colors" />
                     <span>{pub.location}</span>
                   </div>
                 )}
@@ -128,17 +128,17 @@ export default function Publications() {
 
               <div className="space-y-4">
                 <div>
-                  <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-2">Abstract</h4>
-                  <p className="text-slate-600 leading-relaxed">
+                  <h4 className="text-sm font-bold text-body uppercase tracking-wider mb-2">Abstract</h4>
+                  <p className="text-muted leading-relaxed">
                     {pub.abstract}
                   </p>
                 </div>
 
                 <div>
-                  <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-2">Keywords</h4>
+                  <h4 className="text-sm font-bold text-body uppercase tracking-wider mb-2">Keywords</h4>
                   <div className="flex flex-wrap gap-2">
                     {pub.keywords.map(keyword => (
-                      <span key={keyword} className="px-3 py-1 bg-slate-50 text-slate-600 text-xs font-bold rounded-md border border-slate-200 group-hover:border-indigo-200 group-hover:text-indigo-700 transition-colors">
+                      <span key={keyword} className="px-3 py-1 bg-surface-2 text-muted text-xs font-bold rounded-md border border-line group-hover:border-accent-dim group-hover:text-accent transition-colors">
                         {keyword}
                       </span>
                     ))}
@@ -152,48 +152,48 @@ export default function Publications() {
 
       {/* Datasets Section */}
       <motion.section variants={itemVariants} className="space-y-4 md:space-y-8">
-        <div className="flex items-center gap-3 border-b border-slate-200 pb-4">
-          <Database className="w-8 h-8 text-emerald-600" />
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900">Datasets</h2>
+        <div className="flex items-center gap-3 border-b border-line pb-4">
+          <Database className="w-8 h-8 text-accent" />
+          <h2 className="text-3xl font-bold tracking-tight text-body">Datasets</h2>
         </div>
         <div className="space-y-4 md:space-y-8">
           {datasets.map((dataset, index) => (
-            <article key={index} className="interactive-card group bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm hover:border-emerald-300">
+            <article key={index} className="interactive-card group bg-surface p-6 md:p-8 rounded-3xl border border-line shadow-sm hover:border-accent-dim">
               <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-4">
-                <h3 className="text-2xl font-bold text-slate-900 leading-tight group-hover:text-emerald-700 transition-colors">
+                <h3 className="text-2xl font-bold text-body leading-tight group-hover:text-accent transition-colors">
                   {dataset.title}
                 </h3>
                 <a
                   href={dataset.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-700 text-sm font-bold rounded-xl border border-emerald-100 hover:bg-emerald-100 hover:border-emerald-200 transition-all shrink-0 uppercase tracking-wider"
+                  className="flex items-center gap-2 px-4 py-2 bg-surface-2 text-accent text-sm font-bold rounded-xl border border-accent-dim hover:bg-surface-2 hover:border-accent-dim transition-all shrink-0 uppercase tracking-wider"
                 >
                   <Database className="w-4 h-4" />
                   <span className="hidden sm:inline">View Dataset</span>
                 </a>
               </div>
 
-              <div className="flex flex-wrap items-center gap-y-2 gap-x-6 text-sm text-slate-500 mb-6 font-medium">
+              <div className="flex flex-wrap items-center gap-y-2 gap-x-6 text-sm text-muted mb-6 font-medium">
                 <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-slate-400 group-hover:text-emerald-500 transition-colors" />
+                  <Calendar className="w-4 h-4 text-muted group-hover:text-accent transition-colors" />
                   <span>{dataset.date}</span>
                 </div>
               </div>
 
               <div className="space-y-4">
                 <div>
-                  <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-2">Description</h4>
-                  <p className="text-slate-600 leading-relaxed">
+                  <h4 className="text-sm font-bold text-body uppercase tracking-wider mb-2">Description</h4>
+                  <p className="text-muted leading-relaxed">
                     {dataset.description}
                   </p>
                 </div>
 
                 <div>
-                  <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-2">Keywords</h4>
+                  <h4 className="text-sm font-bold text-body uppercase tracking-wider mb-2">Keywords</h4>
                   <div className="flex flex-wrap gap-2">
                     {dataset.keywords.map(keyword => (
-                      <span key={keyword} className="px-3 py-1 bg-slate-50 text-slate-600 text-xs font-bold rounded-md border border-slate-200 group-hover:border-emerald-200 group-hover:text-emerald-700 transition-colors">
+                      <span key={keyword} className="px-3 py-1 bg-surface-2 text-muted text-xs font-bold rounded-md border border-line group-hover:border-accent-dim group-hover:text-accent transition-colors">
                         {keyword}
                       </span>
                     ))}

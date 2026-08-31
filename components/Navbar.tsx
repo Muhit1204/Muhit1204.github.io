@@ -1,110 +1,170 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Github, Linkedin, Mail, Menu, X, Download } from 'lucide-react';
 
-const navLinks = [
-  { href: '/education', label: 'Education' },
-  { href: '/experience', label: 'Experience' },
-  { href: '/publications', label: 'Publications' },
-  { href: '/projects', label: 'Projects' },
-  { href: '/contact', label: 'Contact' },
+/*
+ * The site is one page with anchors, so nav entries point at section ids.
+ * From a sub-route a bare `#work` resolves against that route and does
+ * nothing, hence the `/#work` form built in `hrefFor` below.
+ */
+const sectionLinks = [
+  { id: 'about', label: 'about' },
+  { id: 'research', label: 'research' },
+  { id: 'work', label: 'work' },
+  { id: 'publications', label: 'publications' },
+  { id: 'contact', label: 'contact' },
+];
+
+const routeLinks = [
+  { href: '/education', label: 'education' },
+  { href: '/publications', label: 'papers' },
 ];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [active, setActive] = useState<string | null>(null);
+  const pathname = usePathname();
+  const onHome = pathname === '/';
+
+  const hrefFor = (id: string) => (onHome ? `#${id}` : `/#${id}`);
+  // Highlighting only means anything on the single scrolling page.
+  const activeId = onHome ? active : null;
+
+  // Scroll-spy: the topmost section intersecting the band below the header wins.
+  useEffect(() => {
+    if (!onHome) return;
+
+    const sections = sectionLinks
+      .map((link) => document.getElementById(link.id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible[0]) setActive(visible[0].target.id);
+      },
+      { rootMargin: '-20% 0px -70% 0px', threshold: 0 },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [onHome]);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-[#f9f8f6]/90 backdrop-blur-md">
-      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
-        <div className="flex items-center gap-3 md:gap-5 min-w-0">
-          <a
-            href="/resume.pdf"
-            download
-            className="inline-flex items-center gap-2 bg-slate-900 text-white text-sm font-medium px-3 md:px-4 py-2 rounded-xl hover:bg-slate-800 transition-colors shadow-sm shrink-0"
-          >
-            <Download className="w-4 h-4" />
-            <span className="hidden sm:inline">Download Resume</span>
-            <span className="sr-only sm:hidden">Download Resume</span>
-          </a>
-          <Link href="/" className="flex items-center gap-2 font-bold text-lg md:text-xl tracking-tight text-slate-900 truncate">
-            Md Muntasir Hossain
-          </Link>
-        </div>
+    <header className="sticky top-0 z-50 w-full border-b border-line bg-surface/90 backdrop-blur-md">
+      <div className="max-w-6xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between gap-4">
+        <Link href="/" className="font-mono text-sm md:text-base font-bold text-body truncate">
+          <span className="text-accent">~/</span>muntasir
+        </Link>
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-6">
-          <nav className="flex items-center gap-6 text-sm font-medium text-slate-600">
-            {navLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="hover:text-slate-900 transition-colors">
+        {/* Desktop nav */}
+        <div className="hidden md:flex items-center gap-5">
+          <nav className="flex items-center gap-5 font-mono text-sm text-muted">
+            {sectionLinks.map((link) => (
+              <a
+                key={link.id}
+                href={hrefFor(link.id)}
+                className={
+                  activeId === link.id
+                    ? 'text-accent transition-colors'
+                    : 'hover:text-body transition-colors'
+                }
+              >
+                {link.label}
+              </a>
+            ))}
+            {routeLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={
+                  pathname === link.href
+                    ? 'text-accent transition-colors'
+                    : 'hover:text-body transition-colors'
+                }
+              >
                 {link.label}
               </Link>
             ))}
           </nav>
-          <div className="w-px h-5 bg-slate-300 mx-2" />
-          <div className="flex items-center gap-4">
-            <a href="https://github.com/Muhit1204" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-slate-900 transition-colors">
+
+          <div className="w-px h-5 bg-line" />
+
+          <div className="flex items-center gap-3 text-muted">
+            <a href="https://github.com/Muhit1204" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="hover:text-accent transition-colors">
               <Github className="w-4 h-4" />
-              <span className="sr-only">GitHub</span>
             </a>
-            <a href="https://linkedin.com/in/mdmuntasirhossain98" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-slate-900 transition-colors">
+            <a href="https://linkedin.com/in/mdmuntasirhossain98" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="hover:text-accent transition-colors">
               <Linkedin className="w-4 h-4" />
-              <span className="sr-only">LinkedIn</span>
             </a>
-            <a href="mailto:muntasir.hossain007@gmail.com" className="text-slate-500 hover:text-slate-900 transition-colors">
+            <a href="mailto:mhossain54@lamar.edu" aria-label="Email" className="hover:text-accent transition-colors">
               <Mail className="w-4 h-4" />
-              <span className="sr-only">Email</span>
             </a>
           </div>
+
+          <a
+            href="/resume.pdf"
+            download
+            className="inline-flex items-center gap-2 font-mono text-xs px-3 py-2 rounded-md border border-accent-dim text-accent hover:bg-accent/10 transition-colors shrink-0"
+          >
+            <Download className="w-4 h-4" />
+            resume
+          </a>
         </div>
 
-        {/* Mobile Hamburger Button */}
+        {/* Mobile toggle */}
         <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 transition-colors shrink-0"
-          aria-label="Toggle navigation menu"
+          type="button"
+          onClick={() => setIsOpen((open) => !open)}
+          aria-expanded={isOpen}
+          aria-label={isOpen ? 'Close menu' : 'Open menu'}
+          className="md:hidden text-muted hover:text-accent transition-colors"
         >
           {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile menu. A hash link does not fire a route change, so the menu
+          has to be closed explicitly on click. */}
       {isOpen && (
-        <div className="md:hidden border-t border-slate-200 bg-[#f9f8f6]/95 backdrop-blur-md">
-          <nav className="flex flex-col px-6 py-4 space-y-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setIsOpen(false)}
-                className="py-3 px-3 text-base font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
+        <nav className="md:hidden border-t border-line bg-surface px-4 py-4 space-y-3 font-mono text-sm">
+          {sectionLinks.map((link) => (
             <a
-              href="/resume.pdf"
-              download
+              key={link.id}
+              href={hrefFor(link.id)}
               onClick={() => setIsOpen(false)}
-              className="mt-2 inline-flex items-center gap-2 bg-slate-900 text-white py-3 px-3 text-base font-medium rounded-lg hover:bg-slate-800 transition-colors"
+              className="block text-muted hover:text-accent transition-colors"
             >
-              <Download className="w-5 h-5" />
-              Download Resume
+              {link.label}
             </a>
-          </nav>
-          <div className="border-t border-slate-200 px-6 py-4 flex items-center gap-6">
-            <a href="https://github.com/Muhit1204" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-slate-900 transition-colors">
-              <Github className="w-5 h-5" />
-            </a>
-            <a href="https://linkedin.com/in/mdmuntasirhossain98" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-slate-900 transition-colors">
-              <Linkedin className="w-5 h-5" />
-            </a>
-            <a href="mailto:muntasir.hossain007@gmail.com" className="text-slate-500 hover:text-slate-900 transition-colors">
-              <Mail className="w-5 h-5" />
-            </a>
-          </div>
-        </div>
+          ))}
+          {routeLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={() => setIsOpen(false)}
+              className="block text-muted hover:text-accent transition-colors"
+            >
+              {link.label}
+            </Link>
+          ))}
+          <a
+            href="/resume.pdf"
+            download
+            onClick={() => setIsOpen(false)}
+            className="inline-flex items-center gap-2 px-3 py-2 rounded-md border border-accent-dim text-accent"
+          >
+            <Download className="w-4 h-4" />
+            resume
+          </a>
+        </nav>
       )}
     </header>
   );

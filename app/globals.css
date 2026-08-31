@@ -2,224 +2,126 @@
 @tailwind components;
 @tailwind utilities;
 
-/* One typeface site-wide: headings inherit the same sans stack as body copy. */
+/*
+ * Dark terminal palette. Every surface, border and text colour on the site
+ * resolves through one of these tokens — Tailwind maps them to utility
+ * classes (bg-surface, text-muted, border-line) in tailwind.config.js, so
+ * components should never hardcode a slate/indigo value again.
+ */
+:root {
+    --bg: #0b0f14;
+    --surface: #11161d;
+    --surface-2: #161c25;
+    --border: #1f2933;
+    --text: #e6edf3;
+    --muted: #9aa5b1;
+    --accent: #2dd4bf;
+    --accent-dim: #0d9488;
+    --warn: #f59e0b;
+    --danger: #ef4444;
+
+    color-scheme: dark;
+}
+
+/*
+ * Headings run monospace — the terminal voice. Body copy stays on Inter:
+ * the research abstracts and publication summaries are long enough that
+ * full-mono prose costs real readability.
+ */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-    font-family: inherit;
-    letter-spacing: -0.02em;
+    font-family: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
+    letter-spacing: -0.01em;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
 }
 
 /* Global Text Hyperlink Styles */
 p a,
 span a,
 .content a {
-    color: #0d9488;
-    /* tailwind teal-600 */
+    color: var(--accent);
     font-weight: 500;
     text-decoration: underline;
     text-underline-offset: 4px;
-    text-decoration-color: #5eead4;
-    /* tailwind teal-300 */
+    text-decoration-color: var(--accent-dim);
     transition: color 0.2s, text-decoration-color 0.2s;
 }
 
 p a:hover,
 span a:hover,
 .content a:hover {
-    color: #0f766e;
-    /* tailwind teal-700 */
-    text-decoration-color: #0d9488;
+    color: #5eead4;
+    text-decoration-color: var(--accent);
 }
 
-/* Global Interactive Card Hover Effect */
+/*
+ * Card hover. The old light-theme treatment (scale down + drop shadow) is
+ * invisible on a dark ground, so lift happens through border and surface
+ * instead.
+ */
 .interactive-card {
-    transition: all 0.3s ease-in-out;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
 .interactive-card:hover {
-    transform: scale(0.98);
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    background-color: var(--surface-2);
+    border-color: var(--accent-dim);
+    transform: translateY(-2px);
 }
 
-/* Full-bleed, responsive interactive city. */
-.city-section-bleed {
-    width: min(1440px, calc(100vw - 2rem));
-    margin-left: 50%;
-    transform: translateX(-50%);
+/*
+ * Section label above each heading — the `$ cat about.md` device. Applied
+ * via the `.term-label` class rather than repeated Tailwind strings.
+ */
+.term-label {
+    font-family: var(--font-mono), ui-monospace, SFMono-Regular, monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
 }
 
-.city-shell {
-    position: relative;
-    overflow: hidden;
-    border: 1px solid rgb(226 232 240);
-    border-radius: 1.5rem;
-    background: #fdfbf7;
-    box-shadow: 0 24px 60px -36px rgb(15 23 42 / 0.5);
+.term-label::before {
+    content: '$ ';
+    color: var(--accent);
 }
 
-.city-panorama {
-    overflow-x: auto;
-    overflow-y: hidden;
-    overscroll-behavior-inline: contain;
-    touch-action: pan-x pan-y;
-    scrollbar-width: thin;
-    scrollbar-color: rgb(148 163 184) transparent;
+/* Blinking cursor used by the boot sequence and the hero prompt. */
+.term-cursor {
+    display: inline-block;
+    width: 0.55em;
+    height: 1.05em;
+    margin-left: 0.15em;
+    background-color: var(--accent);
+    vertical-align: text-bottom;
+    animation: term-blink 1.05s steps(2, start) infinite;
 }
 
-.city-panorama:focus-visible {
-    outline: 3px solid rgb(13 148 136);
-    outline-offset: -3px;
-}
-
-.city-stage {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    overflow: hidden;
-    isolation: isolate;
-}
-
-.city-mobile-guidance {
-    margin: 0;
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid rgb(226 232 240);
-    background: rgb(255 255 255 / 0.96);
-    color: rgb(71 85 105);
-    font-size: 0.8125rem;
-    font-weight: 600;
-    line-height: 1.4;
-    text-align: center;
-}
-
-.city-destination {
-    position: absolute;
-    display: inline-flex;
-    min-height: 44px;
-    align-items: center;
-    justify-content: center;
-    transform: translate(-50%, -50%);
-    border: 1px solid rgb(203 213 225);
-    border-radius: 9999px;
-    background: rgb(255 255 255 / 0.96);
-    padding: 0.55rem 1rem;
-    color: rgb(30 41 59);
-    font-size: clamp(0.75rem, 1.2vw, 1rem);
-    font-weight: 800;
-    line-height: 1;
-    white-space: nowrap;
-    box-shadow: 0 8px 24px -10px rgb(15 23 42 / 0.55);
-    transition: transform 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
-}
-
-.city-destination:hover,
-.city-destination:focus-visible {
-    transform: translate(-50%, -50%) translateY(-3px) scale(1.035);
-    border-color: rgb(20 184 166);
-    color: rgb(15 118 110);
-    box-shadow: 0 12px 30px -10px rgb(13 148 136 / 0.48);
-}
-
-.city-destination:active {
-    transform: translate(-50%, -50%) scale(0.98);
-}
-
-.city-destination:focus-visible {
-    outline: 3px solid rgb(13 148 136);
-    outline-offset: 3px;
-}
-
-.city-window-dim {
-    mix-blend-mode: multiply;
-    opacity: 0.9;
-    animation-timing-function: ease-in-out;
-    animation-iteration-count: infinite;
-}
-
-.city-window-dim--publications {
-    animation-name: city-window-off-a;
-    animation-duration: 4s;
-}
-
-.city-window-dim--research {
-    animation-name: city-window-off-b;
-    animation-duration: 5.2s;
-    animation-delay: -2.1s;
-}
-
-.city-window-dim--experience {
-    animation-name: city-window-off-a;
-    animation-duration: 4.8s;
-    animation-delay: -3.4s;
-}
-
-.city-window-dim--cafe {
-    animation-name: city-window-off-b;
-    animation-duration: 3.7s;
-    animation-delay: -1.2s;
-}
-
-.city-motion-paused .city-window-dim {
-    animation-play-state: paused;
-}
-
-@keyframes city-window-off-a {
-    0%, 18%, 100% { opacity: 0.92; }
-    30%, 48% { opacity: 0.02; }
-    60%, 74% { opacity: 0.82; }
-    84%, 94% { opacity: 0.02; }
-}
-
-@keyframes city-window-off-b {
-    0%, 16%, 100% { opacity: 0.08; }
-    28%, 45% { opacity: 0.9; }
-    58%, 72% { opacity: 0.04; }
-    82%, 94% { opacity: 0.86; }
-}
-
-.city-smoke {
-    filter: blur(0.35px);
-    mix-blend-mode: normal;
-}
-
-@media (max-width: 767px) {
-    .city-section-bleed {
-        width: 100vw;
+@keyframes term-blink {
+    to {
+        visibility: hidden;
     }
+}
 
-    .city-shell {
-        border-right: 0;
-        border-left: 0;
-        border-radius: 0;
-    }
-
-    .city-stage {
-        width: clamp(760px, 190vw, 860px);
-    }
-
-    .city-desktop-motion {
-        display: none;
-    }
-
-    .city-destination {
-        padding-inline: 0.9rem;
-        font-size: 0.8125rem;
-    }
+/* Anchor targets sit under a 4rem sticky header. */
+[id] {
+    scroll-margin-top: 5rem;
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .city-destination {
-        transition: none;
-    }
 
-    .city-window-dim {
+    .interactive-card,
+    .term-cursor {
+        transition: none;
         animation: none;
-        opacity: 0;
     }
 }
-
-
-

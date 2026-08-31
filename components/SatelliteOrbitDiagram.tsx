@@ -41,7 +41,7 @@ export default function SatelliteOrbitDiagram() {
   }, [satellites.length]);
 
   return (
-    <div className="relative w-full h-64 bg-slate-900 rounded-2xl border border-slate-200 overflow-hidden flex flex-col items-center justify-end shadow-sm">
+    <div className="relative w-full h-64 md:h-[22rem] bg-bg overflow-hidden flex flex-col items-center justify-end">
       {/* Background Stars/Space */}
       <div className="absolute inset-0 opacity-20">
         {stars.map((star, i) => (
@@ -76,14 +76,14 @@ export default function SatelliteOrbitDiagram() {
           y1="220" // Ground terminal position
           x2={satellites[activeSatellite].cx}
           y2={satellites[activeSatellite].cy}
-          stroke={isHandoff ? "#ef4444" : "#6366f1"} // Red during handoff, Indigo otherwise
+          stroke={isHandoff ? "#ef4444" : "#2dd4bf"} // Red during handoff, accent otherwise
           strokeWidth="2"
           strokeDasharray={isHandoff ? "2 4" : "0"}
           initial={false}
           animate={{
             x2: satellites[activeSatellite].cx,
             y2: satellites[activeSatellite].cy,
-            stroke: isHandoff ? "#ef4444" : "#6366f1",
+            stroke: isHandoff ? "#ef4444" : "#2dd4bf",
           }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
         />
@@ -105,11 +105,11 @@ export default function SatelliteOrbitDiagram() {
           }}
           style={{ left: sat.cx, top: sat.cy }}
         >
-          <div className={`relative flex items-center justify-center w-8 h-8 rounded-full bg-slate-800 border ${activeSatellite === index ? 'border-indigo-500 shadow-[0_0_15px_rgba(99,102,241,0.5)]' : 'border-slate-600'}`}>
-            <Radio className={`w-4 h-4 ${activeSatellite === index ? 'text-indigo-400' : 'text-slate-400'}`} />
+          <div className={`relative flex items-center justify-center w-8 h-8 rounded-full bg-surface-2 border ${activeSatellite === index ? 'border-accent shadow-[0_0_15px_rgba(45,212,191,0.45)]' : 'border-line'}`}>
+            <Radio className={`w-4 h-4 ${activeSatellite === index ? 'text-accent' : 'text-muted'}`} />
             {activeSatellite === index && !isHandoff && (
               <motion.div
-                className="absolute inset-0 rounded-full border border-indigo-500"
+                className="absolute inset-0 rounded-full border border-accent"
                 animate={{ scale: [1, 1.5], opacity: [1, 0] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               />
@@ -120,28 +120,28 @@ export default function SatelliteOrbitDiagram() {
 
       {/* Ground Terminal */}
       <div className="relative z-10 flex flex-col items-center mb-4">
-        <div className="w-12 h-12 bg-slate-800 rounded-t-lg border-t border-l border-r border-slate-700 flex items-center justify-center">
-          <Wifi className={`w-6 h-6 ${isHandoff ? 'text-red-400 animate-pulse' : 'text-emerald-400'}`} />
+        <div className="w-12 h-12 bg-surface-2 rounded-t-lg border-t border-l border-r border-line flex items-center justify-center">
+          <Wifi className={`w-6 h-6 ${isHandoff ? 'text-danger animate-pulse' : 'text-accent'}`} />
         </div>
-        <div className="w-24 h-4 bg-slate-700 rounded-t-sm" />
+        <div className="w-24 h-4 bg-line rounded-t-sm" />
       </div>
 
       {/* Coastline / Ground */}
-      <div className="absolute bottom-0 w-full h-4 bg-gradient-to-r from-emerald-900/50 to-blue-900/50 border-t border-slate-800/50" />
+      <div className="absolute bottom-0 w-full h-4 bg-gradient-to-r from-accent-dim/30 to-accent/10 border-t border-line" />
 
       {/* Status Overlay */}
-      <div className="absolute top-4 left-4 bg-white/80 backdrop-blur border border-slate-200 rounded-lg px-3 py-2 text-xs font-mono shadow-sm">
+      <div className="absolute top-4 left-4 bg-surface/90 backdrop-blur border border-line rounded-lg px-3 py-2 text-xs font-mono">
         <div className="flex items-center gap-2 mb-1">
-          <span className="text-slate-500">Status:</span>
+          <span className="text-muted">Status:</span>
           {isHandoff ? (
-            <span className="text-red-500 flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" /> Handoff</span>
+            <span className="text-danger flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-danger animate-pulse" /> Handoff</span>
           ) : (
-            <span className="text-emerald-600 flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-600" /> Connected</span>
+            <span className="text-accent flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-accent" /> Connected</span>
           )}
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-slate-500">Active Sat:</span>
-          <span className="text-slate-900 font-medium">LEO-{satellites[activeSatellite].id + 1}</span>
+          <span className="text-muted">Active Sat:</span>
+          <span className="text-body font-medium">LEO-{satellites[activeSatellite].id + 1}</span>
         </div>
       </div>
     </div>

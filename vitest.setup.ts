@@ -1,6 +1,6 @@
 // jsdom does not implement IntersectionObserver, which motion's useInView (used by
-// Counter and InteractiveNetworkMap on the home page) calls on mount. Stub it so
-// page-level render tests can mount components that animate into view.
+// Counter) and the navbar's scroll-spy both call on mount. Stub it so page-level
+// render tests can mount components that animate or track scroll position.
 class IntersectionObserverStub implements IntersectionObserver {
     readonly root: Element | Document | null = null
     readonly rootMargin: string = ''
