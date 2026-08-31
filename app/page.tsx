@@ -1,7 +1,6 @@
 import {
   Award,
   Bike,
-  Briefcase,
   Calendar,
   Cpu,
   Database,
@@ -23,6 +22,7 @@ import {
 import Link from 'next/link';
 import Counter from '@/components/Counter';
 import HeroVisual from '@/components/HeroVisual';
+import ExperienceTimeline from '@/components/ExperienceTimeline';
 import Pane from '@/components/Pane';
 import TerminalPrompt from '@/components/TerminalPrompt';
 import { experiences, projects, type Bullet, type ProjectIcon } from '@/lib/work';
@@ -219,8 +219,8 @@ export default function Home() {
         title="About"
         status="identity"
       >
-        <div className="grid md:grid-cols-[18rem_1fr] gap-6 md:gap-10 items-start">
-          <div className="relative w-full max-w-xs rounded-none overflow-hidden border border-line">
+        <div className="grid md:grid-cols-[18rem_1fr] gap-6 md:gap-10 items-stretch">
+          <div className="relative w-full min-h-[18rem] md:min-h-full rounded-none overflow-hidden border border-line">
             <picture>
               <source type="image/avif" sizes="(min-width: 768px) 288px, 100vw" srcSet="/optimized/profile-704.avif 704w, /optimized/profile-1056.avif 1056w, /optimized/profile-1408.avif 1408w" />
               <source type="image/webp" sizes="(min-width: 768px) 288px, 100vw" srcSet="/optimized/profile-704.webp 704w, /optimized/profile-1056.webp 1056w, /optimized/profile-1408.webp 1408w" />
@@ -231,7 +231,7 @@ export default function Home() {
                 height={1408}
                 loading="lazy"
                 decoding="async"
-                className="w-full h-auto object-cover object-top"
+                className="absolute inset-0 w-full h-full object-cover object-top"
               />
             </picture>
           </div>
@@ -263,36 +263,7 @@ export default function Home() {
         status="4 roles"
       >
 
-        <div className="space-y-5">
-          {experiences.map((exp) => (
-            <article key={exp.title + exp.date} className="interactive-card rounded-none p-5 md:p-7 space-y-4">
-              <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-2">
-                <h3 className="text-xl font-bold text-body">{exp.title}</h3>
-                <span className="font-mono text-xs uppercase tracking-wider text-accent shrink-0">{exp.date}</span>
-              </div>
-              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm">
-                <span className="flex items-center gap-2 text-body">
-                  <Briefcase className="w-4 h-4 text-muted" />
-                  {exp.link ? (
-                    <a href={exp.link} target="_blank" rel="noopener noreferrer">
-                      {exp.company}
-                    </a>
-                  ) : (
-                    exp.company
-                  )}
-                </span>
-                <span className="hidden sm:inline text-line">•</span>
-                <span className="font-mono text-xs text-muted">{exp.location}</span>
-              </div>
-              <BulletList items={exp.description.slice(0, 1)} />
-              {exp.description.length > 1 && (
-                <Details label={`${exp.description.length - 1} more`}>
-                  <BulletList items={exp.description.slice(1)} />
-                </Details>
-              )}
-            </article>
-          ))}
-        </div>
+        <ExperienceTimeline experiences={experiences} />
 
       </Pane>
 

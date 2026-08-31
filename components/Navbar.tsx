@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Github, Linkedin, Mail, Menu, X, Download } from 'lucide-react';
+import SoundToggle from '@/components/SoundToggle';
 
 /*
  * The site is one page with anchors, so nav entries point at section ids.
@@ -93,6 +94,8 @@ export default function Navbar() {
           </nav>
 
           <div className="w-px h-5 bg-line" />
+
+          <SoundToggle />
 
           <div className="flex items-center gap-3 text-muted">
             <a href="https://github.com/Muhit1204" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="hover:text-accent transition-colors">

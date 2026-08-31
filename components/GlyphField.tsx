@@ -7,13 +7,12 @@ import { useEffect, useRef } from 'react';
  * "there is a system running here" layer. Canvas rather than DOM: a few
  * hundred characters as elements would be a few hundred nodes to lay out.
  *
- * Cost control: it repaints at ~12fps, not 60. Nothing here needs to be
- * smooth, and a background has no business burning a frame budget.
+ * Cost control: it repaints at 30fps, not 60, and pauses with the tab.
  */
 
 const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/\\|+×÷◇◆○●□■△▽<>[]{}·:;=~^*';
-const DENSITY = 1 / 14000; // glyphs per square pixel
-const FPS = 12;
+const DENSITY = 1 / 8000; // glyphs per square pixel
+const FPS = 30;
 
 type Glyph = {
   x: number;
@@ -59,9 +58,9 @@ export default function GlyphField() {
         x: Math.random() * width,
         y: Math.random() * height,
         char: randomChar(),
-        alpha: 0.05 + Math.random() * 0.22,
-        drift: 0.06 + Math.random() * 0.16,
-        ttl: Math.floor(Math.random() * 120) + 20,
+        alpha: 0.06 + Math.random() * 0.26,
+        drift: 0.25 + Math.random() * 0.75,
+        ttl: Math.floor(Math.random() * 45) + 8,
       }));
     };
 
@@ -101,7 +100,7 @@ export default function GlyphField() {
         glyph.ttl -= 1;
         if (glyph.ttl <= 0) {
           glyph.char = randomChar();
-          glyph.ttl = Math.floor(Math.random() * 120) + 20;
+          glyph.ttl = Math.floor(Math.random() * 45) + 8;
         }
 
         context.fillStyle = `rgba(0, 255, 156, ${glyph.alpha})`;
