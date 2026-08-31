@@ -3,8 +3,6 @@
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 
-const SESSION_KEY = 'boot-sequence-played';
-
 type Step =
   | { kind: 'cmd'; text: string }
   | { kind: 'out'; text: string; tone?: 'muted' | 'accent' | 'warn' };
@@ -35,30 +33,20 @@ const TONE_CLASS: Record<string, string> = {
 };
 
 /*
- * Whether the animation should run at all depends on two browser-only facts:
- * the motion preference and the session guard.
+ * The boot plays on every load by design — it is the site's front door. The
+ * only thing that suppresses it is the visitor's motion preference: a typing
+ * animation is exactly the pattern reduced-motion asks us to drop, so it is
+ * skipped outright rather than shortened.
  */
 function computeShouldPlay(): boolean {
-  // A typing animation is exactly the pattern reduced-motion asks us to drop,
-  // so it is skipped outright rather than shortened.
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
-
-  try {
-    return sessionStorage.getItem(SESSION_KEY) !== '1';
-  } catch {
-    // Private browsing or blocked storage — play it.
-    return true;
-  }
+  return !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
 /** Never changes after first paint, so there is nothing to subscribe to. */
 const subscribe = () => () => {};
 
 export default function BootSequence() {
-  /*
-   * Answered once per mount and then held: dismissal writes the session key,
-   * and a snapshot that re-read it would yank the overlay out mid-fade.
-   */
+  /* Answered once per mount so the snapshot stays stable across renders. */
   const shouldPlayRef = useRef<boolean | null>(null);
   const getShouldPlay = useCallback(() => {
     if (shouldPlayRef.current === null) shouldPlayRef.current = computeShouldPlay();
@@ -79,11 +67,6 @@ export default function BootSequence() {
     timers.current.forEach(clearTimeout);
     timers.current = [];
     setDismissed(true);
-    try {
-      sessionStorage.setItem(SESSION_KEY, '1');
-    } catch {
-      // Private browsing or blocked storage — the animation simply replays.
-    }
   }, []);
 
   // Drives the sequence one step at a time; commands type, output appears.

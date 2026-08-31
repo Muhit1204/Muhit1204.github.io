@@ -13,7 +13,7 @@ describe('Home Page', () => {
     it('renders every anchor section the navbar links to', () => {
         const { container } = render(<Home />)
 
-        for (const id of ['about', 'research', 'work', 'publications', 'contact']) {
+        for (const id of ['about', 'experience', 'projects', 'publications', 'contact']) {
             expect(container.querySelector(`#${id}`)).not.toBeNull()
         }
     })

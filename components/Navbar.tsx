@@ -12,16 +12,13 @@ import { Github, Linkedin, Mail, Menu, X, Download } from 'lucide-react';
  */
 const sectionLinks = [
   { id: 'about', label: 'about' },
-  { id: 'research', label: 'research' },
-  { id: 'work', label: 'work' },
+  { id: 'experience', label: 'experience' },
+  { id: 'projects', label: 'projects' },
   { id: 'publications', label: 'publications' },
   { id: 'contact', label: 'contact' },
 ];
 
-const routeLinks = [
-  { href: '/education', label: 'education' },
-  { href: '/publications', label: 'papers' },
-];
+const routeLinks = [{ href: '/education', label: 'education' }];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);

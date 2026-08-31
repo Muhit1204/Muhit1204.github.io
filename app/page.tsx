@@ -12,31 +12,25 @@ import {
   Linkedin,
   Map,
   Mail,
+  MapPin,
   Mountain,
   Plane,
   Server,
   Tent,
-  Terminal,
+  Users,
   Waves,
 } from 'lucide-react';
 import Link from 'next/link';
 import Counter from '@/components/Counter';
 import SatelliteOrbitDiagram from '@/components/SatelliteOrbitDiagram';
 import { experiences, projects, type Bullet, type ProjectIcon } from '@/lib/work';
+import { datasets, publications } from '@/lib/publications';
 
 const metrics = [
   { value: 4, suffix: '+', unit: 'years', caption: 'In academic research' },
   { value: 5, suffix: '+', unit: 'projects', caption: 'Shipped from idea to impact' },
   { value: 2, suffix: '', unit: 'continents', caption: 'Experience in North America and Asia' },
   { value: 2, suffix: '', unit: 'publications', caption: 'IEEE conference papers' },
-];
-
-const researchAreas = [
-  'Satellite based Communication & Navigation',
-  'Intelligent Systems',
-  'Wireless Network Resilience & Cybersecurity',
-  'Machine Learning & Dynamic Data-Driven Optimization',
-  'Autonomous Systems',
 ];
 
 const skills = [
@@ -49,23 +43,6 @@ const skills = [
   { category: 'MCP Servers', tools: ['Higgsfield MCP', 'Novamira MCP', 'Autodesk MCP Server', 'surgical-mcp-rag', 'FastMCP', 'langchain-mcp-adapters'] },
   { category: 'Web & Tooling', tools: ['React', 'Next.js', 'Tailwind CSS', 'Recharts', 'Laravel', 'Git', 'SQLite'] },
   { category: 'Security', tools: ['MITRE ATT&CK for ICS', 'ICS/SCADA Security', 'Threat Intelligence', 'Spoofing & Data Integrity Analysis'] },
-];
-
-const publications = [
-  {
-    title: 'Predictive Model for Starlink Maritime Performance Using Multi-Horizon RandomForest',
-    link: 'https://ieeexplore.ieee.org/document/11395767',
-    authors: 'Md Muntasir Hossain, Xingya Liu, Helen H. Lou, Ruhai Wang, Kazi Fazlee Rabbi',
-    venue: '2026 IEEE 16th Annual Computing and Communication Workshop and Conference (CCWC)',
-    date: '2026',
-  },
-  {
-    title: 'A Dual-task Prediction Model for Starlink Maritime Performance',
-    link: 'https://ieeexplore.ieee.org/document/11393745',
-    authors: 'Richard Li, Md Muntasir Hossain, Xingya Liu, Ruhai Wang',
-    venue: '5th IEEE International Conference on AI in Cybersecurity (ICAIC)',
-    date: '18–20 February 2026',
-  },
 ];
 
 /*
@@ -250,28 +227,15 @@ export default function Home() {
               systems: spoofing, signal manipulation, and data integrity in intelligent maritime infrastructure.
             </p>
             <p>
-              Full academic history, degrees, and certifications live on the{' '}
+              Degrees and certifications live on the{' '}
               <Link href="/education">education page</Link>.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Research */}
-      <section id="research" className="space-y-6">
-        <SectionHeading label="ls research/" title="Core Research Areas" />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-          {researchAreas.map((area) => (
-            <div key={area} className="interactive-card rounded-lg p-4 flex items-start gap-3">
-              <Terminal className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-              <span className="text-body">{area}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Work — experience and projects, merged from the retired routes. */}
-      <section id="work" className="space-y-10">
+      {/* Experience */}
+      <section id="experience" className="space-y-6">
         <SectionHeading label="cat work/experience.log" title="Experience" />
 
         <div className="space-y-5">
@@ -300,6 +264,10 @@ export default function Home() {
           ))}
         </div>
 
+      </section>
+
+      {/* Projects */}
+      <section id="projects" className="space-y-6">
         <SectionHeading label="ls projects/" title="Projects" />
 
         <div className="space-y-5">
@@ -367,46 +335,94 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Publications — summaries here, abstracts and datasets on the route. */}
+      {/* Publications — full detail; the separate route was the same material twice. */}
       <section id="publications" className="space-y-6">
         <SectionHeading label="cat publications.bib" title="Publications" />
-        <div className="space-y-4">
+        <div className="space-y-5">
           {publications.map((pub) => (
+            <article key={pub.link} className="interactive-card rounded-xl p-5 md:p-7 space-y-4">
+              <div className="flex items-start justify-between gap-4">
+                <h3 className="text-xl font-bold text-body leading-snug">{pub.title}</h3>
+                <a
+                  href={pub.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 font-mono text-xs text-accent hover:underline shrink-0"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  IEEE
+                </a>
+              </div>
+
+              <div className="space-y-1.5 font-mono text-xs">
+                <p className="flex items-start gap-2 text-muted">
+                  <Users className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+                  <span>{pub.authors}</span>
+                </p>
+                <p className="flex items-start gap-2 text-accent">
+                  <FileText className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+                  <span>{pub.venue}</span>
+                </p>
+                {pub.location && (
+                  <p className="flex items-start gap-2 text-muted">
+                    <MapPin className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+                    <span>{pub.location}</span>
+                  </p>
+                )}
+                <p className="flex items-start gap-2 text-muted">
+                  <Calendar className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+                  <span>{pub.date}</span>
+                </p>
+              </div>
+
+              <p className="text-muted leading-relaxed">{pub.abstract}</p>
+
+              <div className="flex flex-wrap gap-2">
+                {pub.keywords.map((keyword) => (
+                  <Tag key={keyword}>{keyword}</Tag>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <SectionHeading label="ls datasets/" title="Datasets" />
+        <div className="space-y-5">
+          {datasets.map((dataset) => (
             <a
-              key={pub.link}
-              href={pub.link}
+              key={dataset.link}
+              href={dataset.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="interactive-card block rounded-xl p-5 md:p-6 space-y-2"
+              className="interactive-card block rounded-xl p-5 md:p-7 space-y-3"
             >
               <div className="flex items-start justify-between gap-4">
-                <h3 className="text-lg font-bold text-body leading-snug">{pub.title}</h3>
+                <h3 className="text-xl font-bold text-body leading-snug">{dataset.title}</h3>
                 <ExternalLink className="w-4 h-4 text-muted shrink-0 mt-1" />
               </div>
-              <p className="text-sm text-muted">{pub.authors}</p>
-              <p className="font-mono text-xs text-accent">{pub.venue}</p>
               <p className="font-mono text-xs text-muted flex items-center gap-1.5">
-                <Calendar className="w-3.5 h-3.5" />
-                {pub.date}
+                <Database className="w-3.5 h-3.5" />
+                {dataset.date}
               </p>
+              <p className="text-muted leading-relaxed">{dataset.description}</p>
+              <div className="flex flex-wrap gap-2">
+                {dataset.keywords.map((keyword) => (
+                  <Tag key={keyword}>{keyword}</Tag>
+                ))}
+              </div>
             </a>
           ))}
         </div>
-        <div className="flex flex-wrap gap-4 font-mono text-sm">
-          <Link href="/publications" className="inline-flex items-center gap-2 text-accent hover:underline">
-            <FileText className="w-4 h-4" />
-            Abstracts and datasets
-          </Link>
-          <a
-            href="https://scholar.google.com/citations?view_op=list_works&hl=en&user=guXY-gQAAAAJ"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-muted hover:text-accent transition-colors"
-          >
-            <ExternalLink className="w-4 h-4" />
-            Google Scholar
-          </a>
-        </div>
+
+        <a
+          href="https://scholar.google.com/citations?view_op=list_works&hl=en&user=guXY-gQAAAAJ"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 font-mono text-sm text-muted hover:text-accent transition-colors"
+        >
+          <ExternalLink className="w-4 h-4" />
+          Google Scholar
+        </a>
       </section>
 
       {/* Skills */}

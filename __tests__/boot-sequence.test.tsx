@@ -22,7 +22,6 @@ function mockReducedMotion(reduced: boolean) {
 
 describe('BootSequence', () => {
     beforeEach(() => {
-        sessionStorage.clear()
         mockReducedMotion(false)
     })
 
@@ -30,13 +29,13 @@ describe('BootSequence', () => {
         vi.restoreAllMocks()
     })
 
-    it('plays on a fresh session and exposes a skip control', async () => {
+    it('plays on every load and exposes a skip control', async () => {
         render(<BootSequence />)
 
         expect(await screen.findByRole('button', { name: /skip animation/i })).toBeInTheDocument()
     })
 
-    it('dismisses on skip and records the session guard', async () => {
+    it('dismisses on skip', async () => {
         render(<BootSequence />)
 
         const skip = await screen.findByRole('button', { name: /skip animation/i })
@@ -45,7 +44,6 @@ describe('BootSequence', () => {
         await waitFor(() => {
             expect(screen.queryByRole('button', { name: /skip animation/i })).not.toBeInTheDocument()
         })
-        expect(sessionStorage.getItem('boot-sequence-played')).toBe('1')
     })
 
     it('dismisses on Escape', async () => {
@@ -59,12 +57,14 @@ describe('BootSequence', () => {
         })
     })
 
-    it('does not replay once the session guard is set', () => {
-        sessionStorage.setItem('boot-sequence-played', '1')
+    it('replays on a remount rather than remembering an earlier visit', async () => {
+        const first = render(<BootSequence />)
+        fireEvent.click(await screen.findByRole('button', { name: /skip animation/i }))
+        first.unmount()
 
         render(<BootSequence />)
 
-        expect(screen.queryByRole('button', { name: /skip animation/i })).not.toBeInTheDocument()
+        expect(await screen.findByRole('button', { name: /skip animation/i })).toBeInTheDocument()
     })
 
     it('renders nothing when the visitor prefers reduced motion', () => {
