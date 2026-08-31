@@ -66,13 +66,21 @@ class AudioEngine {
 
     const context = new Ctor();
     const master = context.createGain();
-    master.gain.value = this.enabled ? 1 : 0;
+    master.gain.value = 0;
     master.connect(context.destination);
 
     this.context = context;
     this.master = master;
     this.startAmbient();
     void context.resume();
+
+    // Fade up rather than snapping on. The context is usually created by the
+    // same gesture that triggers a sound, and both landing at once is a thump.
+    if (this.enabled) {
+      master.gain.setValueAtTime(0, context.currentTime);
+      master.gain.linearRampToValueAtTime(1, context.currentTime + 1.2);
+    }
+
     return context;
   }
 
@@ -82,7 +90,8 @@ class AudioEngine {
     if (!context || !master || this.stopAmbient) return;
 
     const bed = context.createGain();
-    bed.gain.value = AMBIENT_GAIN;
+    bed.gain.setValueAtTime(0, context.currentTime);
+    bed.gain.linearRampToValueAtTime(AMBIENT_GAIN, context.currentTime + 2.5);
     bed.connect(master);
     this.ambient = bed;
 
@@ -210,8 +219,8 @@ class AudioEngine {
     if (!this.enabled) return;
     const context = this.ensure();
     if (!context) return;
-    this.tone({ frequency: 620, gain: 0.05, decay: 0.06 });
-    setTimeout(() => this.tone({ frequency: 980, gain: 0.05, decay: 0.09 }), 55);
+    this.tone({ frequency: 620, gain: 0.03, decay: 0.05 });
+    setTimeout(() => this.tone({ frequency: 980, gain: 0.03, decay: 0.07 }), 55);
   }
 
   /** A window going away: the same two notes, falling. */
@@ -219,8 +228,8 @@ class AudioEngine {
     if (!this.enabled) return;
     const context = this.ensure();
     if (!context) return;
-    this.tone({ frequency: 900, gain: 0.045, decay: 0.05 });
-    setTimeout(() => this.tone({ frequency: 480, gain: 0.045, decay: 0.09 }), 55);
+    this.tone({ frequency: 900, gain: 0.028, decay: 0.045 });
+    setTimeout(() => this.tone({ frequency: 480, gain: 0.028, decay: 0.07 }), 55);
   }
 
   /**
@@ -246,7 +255,7 @@ class AudioEngine {
 
     const gain = context.createGain();
     gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.exponentialRampToValueAtTime(0.32, now + 0.25);
+    gain.gain.exponentialRampToValueAtTime(0.2, now + 0.35);
     gain.gain.exponentialRampToValueAtTime(0.06, now + seconds);
 
     noise.connect(filter).connect(gain).connect(this.master);
@@ -260,7 +269,7 @@ class AudioEngine {
     sweep.frequency.setValueAtTime(38, now);
     sweep.frequency.exponentialRampToValueAtTime(190, now + seconds * 0.7);
     sweepGain.gain.setValueAtTime(0.0001, now);
-    sweepGain.gain.exponentialRampToValueAtTime(0.12, now + 0.4);
+    sweepGain.gain.exponentialRampToValueAtTime(0.08, now + 0.45);
     sweepGain.gain.exponentialRampToValueAtTime(0.0001, now + seconds);
     sweep.connect(sweepGain).connect(this.master);
     sweep.start(now);

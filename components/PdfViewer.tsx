@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, Minus, Plus } from 'lucide-react';
+import type { PDFDocumentProxy } from 'pdfjs-dist';
 
 /*
  * Renders a PDF page by page onto canvases instead of handing the file to an
@@ -15,34 +16,79 @@ import { ChevronLeft, ChevronRight, Minus, Plus } from 'lucide-react';
 
 type PageView = { number: number; canvas: HTMLCanvasElement };
 
-const ZOOM_STEPS = [0.75, 1, 1.25, 1.5, 2];
+/** Multipliers on the fit-to-width base scale. */
+const ZOOM_STEPS = [0.5, 0.75, 1, 1.5, 2];
+const FIT_INDEX = 2;
 
 export default function PdfViewer({ src, title }: { src: string; title: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [pages, setPages] = useState<PageView[]>([]);
   const [total, setTotal] = useState(0);
   const [current, setCurrent] = useState(1);
-  const [zoomIndex, setZoomIndex] = useState(1);
+  const [zoomIndex, setZoomIndex] = useState(FIT_INDEX);
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
   const renderToken = useRef(0);
+  // Bumped when a document finishes parsing, to kick off the first render.
+  const [loadedAt, setLoadedAt] = useState(0);
 
   const zoom = ZOOM_STEPS[zoomIndex];
 
+  /* The document is fetched once per file; zoom only re-rasterises the pages
+     that are already parsed, so changing zoom never re-downloads anything. */
+  const docRef = useRef<PDFDocumentProxy | null>(null);
+
   useEffect(() => {
     let cancelled = false;
-    const token = ++renderToken.current;
+    docRef.current = null;
+    setPages([]);
+    setTotal(0);
+    setStatus('loading');
 
     const load = async () => {
-      setStatus('loading');
       try {
         const pdfjs = await import('pdfjs-dist');
         // The worker ships from /public so the static export can serve it.
         pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
 
         const doc = await pdfjs.getDocument({ url: src }).promise;
-        if (cancelled || token !== renderToken.current) return;
-
+        if (cancelled) {
+          void doc.loadingTask.destroy();
+          return;
+        }
+        docRef.current = doc;
         setTotal(doc.numPages);
+        setLoadedAt(Date.now());
+      } catch {
+        if (!cancelled) setStatus('error');
+      }
+    };
+
+    void load();
+    return () => {
+      cancelled = true;
+      void docRef.current?.loadingTask.destroy();
+      docRef.current = null;
+    };
+  }, [src]);
+
+  useEffect(() => {
+    const doc = docRef.current;
+    if (!doc) return;
+
+    let cancelled = false;
+    const token = ++renderToken.current;
+
+    const render = async () => {
+      setStatus('loading');
+      try {
+        /* Fit the first page to the window, then treat zoom as a multiplier
+           on that. Without this, 100% meant PDF points as CSS pixels, which
+           overflowed the container and pushed every page off to the left. */
+        const first = await doc.getPage(1);
+        const natural = first.getViewport({ scale: 1 }).width;
+        const available = (containerRef.current?.clientWidth ?? 800) - 48;
+        const fit = Math.max(available / natural, 0.2);
+
         const rendered: PageView[] = [];
 
         for (let number = 1; number <= doc.numPages; number += 1) {
@@ -51,14 +97,14 @@ export default function PdfViewer({ src, title }: { src: string; title: string }
 
           // Render at device resolution so text stays crisp when scaled.
           const ratio = Math.min(window.devicePixelRatio || 1, 2);
-          const viewport = page.getViewport({ scale: zoom * ratio });
+          const viewport = page.getViewport({ scale: fit * zoom * ratio });
 
           const canvas = document.createElement('canvas');
           canvas.width = viewport.width;
           canvas.height = viewport.height;
-          canvas.style.width = `${viewport.width / ratio}px`;
-          canvas.style.height = `${viewport.height / ratio}px`;
-          canvas.className = 'block w-full h-auto border border-line bg-white';
+          canvas.style.width = `${Math.round(viewport.width / ratio)}px`;
+          canvas.style.height = 'auto';
+          canvas.className = 'block border border-line bg-white';
 
           const context = canvas.getContext('2d');
           if (!context) continue;
@@ -76,11 +122,11 @@ export default function PdfViewer({ src, title }: { src: string; title: string }
       }
     };
 
-    void load();
+    void render();
     return () => {
       cancelled = true;
     };
-  }, [src, zoom]);
+  }, [zoom, loadedAt]);
 
   // Track which page is under the read line so the counter means something.
   useEffect(() => {
@@ -177,7 +223,7 @@ export default function PdfViewer({ src, title }: { src: string; title: string }
           </p>
         )}
 
-        <div className="mx-auto max-w-3xl space-y-4">
+        <div className="flex flex-col items-center gap-4 min-w-fit">
           {pages.map((page) => (
             <div key={page.number} data-page={page.number} className="relative">
               <span className="absolute -top-2 left-0 text-[0.6rem] text-muted bg-bg px-1">
