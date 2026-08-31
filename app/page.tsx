@@ -22,7 +22,8 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import Counter from '@/components/Counter';
-import SatelliteOrbitDiagram from '@/components/SatelliteOrbitDiagram';
+import HeroVisual from '@/components/HeroVisual';
+import Pane from '@/components/Pane';
 import { experiences, projects, type Bullet, type ProjectIcon } from '@/lib/work';
 import { datasets, publications } from '@/lib/publications';
 
@@ -100,12 +101,12 @@ const projectIcons: Record<ProjectIcon, typeof Server> = {
   database: Database,
 };
 
-/** Shared section heading: `$ cat <label>` above a mono title. */
-function SectionHeading({ label, title }: { label: string; title: string }) {
+/** Sub-heading for a block nested inside a pane. */
+function SubHeading({ label, title }: { label: string; title: string }) {
   return (
-    <div className="space-y-2 border-b border-line pb-3">
+    <div className="space-y-2 border-b border-line pb-3 pt-2">
       <p className="term-label">{label}</p>
-      <h2 className="text-2xl md:text-3xl font-bold text-body">{title}</h2>
+      <h3 className="text-xl font-bold text-body">{title}</h3>
     </div>
   );
 }
@@ -192,13 +193,20 @@ export default function Home() {
         </div>
 
         <div className="rounded-xl border border-line overflow-hidden">
-          <SatelliteOrbitDiagram />
+          <HeroVisual />
         </div>
       </section>
 
       {/* About */}
-      <section id="about" className="space-y-6">
-        <SectionHeading label="cat about.md" title="About" />
+      <Pane
+        id="about"
+        index={1}
+        total={9}
+        path="~/about"
+        command="cat about.md"
+        title="About"
+        status="identity"
+      >
         <div className="grid md:grid-cols-[18rem_1fr] gap-6 md:gap-10 items-start">
           <div className="relative w-full max-w-xs rounded-xl overflow-hidden border border-line">
             <picture>
@@ -232,11 +240,18 @@ export default function Home() {
             </p>
           </div>
         </div>
-      </section>
+      </Pane>
 
       {/* Experience */}
-      <section id="experience" className="space-y-6">
-        <SectionHeading label="cat work/experience.log" title="Experience" />
+      <Pane
+        id="experience"
+        index={2}
+        total={9}
+        path="~/work/experience"
+        command="cat work/experience.log"
+        title="Experience"
+        status="4 roles"
+      >
 
         <div className="space-y-5">
           {experiences.map((exp) => (
@@ -264,11 +279,18 @@ export default function Home() {
           ))}
         </div>
 
-      </section>
+      </Pane>
 
       {/* Projects */}
-      <section id="projects" className="space-y-6">
-        <SectionHeading label="ls projects/" title="Projects" />
+      <Pane
+        id="projects"
+        index={3}
+        total={9}
+        path="~/work/projects"
+        command="ls projects/"
+        title="Projects"
+        status="7 repositories"
+      >
 
         <div className="space-y-5">
           {projects.map((project) => {
@@ -333,11 +355,18 @@ export default function Home() {
             );
           })}
         </div>
-      </section>
+      </Pane>
 
       {/* Publications — full detail; the separate route was the same material twice. */}
-      <section id="publications" className="space-y-6">
-        <SectionHeading label="cat publications.bib" title="Publications" />
+      <Pane
+        id="publications"
+        index={4}
+        total={9}
+        path="~/research"
+        command="cat publications.bib"
+        title="Publications"
+        status="2 papers, 1 dataset"
+      >
         <div className="space-y-5">
           {publications.map((pub) => (
             <article key={pub.link} className="interactive-card rounded-xl p-5 md:p-7 space-y-4">
@@ -386,7 +415,7 @@ export default function Home() {
           ))}
         </div>
 
-        <SectionHeading label="ls datasets/" title="Datasets" />
+        <SubHeading label="ls datasets/" title="Datasets" />
         <div className="space-y-5">
           {datasets.map((dataset) => (
             <a
@@ -423,11 +452,18 @@ export default function Home() {
           <ExternalLink className="w-4 h-4" />
           Google Scholar
         </a>
-      </section>
+      </Pane>
 
       {/* Skills */}
-      <section id="skills" className="space-y-6">
-        <SectionHeading label="cat skills.json" title="Skills &amp; Tools" />
+      <Pane
+        id="skills"
+        index={5}
+        total={9}
+        path="~/.config/skills"
+        command="cat skills.json"
+        title="Skills &amp; Tools"
+        status="9 categories"
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {skills.map(({ category, tools }) => (
             <div key={category} className="interactive-card rounded-xl p-5 space-y-3">
@@ -440,11 +476,18 @@ export default function Home() {
             </div>
           ))}
         </div>
-      </section>
+      </Pane>
 
       {/* Log — news and awards, merged and reverse-chronological. */}
-      <section id="log" className="space-y-6">
-        <SectionHeading label="tail -f changelog" title="News &amp; Awards" />
+      <Pane
+        id="log"
+        index={6}
+        total={9}
+        path="/var/log/portfolio"
+        command="tail -f changelog"
+        title="News &amp; Awards"
+        status="newest first"
+      >
         <div className="space-y-4">
           {logEntries.map((entry) => {
             const inner = (
@@ -492,11 +535,18 @@ export default function Home() {
             );
           })}
         </div>
-      </section>
+      </Pane>
 
       {/* Metrics */}
-      <section id="metrics" className="space-y-6">
-        <SectionHeading label="stat --summary" title="By the numbers" />
+      <Pane
+        id="metrics"
+        index={7}
+        total={9}
+        path="~/stats"
+        command="stat --summary"
+        title="By the numbers"
+        status="since 2021"
+      >
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {metrics.map(({ value, suffix, unit, caption }) => (
             <div key={caption} className="interactive-card rounded-xl p-5 md:p-6 text-center space-y-2">
@@ -523,11 +573,18 @@ export default function Home() {
             />
           </picture>
         </div>
-      </section>
+      </Pane>
 
       {/* Hobbies */}
-      <section id="hobbies" className="space-y-6">
-        <SectionHeading label="cat ~/.offline" title="Away from the terminal" />
+      <Pane
+        id="hobbies"
+        index={8}
+        total={9}
+        path="~/.offline"
+        command="cat ~/.offline"
+        title="Away from the terminal"
+        status="no signal required"
+      >
         <p className="text-muted leading-relaxed max-w-3xl">
           Beyond the code and the lab, I am an explorer at heart. When I am not analyzing network topologies or
           writing NS-3 simulation models, you can usually find me outdoors — stepping away from the screen is
@@ -541,11 +598,18 @@ export default function Home() {
             </div>
           ))}
         </div>
-      </section>
+      </Pane>
 
       {/* Contact */}
-      <section id="contact" className="space-y-6">
-        <SectionHeading label="./contact.sh" title="Get in touch" />
+      <Pane
+        id="contact"
+        index={9}
+        total={9}
+        path="~/contact"
+        command="./contact.sh"
+        title="Get in touch"
+        status="open for collaboration"
+      >
         <div className="rounded-xl border border-line bg-surface p-5 md:p-8 space-y-6 font-mono text-sm">
           <div className="space-y-3">
             <p className="text-muted">
@@ -600,7 +664,7 @@ export default function Home() {
             </a>
           </div>
         </div>
-      </section>
+      </Pane>
     </div>
   );
 }

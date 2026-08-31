@@ -41,7 +41,7 @@ export default function SatelliteOrbitDiagram() {
   }, [satellites.length]);
 
   return (
-    <div className="relative w-full h-64 md:h-[22rem] bg-bg overflow-hidden flex flex-col items-center justify-end">
+    <div className="relative w-full h-64 md:h-[26rem] bg-bg overflow-hidden flex flex-col items-center justify-end">
       {/* Background Stars/Space */}
       <div className="absolute inset-0 opacity-20">
         {stars.map((star, i) => (
