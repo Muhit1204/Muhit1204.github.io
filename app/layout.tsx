@@ -25,7 +25,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: 'Md Muntasir Hossain | Research Portfolio',
-  description: 'Interactive research portfolio of Md Muntasir Hossain. Doctor of Engineering student in Electrical & Computer Engineering at Lamar University, researching deep space and LEO satellite communication.',
+  description: 'Interactive research portfolio of Md Muntasir Hossain. Doctor of Engineering student in Electrical & Computer Engineering at Lamar University, researching AI-enabled cybersecurity for LEO satellite communications.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -56,7 +56,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           aria-hidden="true"
           className="hidden xl:block fixed left-4 top-3 z-30 pointer-events-none text-[0.62rem] tracking-widest"
         >
-          <span className="bg-accent text-bg px-1.5 py-0.5">CONNECTED — CDAC/SATLINK</span>
+          <span className="bg-accent text-bg px-1.5 py-0.5">CONNECTED — CDAIC/SATLINK</span>
         </div>
         <div
           aria-hidden="true"

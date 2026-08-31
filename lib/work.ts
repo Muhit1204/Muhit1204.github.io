@@ -19,7 +19,7 @@ export type Experience = {
 export const experiences: Experience[] = [
   {
     title: 'Graduate Research Assistant',
-    company: 'Lamar University, Center for Data Analytics and Cybersecurity',
+    company: 'Lamar University, Center of Data, AI and Cybersecurity',
     link: 'https://www.lamar.edu/center-data-analytics-cybersecurity/',
     location: 'Beaumont, United States',
     date: 'Oct 2024 – Present',

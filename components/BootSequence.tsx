@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
+import { audio } from '@/lib/audio';
 
 /*
  * A machine coming up: firmware, kernel, services, login, session handoff.
@@ -20,7 +21,7 @@ type Line =
 type Tone = 'muted' | 'accent' | 'warn' | 'danger';
 
 const LINES: Line[] = [
-  { kind: 'raw', text: 'ORBITAL BIOS v4.11 — Lamar/CDAC reference platform', tone: 'muted' },
+  { kind: 'raw', text: 'ORBITAL BIOS v4.11 — Lamar CDAIC reference platform', tone: 'muted' },
   { kind: 'raw', text: 'CPU: 16 core  MEM: 128 GB unified  GPU: GB10', tone: 'muted' },
   { kind: 'raw', text: 'Detecting boot device ... nvme0n1', tone: 'muted' },
   { kind: 'gap' },
@@ -45,7 +46,7 @@ const LINES: Line[] = [
   { kind: 'gap' },
   { kind: 'raw', text: 'Last login: today from 127.0.0.1', tone: 'muted' },
   { kind: 'raw', text: 'Md Muntasir Hossain — Doctor of Engineering, ECE', tone: 'accent' },
-  { kind: 'raw', text: 'Satellite communication · network security · applied ML', tone: 'muted' },
+  { kind: 'raw', text: 'Research: AI-enabled cybersecurity for LEO satellite communications', tone: 'muted' },
   { kind: 'gap' },
   { kind: 'cmd', text: './portfolio --start' },
 ];
@@ -93,6 +94,7 @@ export default function BootSequence() {
   const [step, setStep] = useState(0);
   const [typed, setTyped] = useState('');
   const [bar, setBar] = useState(0);
+  const surged = useRef(false);
   const skipRef = useRef<HTMLButtonElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -106,6 +108,12 @@ export default function BootSequence() {
   // progress bar fills a step at a time.
   useEffect(() => {
     if (!visible) return;
+
+    // Fans and drives spinning up, once, at the top of the boot.
+    if (!surged.current) {
+      surged.current = true;
+      audio.surge();
+    }
 
     const schedule = (fn: () => void, ms: number) => {
       timer.current = setTimeout(fn, ms);
@@ -138,6 +146,7 @@ export default function BootSequence() {
     } else {
       // Service lines pay their own stated cost, so the boot has real rhythm
       // instead of a metronome.
+      if (line.kind === 'svc') audio.tick();
       const delay = line.kind === 'svc' ? Math.min(line.ms, 260) : LINE_MS;
       schedule(() => setStep((s) => s + 1), delay);
     }
@@ -151,7 +160,10 @@ export default function BootSequence() {
     if (!visible) return;
     skipRef.current?.focus();
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' || e.key === 'Enter') dismiss();
+      if (e.key === 'Escape' || e.key === 'Enter') {
+        audio.click();
+        dismiss();
+      }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);

@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import Reveal from '@/components/Reveal';
+import ScrambleText from '@/components/ScrambleText';
 
 /*
  * Every section is a pane in a terminal multiplexer: an index and path in the
@@ -42,7 +43,9 @@ export default function Pane({
         <div className="p-4 md:p-7 space-y-6">
           <div className="space-y-2 border-b border-line pb-3">
             <p className="term-label">{command}</p>
-            <h2 className="text-2xl md:text-3xl font-bold text-body">{title}</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-body">
+              <ScrambleText text={title} />
+            </h2>
           </div>
           {children}
         </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { audio } from '@/lib/audio';
 
 /*
  * A working prompt in the hero. Not decoration — it parses commands, prints
@@ -20,7 +21,6 @@ const SECTIONS: { id: string; blurb: string }[] = [
   { id: 'publications', blurb: '2 IEEE papers, 1 dataset' },
   { id: 'skills', blurb: 'languages, ML, networking, security' },
   { id: 'log', blurb: 'news and awards, newest first' },
-  { id: 'metrics', blurb: 'the numbers' },
   { id: 'hobbies', blurb: 'away from the screen' },
   { id: 'contact', blurb: 'email, calendar, social' },
 ];
@@ -58,8 +58,9 @@ const BANNER: Entry = {
 const WHOAMI: Output[] = [
   { text: 'Md Muntasir Hossain', tone: 'accent' },
   { text: 'Doctor of Engineering student, Electrical & Computer Engineering' },
-  { text: 'Graduate Research Assistant, Lamar University CDAC' },
-  { text: 'LEO and deep-space satellite links · network security · applied ML', tone: 'muted' },
+  { text: 'Graduate Research Assistant, Lamar University' },
+  { text: 'Center of Data, AI and Cybersecurity' },
+  { text: 'Research: AI-enabled cybersecurity for LEO satellite communications', tone: 'muted' },
 ];
 
 export default function TerminalPrompt() {
@@ -199,7 +200,13 @@ export default function TerminalPrompt() {
   }, [input]);
 
   const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    // Printable keys and the edit keys click; modifiers stay silent.
+    if (event.key.length === 1 || event.key === 'Backspace' || event.key === 'Delete') {
+      audio.key();
+    }
+
     if (event.key === 'Enter') {
+      audio.click();
       run(input);
       setInput('');
       return;

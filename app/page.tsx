@@ -20,20 +20,13 @@ import {
   Waves,
 } from 'lucide-react';
 import Link from 'next/link';
-import Counter from '@/components/Counter';
 import HeroVisual from '@/components/HeroVisual';
 import ExperienceTimeline from '@/components/ExperienceTimeline';
 import Pane from '@/components/Pane';
+import WindowModal from '@/components/WindowModal';
 import TerminalPrompt from '@/components/TerminalPrompt';
 import { experiences, projects, type Bullet, type ProjectIcon } from '@/lib/work';
 import { datasets, publications } from '@/lib/publications';
-
-const metrics = [
-  { value: 4, suffix: '+', unit: 'years', caption: 'In academic research' },
-  { value: 5, suffix: '+', unit: 'projects', caption: 'Shipped from idea to impact' },
-  { value: 2, suffix: '', unit: 'continents', caption: 'Experience in North America and Asia' },
-  { value: 2, suffix: '', unit: 'publications', caption: 'IEEE conference papers' },
-];
 
 const skills = [
   { category: 'Languages', tools: ['Python', 'TypeScript', 'JavaScript', 'PHP', 'SQL'] },
@@ -167,10 +160,10 @@ export default function Home() {
             <p className="text-muted leading-relaxed max-w-xl">
               Doctor of Engineering student and Graduate Research Assistant at{' '}
               <a href="https://www.lamar.edu/center-data-analytics-cybersecurity/" target="_blank" rel="noopener noreferrer">
-                Lamar CDAC
+                Lamar University&rsquo;s Center of Data, AI and Cybersecurity
               </a>
-              . I break and harden satellite links — maritime LEO, deep space relays — and build the ML
-              that predicts when they fail.
+              . Current research: <span className="text-accent">AI-enabled cybersecurity for LEO satellite communications</span> — plus the
+              maritime LEO and deep-space link work the models are trained on.
             </p>
             <div className="flex flex-wrap gap-2">
               {['LEO satellites', 'DTN', 'ICS/SCADA security', 'MITRE ATT&CK', 'ML forecasting', 'agentic AI'].map((tag) => (
@@ -213,7 +206,7 @@ export default function Home() {
       <Pane
         id="about"
         index={1}
-        total={9}
+        total={8}
         path="~/about"
         command="cat about.md"
         title="About"
@@ -231,7 +224,7 @@ export default function Home() {
                 height={1408}
                 loading="lazy"
                 decoding="async"
-                className="absolute inset-0 w-full h-full object-cover object-top"
+                className="absolute inset-0 w-full h-full object-cover object-center"
               />
             </picture>
           </div>
@@ -256,7 +249,7 @@ export default function Home() {
       <Pane
         id="experience"
         index={2}
-        total={9}
+        total={8}
         path="~/work/experience"
         command="cat work/experience.log"
         title="Experience"
@@ -271,7 +264,7 @@ export default function Home() {
       <Pane
         id="projects"
         index={3}
-        total={9}
+        total={8}
         path="~/work/projects"
         command="ls projects/"
         title="Projects"
@@ -296,36 +289,42 @@ export default function Home() {
                         </span>
                       )}
                     </div>
-                    {project.link && (
-                      <a
-                        href={project.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 font-mono text-xs text-accent hover:underline"
-                      >
-                        <ExternalLink className="w-3.5 h-3.5" />
-                        {project.linkLabel ?? 'Repository'}
-                      </a>
-                    )}
+                    {project.link &&
+                      (project.link.endsWith('.pdf') ? (
+                        <WindowModal
+                          label={project.linkLabel ?? 'Document'}
+                          title={`${project.title} — ${project.linkLabel ?? 'document'}`}
+                          src={project.link}
+                          kind="pdf"
+                        />
+                      ) : (
+                        <a
+                          href={project.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 text-xs text-accent hover:underline"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                          {project.linkLabel ?? 'Repository'}
+                        </a>
+                      ))}
                   </div>
                 </div>
 
                 <BulletList items={project.description.slice(0, 1)} />
 
-                {(project.description.length > 1 || project.image) && (
-                  <Details label={project.description.length > 1 ? `${project.description.length - 1} more` : 'screenshot'}>
-                    <div className="space-y-4">
-                      {project.description.length > 1 && <BulletList items={project.description.slice(1)} />}
-                      {project.image && (
-                        <img
-                          src={project.image}
-                          alt={`${project.title} dashboard`}
-                          loading="lazy"
-                          decoding="async"
-                          className="w-full rounded-none border border-line"
-                        />
-                      )}
-                    </div>
+                {project.image && (
+                  <WindowModal
+                    label="screenshot"
+                    title={`${project.title} — dashboard`}
+                    src={project.image}
+                    kind="image"
+                  />
+                )}
+
+                {project.description.length > 1 && (
+                  <Details label={`${project.description.length - 1} more`}>
+                    <BulletList items={project.description.slice(1)} />
                   </Details>
                 )}
 
@@ -354,7 +353,7 @@ export default function Home() {
       <Pane
         id="publications"
         index={4}
-        total={9}
+        total={8}
         path="~/research"
         command="cat publications.bib"
         title="Publications"
@@ -453,7 +452,7 @@ export default function Home() {
       <Pane
         id="skills"
         index={5}
-        total={9}
+        total={8}
         path="~/.config/skills"
         command="cat skills.json"
         title="Skills &amp; Tools"
@@ -477,7 +476,7 @@ export default function Home() {
       <Pane
         id="log"
         index={6}
-        total={9}
+        total={8}
         path="/var/log/portfolio"
         command="tail -f changelog"
         title="News &amp; Awards"
@@ -532,49 +531,11 @@ export default function Home() {
         </div>
       </Pane>
 
-      {/* Metrics */}
-      <Pane
-        id="metrics"
-        index={7}
-        total={9}
-        path="~/stats"
-        command="stat --summary"
-        title="By the numbers"
-        status="since 2021"
-      >
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {metrics.map(({ value, suffix, unit, caption }) => (
-            <div key={caption} className="interactive-card rounded-none p-5 md:p-6 text-center space-y-2">
-              <p className="font-mono text-2xl md:text-3xl font-bold text-accent">
-                <Counter value={value} suffix={suffix} />
-              </p>
-              <p className="font-mono text-xs uppercase tracking-widest text-body">{unit}</p>
-              <p className="text-sm text-muted leading-snug">{caption}</p>
-            </div>
-          ))}
-        </div>
-        <div className="rounded-none overflow-hidden border border-line">
-          <picture>
-            <source type="image/avif" sizes="100vw" srcSet="/optimized/key-metrics-640.avif 640w, /optimized/key-metrics-1280.avif 1280w, /optimized/key-metrics-1920.avif 1920w" />
-            <source type="image/webp" sizes="100vw" srcSet="/optimized/key-metrics-640.webp 640w, /optimized/key-metrics-1280.webp 1280w, /optimized/key-metrics-1920.webp 1920w" />
-            <img
-              src="/optimized/key-metrics-1280.jpg"
-              alt="Md Muntasir Hossain preparing the UAS for a mapping flight at the LNVA canal site"
-              width={1280}
-              height={1707}
-              loading="lazy"
-              decoding="async"
-              className="w-full h-56 md:h-72 object-cover object-center"
-            />
-          </picture>
-        </div>
-      </Pane>
-
       {/* Hobbies */}
       <Pane
         id="hobbies"
-        index={8}
-        total={9}
+        index={7}
+        total={8}
         path="~/.offline"
         command="cat ~/.offline"
         title="Away from the terminal"
@@ -596,8 +557,8 @@ export default function Home() {
       {/* Contact */}
       <Pane
         id="contact"
-        index={9}
-        total={9}
+        index={8}
+        total={8}
         path="~/contact"
         command="./contact.sh"
         title="Get in touch"
