@@ -23,6 +23,9 @@ import Link from 'next/link';
 import HeroVisual from '@/components/HeroVisual';
 import ExperienceTimeline from '@/components/ExperienceTimeline';
 import Pane from '@/components/Pane';
+import Reveal from '@/components/Reveal';
+import ScrambleText from '@/components/ScrambleText';
+import TracedList from '@/components/TracedList';
 import WindowModal from '@/components/WindowModal';
 import TerminalPrompt from '@/components/TerminalPrompt';
 import { experiences, projects, type Bullet, type ProjectIcon } from '@/lib/work';
@@ -271,7 +274,7 @@ export default function Home() {
         status="7 repositories"
       >
 
-        <div className="space-y-5">
+        <TracedList footer={`${projects.length} builds`}>
           {projects.map((project) => {
             const Icon = projectIcons[project.icon];
             return (
@@ -346,7 +349,7 @@ export default function Home() {
               </article>
             );
           })}
-        </div>
+        </TracedList>
       </Pane>
 
       {/* Publications — full detail; the separate route was the same material twice. */}
@@ -359,7 +362,7 @@ export default function Home() {
         title="Publications"
         status="2 papers, 1 dataset"
       >
-        <div className="space-y-5">
+        <TracedList footer={`${publications.length} papers`}>
           {publications.map((pub) => (
             <article key={pub.link} className="interactive-card rounded-none p-5 md:p-7 space-y-4">
               <div className="flex items-start justify-between gap-4">
@@ -407,10 +410,10 @@ export default function Home() {
               </Details>
             </article>
           ))}
-        </div>
+        </TracedList>
 
         <SubHeading label="ls datasets/" title="Datasets" />
-        <div className="space-y-5">
+        <TracedList>
           {datasets.map((dataset) => (
             <a
               key={dataset.link}
@@ -435,7 +438,7 @@ export default function Home() {
               </div>
             </a>
           ))}
-        </div>
+        </TracedList>
 
         <a
           href="https://scholar.google.com/citations?view_op=list_works&hl=en&user=guXY-gQAAAAJ"
@@ -459,15 +462,19 @@ export default function Home() {
         status="9 categories"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {skills.map(({ category, tools }) => (
-            <div key={category} className="interactive-card rounded-none p-5 space-y-3">
-              <h3 className="font-mono text-xs uppercase tracking-widest text-accent">{category}</h3>
-              <div className="flex flex-wrap gap-2">
-                {tools.map((tool) => (
-                  <Tag key={tool}>{tool}</Tag>
-                ))}
+          {skills.map(({ category, tools }, i) => (
+            <Reveal key={category} delay={i * 40}>
+              <div className="interactive-card rounded-none p-5 space-y-3 h-full">
+                <h3 className="text-xs uppercase tracking-widest text-accent">
+                  <ScrambleText text={category} />
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {tools.map((tool) => (
+                    <Tag key={tool}>{tool}</Tag>
+                  ))}
+                </div>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </Pane>
@@ -482,7 +489,7 @@ export default function Home() {
         title="News &amp; Awards"
         status="newest first"
       >
-        <div className="space-y-4">
+        <TracedList footer={`${logEntries.length} entries`}>
           {logEntries.map((entry) => {
             const inner = (
               <>
@@ -528,7 +535,7 @@ export default function Home() {
               </div>
             );
           })}
-        </div>
+        </TracedList>
       </Pane>
 
       {/* Hobbies */}
@@ -545,11 +552,13 @@ export default function Home() {
           Best debugging happens away from the keyboard.
         </p>
         <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
-          {hobbies.map(({ name, Icon }) => (
-            <div key={name} className="interactive-card rounded-none p-4 flex flex-col items-center gap-3 text-center">
-              <Icon className="w-6 h-6 text-accent" />
-              <span className="font-mono text-xs text-muted">{name}</span>
-            </div>
+          {hobbies.map(({ name, Icon }, i) => (
+            <Reveal key={name} delay={i * 60}>
+              <div className="interactive-card rounded-none p-4 flex flex-col items-center gap-3 text-center h-full">
+                <Icon className="w-6 h-6 text-accent" />
+                <span className="text-xs text-muted">{name}</span>
+              </div>
+            </Reveal>
           ))}
         </div>
       </Pane>

@@ -11,15 +11,20 @@ import SoundToggle from '@/components/SoundToggle';
  * From a sub-route a bare `#work` resolves against that route and does
  * nothing, hence the `/#work` form built in `hrefFor` below.
  */
+/*
+ * Order matters: contact sits last, after the education route, because it is
+ * the call to action rather than another content section.
+ */
 const sectionLinks = [
   { id: 'about', label: 'about' },
   { id: 'experience', label: 'experience' },
   { id: 'projects', label: 'projects' },
   { id: 'publications', label: 'publications' },
-  { id: 'contact', label: 'contact' },
 ];
 
 const routeLinks = [{ href: '/education', label: 'education' }];
+
+const contactLink = { id: 'contact', label: 'contact' };
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,7 +40,7 @@ export default function Navbar() {
   useEffect(() => {
     if (!onHome) return;
 
-    const sections = sectionLinks
+    const sections = [...sectionLinks, contactLink]
       .map((link) => document.getElementById(link.id))
       .filter((el): el is HTMLElement => el !== null);
 
@@ -91,6 +96,16 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
+            <a
+              href={hrefFor(contactLink.id)}
+              className={
+                activeId === contactLink.id
+                  ? 'text-accent transition-colors'
+                  : 'hover:text-body transition-colors'
+              }
+            >
+              {contactLink.label}
+            </a>
           </nav>
 
           <div className="w-px h-5 bg-line" />
@@ -155,6 +170,13 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
+          <a
+            href={hrefFor(contactLink.id)}
+            onClick={() => setIsOpen(false)}
+            className="block text-muted hover:text-accent transition-colors"
+          >
+            {contactLink.label}
+          </a>
           <a
             href="/resume.pdf"
             download

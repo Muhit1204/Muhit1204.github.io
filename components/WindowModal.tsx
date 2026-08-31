@@ -1,17 +1,23 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { createPortal } from 'react-dom';
 import { ExternalLink, X } from 'lucide-react';
 import { audio } from '@/lib/audio';
 
 /*
  * A draggable console window for things that would otherwise open in a new
- * tab — the UAS summary deck, the AI systems PDF, project screenshots. The
- * external link is still offered inside, so nothing is trapped in the modal.
+ * tab — the summary deck, the AI systems PDF, project screenshots.
  *
- * Focus is moved in on open and returned on close, Escape dismisses, and Tab
- * is kept inside while it is up.
+ * Rendered through a portal into <body>. That is not a style choice: an
+ * ancestor with a transform or a will-change on transform becomes the
+ * containing block for position:fixed, and the panes on this page animate on
+ * both. Rendering in place would pin the window to its pane instead of the
+ * viewport, which is exactly what it did before.
  */
+/** True once hydrated, so the portal target exists. */
+const subscribe = () => () => {};
+
 export default function WindowModal({
   label,
   title,
@@ -26,12 +32,16 @@ export default function WindowModal({
   className?: string;
 }) {
   const [open, setOpen] = useState(false);
+  const mounted = useSyncExternalStore(subscribe, () => true, () => false);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const opener = useRef<HTMLElement | null>(null);
+  const drag = useRef<{ startX: number; startY: number; originX: number; originY: number } | null>(null);
 
   const show = useCallback(() => {
     opener.current = document.activeElement as HTMLElement;
+    setOffset({ x: 0, y: 0 }); // Always reopen centred.
     setOpen(true);
     audio.open();
   }, []);
@@ -80,6 +90,88 @@ export default function WindowModal({
     };
   }, [open, hide]);
 
+  /* Dragging by the title bar. Pointer capture keeps the moves coming even
+     when the cursor crosses the PDF iframe, which would otherwise swallow
+     them. */
+  const onPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    if ((event.target as HTMLElement).closest('button, a')) return;
+    event.currentTarget.setPointerCapture(event.pointerId);
+    drag.current = { startX: event.clientX, startY: event.clientY, originX: offset.x, originY: offset.y };
+  };
+
+  const onPointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    const state = drag.current;
+    if (!state) return;
+    setOffset({
+      x: state.originX + (event.clientX - state.startX),
+      y: state.originY + (event.clientY - state.startY),
+    });
+  };
+
+  const endDrag = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (drag.current) event.currentTarget.releasePointerCapture(event.pointerId);
+    drag.current = null;
+  };
+
+  const modal = (
+    <div className="fixed inset-0 z-[90] flex items-center justify-center p-4 bg-bg/85" onClick={hide}>
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
+        onClick={(event) => event.stopPropagation()}
+        style={{ transform: `translate(${offset.x}px, ${offset.y}px)` }}
+        className="w-full max-w-5xl h-[85vh] flex flex-col border border-accent-dim bg-surface shadow-[0_0_40px_rgba(0,255,156,0.15)]"
+      >
+        <div
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={endDrag}
+          onPointerCancel={endDrag}
+          className="flex items-center gap-3 px-3 py-2 border-b border-line bg-surface-2 text-xs shrink-0 cursor-move touch-none select-none"
+        >
+          <span className="text-accent">●</span>
+          <span className="text-muted truncate">{title}</span>
+          <div className="ml-auto flex items-center gap-3">
+            <a
+              href={src}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted hover:text-accent transition-colors"
+            >
+              open in tab
+            </a>
+            <button
+              ref={closeRef}
+              type="button"
+              onClick={hide}
+              aria-label="Close window"
+              className="text-muted hover:text-danger transition-colors"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+
+        <div className="flex-1 min-h-0 bg-bg">
+          {kind === 'pdf' ? (
+            <iframe src={src} title={title} className="w-full h-full border-0" />
+          ) : (
+            <div className="w-full h-full overflow-auto p-4">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={src} alt={title} className="w-full h-auto border border-line" />
+            </div>
+          )}
+        </div>
+
+        <div className="px-3 py-1.5 border-t border-line bg-surface-2 text-[0.65rem] text-muted shrink-0">
+          <span className="text-accent">esc</span> to close · drag the title bar to move
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <>
       <button
@@ -91,61 +183,7 @@ export default function WindowModal({
         {label}
       </button>
 
-      {open && (
-        <div
-          className="fixed inset-0 z-[90] flex items-center justify-center p-4 bg-bg/85"
-          onClick={hide}
-        >
-          <div
-            ref={dialogRef}
-            role="dialog"
-            aria-modal="true"
-            aria-label={title}
-            onClick={(event) => event.stopPropagation()}
-            className="w-full max-w-5xl h-[85vh] flex flex-col border border-accent-dim bg-surface shadow-[0_0_40px_rgba(0,255,156,0.15)]"
-          >
-            {/* Title bar */}
-            <div className="flex items-center gap-3 px-3 py-2 border-b border-line bg-surface-2 text-xs shrink-0">
-              <span className="text-accent">●</span>
-              <span className="text-muted truncate">{title}</span>
-              <div className="ml-auto flex items-center gap-3">
-                <a
-                  href={src}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-muted hover:text-accent transition-colors"
-                >
-                  open in tab
-                </a>
-                <button
-                  ref={closeRef}
-                  type="button"
-                  onClick={hide}
-                  aria-label="Close window"
-                  className="text-muted hover:text-danger transition-colors"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            <div className="flex-1 min-h-0 bg-bg">
-              {kind === 'pdf' ? (
-                <iframe src={src} title={title} className="w-full h-full border-0" />
-              ) : (
-                <div className="w-full h-full overflow-auto p-4">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={src} alt={title} className="w-full h-auto border border-line" />
-                </div>
-              )}
-            </div>
-
-            <div className="px-3 py-1.5 border-t border-line bg-surface-2 text-[0.65rem] text-muted shrink-0">
-              <span className="text-accent">esc</span> to close
-            </div>
-          </div>
-        </div>
-      )}
+      {open && mounted && createPortal(modal, document.body)}
     </>
   );
 }
