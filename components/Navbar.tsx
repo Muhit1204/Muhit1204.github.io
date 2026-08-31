@@ -8,8 +8,8 @@ import SoundToggle from '@/components/SoundToggle';
 
 /*
  * The site is one page with anchors, so nav entries point at section ids.
- * From a sub-route a bare `#work` resolves against that route and does
- * nothing, hence the `/#work` form built in `hrefFor` below.
+ * From a sub-route a bare `#projects` resolves against that route and does
+ * nothing, hence the `/#projects` form built in `hrefFor` below.
  */
 /*
  * Order matters: contact sits last, after the education route, because it is
