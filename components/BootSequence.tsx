@@ -95,12 +95,15 @@ export default function BootSequence() {
   const [typed, setTyped] = useState('');
   const [bar, setBar] = useState(0);
   const surged = useRef(false);
+  // Read from an unlock callback, which does not see the state value.
+  const dismissedRef = useRef(false);
   const skipRef = useRef<HTMLButtonElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const dismiss = useCallback(() => {
     if (timer.current) clearTimeout(timer.current);
+    dismissedRef.current = true;
     setDismissed(true);
   }, []);
 
@@ -109,10 +112,14 @@ export default function BootSequence() {
   useEffect(() => {
     if (!visible) return;
 
-    // Fans and drives spinning up, once, at the top of the boot.
+    /* Fans and drives spinning up, once. On a cold load the audio context is
+       still locked, so this waits for the visitor's first gesture — and only
+       fires if the boot is still on screen by then. */
     if (!surged.current) {
       surged.current = true;
-      audio.surge();
+      audio.onUnlock(() => {
+        if (!dismissedRef.current) audio.surge();
+      });
     }
 
     const schedule = (fn: () => void, ms: number) => {

@@ -6,6 +6,13 @@
  *
  * Nothing is downloaded — every sound is synthesised, so the texture can
  * drift instead of looping audibly and there is no audio payload to fetch.
+ *
+ * Everything is gated on `unlocked`. An AudioContext created before the
+ * visitor's first gesture starts suspended, and a suspended context's clock
+ * does not advance — so anything scheduled against it queues at t=0 and then
+ * fires all at once the moment the context resumes. Refusing to schedule
+ * until the context is genuinely running is what keeps that pile-up from
+ * landing on the first click.
  */
 
 type Listener = (on: boolean) => void;
@@ -19,6 +26,9 @@ class AudioEngine {
   private stopAmbient: (() => void) | null = null;
   private listeners = new Set<Listener>();
   private armed = false;
+  /** True only once the context is actually running and safe to schedule on. */
+  private unlocked = false;
+  private unlockCallbacks = new Set<() => void>();
 
   /** Sound is on by default; autoplay policy decides when it becomes audible. */
   enabled = true;
@@ -33,6 +43,20 @@ class AudioEngine {
   }
 
   /**
+   * Runs once the context is live. Callers that want to make a sound before
+   * any gesture has happened register here instead of firing into a
+   * suspended context, where the sound would queue and then land late.
+   */
+  onUnlock(callback: () => void) {
+    if (this.unlocked) {
+      callback();
+      return () => {};
+    }
+    this.unlockCallbacks.add(callback);
+    return () => this.unlockCallbacks.delete(callback);
+  }
+
+  /**
    * Browsers refuse to start audio before a gesture. Rather than showing the
    * toggle as off and lying about intent, the engine starts enabled and waits
    * here for the visitor's first interaction to actually make noise.
@@ -42,46 +66,65 @@ class AudioEngine {
     this.armed = true;
 
     const start = () => {
-      if (this.enabled) this.ensure();
+      void this.unlock();
       window.removeEventListener('pointerdown', start);
       window.removeEventListener('keydown', start);
     };
 
-    window.addEventListener('pointerdown', start, { once: false });
-    window.addEventListener('keydown', start, { once: false });
+    window.addEventListener('pointerdown', start);
+    window.addEventListener('keydown', start);
   }
 
-  /** Creates the context and ambient bed if they do not exist yet. */
-  private ensure(): AudioContext | null {
-    if (typeof window === 'undefined') return null;
-    if (this.context) {
-      void this.context.resume();
-      return this.context;
+  /**
+   * Creates the context if needed, resumes it, and only then starts the
+   * ambient bed. Nothing is scheduled before the resume resolves.
+   */
+  private async unlock(): Promise<void> {
+    if (typeof window === 'undefined' || this.unlocked) return;
+
+    if (!this.context) {
+      const Ctor =
+        window.AudioContext ??
+        (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+      if (!Ctor) return;
+
+      const context = new Ctor();
+      const master = context.createGain();
+      master.gain.value = 0;
+      master.connect(context.destination);
+      this.context = context;
+      this.master = master;
     }
 
-    const Ctor =
-      window.AudioContext ??
-      (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-    if (!Ctor) return null;
+    try {
+      await this.context.resume();
+    } catch {
+      return; // Gesture was not enough for this browser; try again on the next one.
+    }
+    if (this.context.state !== 'running') return;
 
-    const context = new Ctor();
-    const master = context.createGain();
-    master.gain.value = 0;
-    master.connect(context.destination);
+    this.unlocked = true;
 
-    this.context = context;
-    this.master = master;
+    // Fade up rather than snapping on, now that the clock is actually moving.
+    if (this.master) {
+      const now = this.context.currentTime;
+      this.master.gain.cancelScheduledValues(now);
+      this.master.gain.setValueAtTime(0, now);
+      this.master.gain.linearRampToValueAtTime(this.enabled ? 1 : 0, now + 1.2);
+    }
+
     this.startAmbient();
-    void context.resume();
 
-    // Fade up rather than snapping on. The context is usually created by the
-    // same gesture that triggers a sound, and both landing at once is a thump.
-    if (this.enabled) {
-      master.gain.setValueAtTime(0, context.currentTime);
-      master.gain.linearRampToValueAtTime(1, context.currentTime + 1.2);
-    }
+    const callbacks = [...this.unlockCallbacks];
+    this.unlockCallbacks.clear();
+    callbacks.forEach((callback) => callback());
+  }
 
-    return context;
+  /** The context, but only when it is safe to schedule against. */
+  private live(): AudioContext | null {
+    if (!this.unlocked || !this.enabled) return null;
+    if (!this.context || this.context.state !== 'running') return null;
+    return this.context;
   }
 
   private startAmbient() {
@@ -165,7 +208,7 @@ class AudioEngine {
     attack?: number;
     target?: AudioNode;
   }) {
-    const context = this.context;
+    const context = this.live();
     const destination = target ?? this.master;
     if (!context || !destination) return;
 
@@ -186,48 +229,40 @@ class AudioEngine {
 
   setEnabled(next: boolean) {
     this.enabled = next;
+    this.emit();
 
     if (next) {
-      const context = this.ensure();
-      if (context && this.master) {
-        this.master.gain.setTargetAtTime(1, context.currentTime, 0.2);
-      }
+      // A toggle is itself a gesture, so this is a valid moment to unlock.
+      void this.unlock().then(() => {
+        if (this.context && this.master && this.context.state === 'running') {
+          this.master.gain.setTargetAtTime(1, this.context.currentTime, 0.2);
+        }
+      });
     } else if (this.context && this.master) {
+      this.master.gain.cancelScheduledValues(this.context.currentTime);
       this.master.gain.setTargetAtTime(0, this.context.currentTime, 0.15);
     }
-
-    this.emit();
   }
 
   /** A keystroke in the prompt. Pitch varies so typing does not machine-gun. */
   key() {
-    if (!this.enabled) return;
-    this.ensure();
     this.tone({ frequency: 1400 + Math.random() * 700, type: 'square', gain: 0.035, decay: 0.018 });
   }
 
   /** Enter, or any committing action. */
   click() {
-    if (!this.enabled) return;
-    this.ensure();
     this.tone({ frequency: 900, type: 'square', gain: 0.05, decay: 0.035 });
     this.tone({ frequency: 1650, type: 'square', gain: 0.03, decay: 0.05 });
   }
 
   /** A window coming up: two rising notes. */
   open() {
-    if (!this.enabled) return;
-    const context = this.ensure();
-    if (!context) return;
     this.tone({ frequency: 620, gain: 0.03, decay: 0.05 });
     setTimeout(() => this.tone({ frequency: 980, gain: 0.03, decay: 0.07 }), 55);
   }
 
   /** A window going away: the same two notes, falling. */
   close() {
-    if (!this.enabled) return;
-    const context = this.ensure();
-    if (!context) return;
     this.tone({ frequency: 900, gain: 0.028, decay: 0.045 });
     setTimeout(() => this.tone({ frequency: 480, gain: 0.028, decay: 0.07 }), 55);
   }
@@ -237,8 +272,7 @@ class AudioEngine {
    * settles, plus a rising sweep — the sound of fans and drives coming on.
    */
   surge(seconds = 2.4) {
-    if (!this.enabled) return;
-    const context = this.ensure();
+    const context = this.live();
     if (!context || !this.master) return;
 
     const now = context.currentTime;
@@ -278,7 +312,6 @@ class AudioEngine {
 
   /** A service line landing during boot. */
   tick() {
-    if (!this.enabled) return;
     this.tone({ frequency: 2200 + Math.random() * 400, type: 'square', gain: 0.022, decay: 0.012 });
   }
 
