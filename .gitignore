@@ -9,3 +9,6 @@ coverage/
 source-docs/*
 # Full-resolution image sources for scripts/optimize-images.mjs.
 !source-docs/image-originals/
+
+# QA screenshot captures (large, regenerable)
+qa-captures/

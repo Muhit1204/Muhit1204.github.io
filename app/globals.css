@@ -44,3 +44,182 @@ span a:hover,
     transform: scale(0.98);
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
+
+/* Full-bleed, responsive interactive city. */
+.city-section-bleed {
+    width: min(1440px, calc(100vw - 2rem));
+    margin-left: 50%;
+    transform: translateX(-50%);
+}
+
+.city-shell {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgb(226 232 240);
+    border-radius: 1.5rem;
+    background: #fdfbf7;
+    box-shadow: 0 24px 60px -36px rgb(15 23 42 / 0.5);
+}
+
+.city-panorama {
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-inline: contain;
+    touch-action: pan-x pan-y;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(148 163 184) transparent;
+}
+
+.city-panorama:focus-visible {
+    outline: 3px solid rgb(13 148 136);
+    outline-offset: -3px;
+}
+
+.city-stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.city-mobile-guidance {
+    margin: 0;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgb(226 232 240);
+    background: rgb(255 255 255 / 0.96);
+    color: rgb(71 85 105);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.city-destination {
+    position: absolute;
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgb(203 213 225);
+    border-radius: 9999px;
+    background: rgb(255 255 255 / 0.96);
+    padding: 0.55rem 1rem;
+    color: rgb(30 41 59);
+    font-size: clamp(0.75rem, 1.2vw, 1rem);
+    font-weight: 800;
+    line-height: 1;
+    white-space: nowrap;
+    box-shadow: 0 8px 24px -10px rgb(15 23 42 / 0.55);
+    transition: transform 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
+}
+
+.city-destination:hover,
+.city-destination:focus-visible {
+    transform: translate(-50%, -50%) translateY(-3px) scale(1.035);
+    border-color: rgb(20 184 166);
+    color: rgb(15 118 110);
+    box-shadow: 0 12px 30px -10px rgb(13 148 136 / 0.48);
+}
+
+.city-destination:active {
+    transform: translate(-50%, -50%) scale(0.98);
+}
+
+.city-destination:focus-visible {
+    outline: 3px solid rgb(13 148 136);
+    outline-offset: 3px;
+}
+
+.city-window-dim {
+    mix-blend-mode: multiply;
+    opacity: 0.9;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+
+.city-window-dim--publications {
+    animation-name: city-window-off-a;
+    animation-duration: 4s;
+}
+
+.city-window-dim--research {
+    animation-name: city-window-off-b;
+    animation-duration: 5.2s;
+    animation-delay: -2.1s;
+}
+
+.city-window-dim--experience {
+    animation-name: city-window-off-a;
+    animation-duration: 4.8s;
+    animation-delay: -3.4s;
+}
+
+.city-window-dim--cafe {
+    animation-name: city-window-off-b;
+    animation-duration: 3.7s;
+    animation-delay: -1.2s;
+}
+
+.city-motion-paused .city-window-dim {
+    animation-play-state: paused;
+}
+
+@keyframes city-window-off-a {
+    0%, 18%, 100% { opacity: 0.92; }
+    30%, 48% { opacity: 0.02; }
+    60%, 74% { opacity: 0.82; }
+    84%, 94% { opacity: 0.02; }
+}
+
+@keyframes city-window-off-b {
+    0%, 16%, 100% { opacity: 0.08; }
+    28%, 45% { opacity: 0.9; }
+    58%, 72% { opacity: 0.04; }
+    82%, 94% { opacity: 0.86; }
+}
+
+.city-smoke {
+    filter: blur(0.35px);
+    mix-blend-mode: normal;
+}
+
+@media (max-width: 767px) {
+    .city-section-bleed {
+        width: 100vw;
+    }
+
+    .city-shell {
+        border-right: 0;
+        border-left: 0;
+        border-radius: 0;
+    }
+
+    .city-stage {
+        width: clamp(760px, 190vw, 860px);
+    }
+
+    .city-desktop-motion {
+        display: none;
+    }
+
+    .city-destination {
+        padding-inline: 0.9rem;
+        font-size: 0.8125rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .city-destination {
+        transition: none;
+    }
+
+    .city-window-dim {
+        animation: none;
+        opacity: 0;
+    }
+}
+
+
+

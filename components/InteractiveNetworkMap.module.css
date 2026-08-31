@@ -1,0 +1,183 @@
+.shell {
+  position: relative;
+  left: 50%;
+  width: min(1440px, calc(100vw - 24px));
+  max-width: none;
+  transform: translateX(-50%);
+}
+
+.mobileGuidance {
+  display: none;
+}
+
+.panorama {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid rgb(148 163 184 / 0.28);
+  border-radius: 24px;
+  background: #e8f5fb;
+  box-shadow: 0 24px 58px rgb(30 64 88 / 0.15);
+  outline: none;
+}
+
+.panorama:focus-visible {
+  box-shadow: 0 0 0 4px rgb(14 116 144 / 0.26), 0 24px 58px rgb(30 64 88 / 0.15);
+}
+
+.stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.baseImage {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.motionLayer,
+.destinationLayer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.motionLayer {
+  z-index: 5;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.destinationLayer {
+  z-index: 10;
+  pointer-events: none;
+}
+
+.destination {
+  position: absolute;
+  display: inline-flex;
+  min-width: max-content;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 18px;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgb(255 255 255 / 0.74);
+  border-radius: 999px;
+  background: rgb(255 253 247 / 0.93);
+  box-shadow: 0 6px 18px rgb(25 45 55 / 0.22), inset 0 1px 0 rgb(255 255 255 / 0.9);
+  color: #193847;
+  font-size: clamp(0.78rem, 1.15vw, 1rem);
+  font-weight: 750;
+  line-height: 1.1;
+  text-decoration: none;
+  white-space: nowrap;
+  pointer-events: auto;
+  transition: transform 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.destination:hover {
+  transform: translate(-50%, -50%) translateY(-3px) scale(1.035);
+  background: #fffdf7;
+  box-shadow: 0 9px 22px rgb(25 45 55 / 0.28), inset 0 1px 0 #fff;
+}
+
+.destination:active {
+  transform: translate(-50%, -50%) translateY(1px) scale(0.98);
+}
+
+.destination:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 3px;
+}
+
+.windowGlow {
+  opacity: 0.24;
+  animation: cityWindowGlow 11s steps(1, end) infinite;
+}
+
+.dish {
+  transform-origin: 1228px 471px;
+}
+
+.smokePrimary,
+.smokeSecondary {
+  filter: drop-shadow(0 4px 5px rgb(62 51 43 / 0.09));
+}
+
+.motionPaused .windowGlow {
+  animation-play-state: paused;
+}
+
+@keyframes cityWindowGlow {
+  0%, 9% { opacity: 0.24; }
+  10%, 28% { opacity: 1; }
+  29%, 47% { opacity: 0.34; }
+  48%, 70% { opacity: 0.97; }
+  71%, 86% { opacity: 0.26; }
+  87%, 100% { opacity: 0.95; }
+}
+
+@media (max-width: 767px) {
+  .shell {
+    width: 100vw;
+  }
+
+  .mobileGuidance {
+    display: block;
+    margin: 0 auto 10px;
+    padding-inline: 18px;
+    color: #526675;
+    font-size: 0.82rem;
+    line-height: 1.45;
+    text-align: center;
+  }
+
+  .panorama {
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-inline: 0;
+    border-radius: 18px;
+    overscroll-behavior-inline: contain;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    touch-action: pan-x pan-y;
+  }
+
+  .stage {
+    width: clamp(760px, 205vw, 860px);
+    min-width: clamp(760px, 205vw, 860px);
+  }
+
+  .desktopOnly,
+  .windowGlow {
+    display: none;
+  }
+
+  .destination {
+    padding-inline: 15px;
+    font-size: 0.84rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motionLayer {
+    display: none;
+  }
+
+  .panorama {
+    scroll-behavior: auto;
+  }
+
+  .destination {
+    transition: none;
+  }
+}

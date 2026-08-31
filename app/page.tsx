@@ -63,11 +63,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="space-y-4 md:space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+      <section className="city-section-bleed space-y-4 md:space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 px-4 pb-4 md:px-0">
           <h2 className="text-2xl font-bold tracking-tight text-slate-900">Explore the City</h2>
           <div className="bg-white/95 text-slate-600 font-semibold px-4 py-1.5 rounded-full text-sm shadow-sm border border-slate-200 w-fit">
-            Click on the buildings to explore
+            Choose a destination
           </div>
         </div>
         <InteractiveNetworkMap />
