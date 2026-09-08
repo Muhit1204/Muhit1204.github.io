@@ -31,6 +31,7 @@ export function toBibTeX(publication: Publication): string {
     ['year', year],
   ];
   if (publication.location) fields.push(['address', publication.location]);
+  fields.push(['doi', publication.doi]);
   fields.push(['url', publication.link]);
 
   const body = fields.map(([key, value]) => `  ${key} = {${value}}`).join(',\n');

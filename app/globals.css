@@ -23,9 +23,9 @@
     color-scheme: dark;
 }
 
-/* Everything is monospace. This is a console, not a magazine. */
+/* Inter keeps prose readable; terminal/HUD elements opt into JetBrains Mono. */
 html {
-    font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
     /* `clip` rather than `hidden`: it stops sideways overhang without making
        the root a scroll container, which would break the sticky header. */
     overflow-x: clip;
@@ -82,6 +82,7 @@ span a:hover,
 
 /* Section label above each heading — the `$ cat about.md` device. */
 .term-label {
+    font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     font-size: 0.75rem;
     letter-spacing: 0.08em;
     color: var(--muted);

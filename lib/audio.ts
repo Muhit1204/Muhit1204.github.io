@@ -30,8 +30,8 @@ class AudioEngine {
   private unlocked = false;
   private unlockCallbacks = new Set<() => void>();
 
-  /** Sound is on by default; autoplay policy decides when it becomes audible. */
-  enabled = true;
+  /** New visitors are silent until they explicitly use the sound toggle. */
+  enabled = false;
 
   subscribe(listener: Listener) {
     this.listeners.add(listener);
@@ -56,11 +56,7 @@ class AudioEngine {
     return () => this.unlockCallbacks.delete(callback);
   }
 
-  /**
-   * Browsers refuse to start audio before a gesture. Rather than showing the
-   * toggle as off and lying about intent, the engine starts enabled and waits
-   * here for the visitor's first interaction to actually make noise.
-   */
+  /** Compatibility hook for explicit callers; the UI does not auto-arm it. */
   armAutoStart() {
     if (this.armed || typeof window === 'undefined') return;
     this.armed = true;

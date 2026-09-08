@@ -25,8 +25,8 @@ export const experiences: Experience[] = [
     date: 'Oct 2024 – Present',
     description: [
       'Working under a federally funded project in collaboration with the Port of Beaumont to improve the reliability and resilience of Maritime Satellite Communications and intelligent networking systems.',
-      'Conducting research on performance evaluation and adaptive optimization of satellite based and Delay tolerant Networks, emphasizing reliability under variable environmental and mobility conditions.',
-      'Developing NS-3 simulation models to analyze link stability, routing efficiency and communication latency across heterogenous network topologies.',
+      'Conducting research on performance evaluation and adaptive optimization of satellite-based and delay-tolerant networks, emphasizing reliability under variable environmental and mobility conditions.',
+      'Developing NS-3 simulation models to analyze link stability, routing efficiency and communication latency across heterogeneous network topologies.',
       'Investigating cybersecurity risks in intelligent maritime systems, including signal manipulation, spoofing and data integrity threats.',
       'Delivered data-driven insights adopted by project stakeholders to strengthen connectivity and operational security for port activities.',
     ],

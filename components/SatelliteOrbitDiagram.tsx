@@ -17,7 +17,6 @@ export default function SatelliteOrbitDiagram() {
   const [stars, setStars] = useState<{w: number, h: number, t: number, l: number, o: number}[]>([]);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setStars([...Array(20)].map(() => ({
       w: Math.random() * 3,
       h: Math.random() * 3,

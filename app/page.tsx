@@ -20,6 +20,7 @@ import {
   Waves,
 } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import HeroVisual from '@/components/HeroVisual';
 import ExperienceTimeline from '@/components/ExperienceTimeline';
 import CiteButton from '@/components/CiteButton';
@@ -170,13 +171,18 @@ export default function Home() {
               Md Muntasir Hossain
               <span className="term-cursor" />
             </h1>
+            <p className="font-mono text-sm text-accent tracking-wide">
+              Doctoral Researcher · Satellite Networks · Cybersecurity · Intelligent Networking
+            </p>
+            <p className="text-lg text-body leading-relaxed max-w-xl">
+              Building predictive and resilient communication systems for LEO, maritime, and deep-space networks.
+            </p>
             <p className="text-muted leading-relaxed max-w-xl">
               Doctor of Engineering student and Graduate Research Assistant at{' '}
               <a href="https://www.lamar.edu/center-data-analytics-cybersecurity/" target="_blank" rel="noopener noreferrer">
                 Lamar University&rsquo;s Center of Data, AI and Cybersecurity
               </a>
-              . Current research: <span className="text-accent">AI-enabled cybersecurity for LEO satellite communications</span> — plus the
-              maritime LEO and deep-space link work the models are trained on.
+              , researching AI-enabled cybersecurity for satellite communications.
             </p>
             <p className="text-sm text-body border-l-2 border-accent-dim pl-3">
               Looking for internship positions in satellite communications, network security and applied
@@ -214,6 +220,26 @@ export default function Home() {
             <HeroVisual />
           </div>
         </div>
+
+        <nav
+          aria-label="Research highlights"
+          className="grid grid-cols-2 lg:grid-cols-4 border border-line bg-surface font-mono text-xs"
+        >
+          {[
+            { label: '2 IEEE Papers', href: '#publications' },
+            { label: 'Public Experimental Dataset', href: '#publications' },
+            { label: 'Federally Funded Research', href: '#experience' },
+            { label: '2nd Place · AWS AI Pitch', href: '#log' },
+          ].map((item) => (
+            <a
+              key={item.label}
+              href={item.href}
+              className="px-3 py-3 text-center text-muted hover:text-accent hover:bg-surface-2 border-line border-b odd:border-r lg:border-b-0 lg:border-r last:border-r-0 transition-colors"
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
 
         {/* Everything this reaches is also reachable by scrolling. */}
         <TerminalPrompt />
@@ -322,7 +348,25 @@ export default function Home() {
                   <Calendar className="w-3.5 h-3.5 shrink-0 mt-0.5" />
                   <span>{pub.date}</span>
                 </p>
+                <p className="flex items-start gap-2 text-muted">
+                  <span className="text-accent shrink-0">doi</span>
+                  <a
+                    href={'https://doi.org/' + pub.doi}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-mono text-accent hover:underline"
+                  >
+                    {pub.doi}
+                  </a>
+                </p>
               </div>
+
+              {pub.outcome && (
+                <p className="border-l-2 border-accent pl-3 text-sm text-body">
+                  <span className="font-mono text-xs uppercase tracking-wider text-accent">result </span>
+                  {pub.outcome}
+                </p>
+              )}
 
               <div className="flex flex-wrap gap-2">
                 {pub.keywords.map((keyword) => (
@@ -522,11 +566,12 @@ export default function Home() {
                 <h3 className="text-base sm:text-lg font-bold text-body [overflow-wrap:anywhere]">{entry.title}</h3>
                 <div className="flex items-start gap-4">
                   {entry.logo && (
-                    <img
+                    <Image
                       src={entry.logo.src}
                       alt={entry.logo.alt}
                       loading="lazy"
-                      decoding="async"
+                      width={80}
+                      height={80}
                       className="hidden sm:block w-20 h-20 object-contain rounded-none border border-line bg-surface-2 p-2 shrink-0"
                     />
                   )}

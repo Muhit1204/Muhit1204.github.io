@@ -31,6 +31,18 @@ describe('toBibTeX', () => {
         expect(entry).toContain('@inproceedings{hossain2026predictive')
     })
 
+    it('uses the authoritative IEEE URL and DOI mapping', () => {
+        expect(publications[0]).toMatchObject({
+            link: 'https://ieeexplore.ieee.org/document/11393745',
+            doi: '10.1109/CCWC67433.2026.11393745',
+        })
+        expect(publications[1]).toMatchObject({
+            link: 'https://ieeexplore.ieee.org/document/11395767',
+            doi: '10.1109/ICAIC67076.2026.11395767',
+        })
+        expect(entry).toContain('doi = {10.1109/CCWC67433.2026.11393745}')
+    })
+
     it('carries the venue, year and link', () => {
         expect(entry).toContain('booktitle = {2026 IEEE')
         expect(entry).toContain('year = {2026}')

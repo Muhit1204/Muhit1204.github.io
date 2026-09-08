@@ -76,6 +76,12 @@ async function freshEngine() {
 }
 
 describe('audio engine', () => {
+    it('defaults to off for a new visitor', async () => {
+        const audio = await freshEngine()
+
+        expect(audio.enabled).toBe(false)
+    })
+
     beforeEach(() => {
         vi.clearAllMocks()
     })

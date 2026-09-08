@@ -8,6 +8,7 @@ import BackToTop from '@/components/BackToTop';
 import BootSequence from '@/components/BootSequence';
 import { PERSON, SITE_URL } from '@/lib/site';
 import { publications } from '@/lib/publications';
+import { serializeJsonLd } from '@/lib/json-ld';
 import GlyphField from '@/components/GlyphField';
 import StatusTicker from '@/components/StatusTicker';
 
@@ -76,6 +77,7 @@ const STRUCTURED_DATA = {
       name: publication.title,
       abstract: publication.abstract,
       url: publication.link,
+      identifier: `https://doi.org/${publication.doi}`,
       datePublished: publication.date.match(/\d{4}/)?.[0],
       keywords: publication.keywords,
       isPartOf: { '@type': 'PublicationEvent', name: publication.venue },
@@ -93,7 +95,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script
           type="application/ld+json"
           // Built from the same data the page renders, so the two cannot drift.
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED_DATA) }}
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(STRUCTURED_DATA) }}
         />
         <Script async src="https://www.googletagmanager.com/gtag/js?id=G-FTSNVMRKNX" strategy="afterInteractive" />
         <Script id="google-analytics" strategy="afterInteractive">{`
@@ -103,7 +105,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           gtag('config', 'G-FTSNVMRKNX');
         `}</Script>
       </head>
-      <body className="font-mono bg-bg text-body min-h-screen flex flex-col selection:bg-accent/30 relative" suppressHydrationWarning>
+      <body className="font-sans bg-bg text-body min-h-screen flex flex-col selection:bg-accent/30 relative" suppressHydrationWarning>
         {/* Scroll reveal starts hidden and is un-hidden by script. Without
             script there is nothing to un-hide it, so show everything. */}
         <noscript>

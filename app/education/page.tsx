@@ -85,7 +85,7 @@ export default function Education() {
                 <div className="absolute -left-6 sm:-left-8 md:-left-[2.4rem] top-1.5 w-3 h-3 bg-surface-2 rounded-full ring-4 ring-bg group-hover:scale-150 group-hover:bg-surface-2 transition-all duration-300 z-10" />
 
                 <div className="interactive-card bg-surface p-4 sm:p-6 md:p-8 rounded-none border border-line shadow-sm hover:border-accent-dim">
-                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-body mb-2 group-hover:text-accent transition-colors [overflow-wrap:anywhere]">Masters of Science (MS) in Computer Science</h3>
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-body mb-2 group-hover:text-accent transition-colors [overflow-wrap:anywhere]">Master of Science (MS) in Computer Science</h3>
                   <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-muted mb-6 font-medium">
                     <span className="flex items-center gap-2 text-body">
                       <GraduationCap className="w-4 h-4" />
@@ -106,7 +106,7 @@ export default function Education() {
                   <div className="space-y-2 mb-4 md:mb-8">
                     <span className="font-semibold text-body text-sm uppercase tracking-wider">Relevant Coursework</span>
                     <p className="text-muted leading-relaxed">
-                      Software Engineering, Analysis of Algorithms, Computer Networks, Big Data, Machine Learning, Advance Operating Systems.
+                      Software Engineering, Analysis of Algorithms, Computer Networks, Big Data, Machine Learning, Advanced Operating Systems.
                     </p>
                   </div>
 
@@ -151,7 +151,7 @@ export default function Education() {
                 <div className="absolute -left-6 sm:-left-8 md:-left-[2.4rem] top-1.5 w-3 h-3 bg-accent rounded-full ring-4 ring-bg group-hover:scale-150 transition-all duration-300 z-10" />
 
                 <div className="interactive-card bg-surface p-4 sm:p-6 md:p-8 rounded-none border border-line shadow-sm hover:border-accent-dim">
-                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-body mb-2 group-hover:text-accent transition-colors [overflow-wrap:anywhere]">Bachelors of Science (B.Sc.) in Computer Science and Engineering</h3>
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-body mb-2 group-hover:text-accent transition-colors [overflow-wrap:anywhere]">Bachelor of Science (B.Sc.) in Computer Science and Engineering</h3>
                   <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-muted mb-6 font-medium">
                     <span className="flex items-center gap-2 text-body">
                       <GraduationCap className="w-4 h-4" />
@@ -180,16 +180,16 @@ export default function Education() {
                       <span className="text-xs font-bold text-muted tracking-widest uppercase">Bachelor&apos;s Thesis</span>
                     </div>
                     <h4 className="text-lg font-bold text-body mb-4 leading-snug">
-                      Rigorous Study of Computer Geometry and Turin Test on Graph Layout Algorithms
+                      A Thorough Analysis of Computational Geometry and the Turing Test on Graph Layout Algorithms
                     </h4>
                     <ul className="space-y-2 text-muted mb-6 text-sm">
                       <li className="flex items-start gap-2">
                         <span className="text-muted mt-1">•</span>
-                        <span>An in-depth analysis of vulnerabilities within cloud-integrated Internet of Things (IoT) networks, proposing a novel framework for detecting and mitigating distributed denial-of-service (DDoS) attacks using machine learning techniques.</span>
+                        <span>An undergraduate thesis examining computational geometry and the Turing Test in the context of graph layout algorithms.</span>
                       </li>
                     </ul>
                     <div className="flex flex-wrap gap-2">
-                      {["IoT", "Cloud Computing", "Cybersecurity", "DDoS", "Machine Learning"].map(kw => (
+                      {["Computational Geometry", "Graph Layout Algorithms", "Turing Test"].map(kw => (
                         <span key={kw} className="px-2.5 py-1 bg-surface text-muted text-xs font-semibold rounded border border-line">
                           {kw}
                         </span>

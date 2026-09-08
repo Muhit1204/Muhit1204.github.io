@@ -5,16 +5,12 @@ import { Volume2, VolumeX } from 'lucide-react';
 import { audio } from '@/lib/audio';
 
 /*
- * On by default. Browsers will not let audio start before a gesture, so the
- * engine arms itself and becomes audible at the visitor's first click or
- * keypress; the button reports intent, which is the honest thing to show
- * before that first interaction.
+ * Sound is opt-in: unrelated clicks and keypresses never start audio.
  */
 export default function SoundToggle() {
-  const [on, setOn] = useState(true);
+  const [on, setOn] = useState(false);
 
   useEffect(() => {
-    audio.armAutoStart();
     const unsubscribe = audio.subscribe(setOn);
     return () => {
       unsubscribe();

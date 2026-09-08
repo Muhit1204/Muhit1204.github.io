@@ -1,7 +1,10 @@
-import nextCoreWebVitals from 'eslint-config-next/core-web-vitals';
+import { FlatCompat } from '@eslint/eslintrc';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
 
-// ESLint 9 flat config, replacing the old .eslintrc.json ("extends": "next").
-// eslint-config-next 16 ships flat-config arrays, so its entries spread in directly.
+const directory = path.dirname(fileURLToPath(import.meta.url));
+const compat = new FlatCompat({ baseDirectory: directory });
+
 const config = [
   {
     ignores: [
@@ -12,7 +15,7 @@ const config = [
       'tsconfig.tsbuildinfo',
     ],
   },
-  ...nextCoreWebVitals,
+  ...compat.extends('next/core-web-vitals'),
 ];
 
 export default config;
