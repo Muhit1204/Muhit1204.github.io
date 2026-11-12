@@ -1,23 +1,31 @@
 import { MapPin, GraduationCap, Code, FileText } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import Pane from '@/components/Pane';
 import Reveal from '@/components/Reveal';
 
 export default function Education() {
   return (
-    <div className="space-y-10 md:space-y-20 max-w-5xl mx-auto pb-6 md:pb-12">
+    <div className="space-y-4 md:space-y-6 max-w-5xl mx-auto px-2 pt-2 md:px-6 md:pt-6 pb-20">
       {/* Header */}
-      <section className="space-y-4 pt-4 md:pt-8">
-        <p className="term-label">cat education.log</p>
-        <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight text-body glow">Education</h1>
-        <p className="text-muted leading-relaxed max-w-2xl">
-          Computer science fundamentals through to doctoral research on satellite and deep space
-          communication, plus the ICS security certifications behind the applied work.
-        </p>
+      <section className="window">
+        <div className="titlebar titlebar-active mb-[3px]">
+          <span className="truncate">education.log</span>
+          <span className="titlebar-grip" aria-hidden="true" />
+          <Link href="/desktop" className="btn !py-1 text-xs font-normal">
+            back to desktop
+          </Link>
+        </div>
+        <div className="well space-y-4">
+          <p className="term-label">cat education.log</p>
+          <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight text-body">Education</h1>
+          <p className="text-muted leading-relaxed max-w-2xl">
+            Computer science fundamentals through to doctoral research on satellite and deep space
+            communication, plus the ICS security certifications behind the applied work.
+          </p>
+        </div>
       </section>
 
-
-      {/* Education */}
       <Pane
         id="education"
         index={1}
@@ -39,9 +47,9 @@ export default function Education() {
               </div>
               <div className="col-span-4 relative group">
                 {/* Timeline dot */}
-                <div className="absolute -left-6 sm:-left-8 md:-left-[2.4rem] top-1.5 w-3 h-3 bg-surface-2 rounded-full ring-4 ring-bg group-hover:scale-150 group-hover:bg-surface-2 transition-all duration-300 z-10" />
+                <div className="absolute -left-6 sm:-left-8 md:-left-[2.4rem] top-1.5 w-3 h-3 bg-surface-2 rounded-full ring-4 ring-surface group-hover:scale-150 group-hover:bg-surface-2 transition-all duration-300 z-10" />
 
-                <div className="interactive-card bg-surface p-4 sm:p-6 md:p-8 rounded-none border border-line shadow-sm hover:border-accent-dim">
+                <div className="interactive-card bg-surface p-4 sm:p-6 md:p-8 rounded-none border border-line">
                   <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-body mb-2 group-hover:text-accent transition-colors [overflow-wrap:anywhere]">Doctor of Engineering (D.E.) in Electrical &amp; Computer Engineering</h3>
                   <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-muted mb-6 font-medium">
                     <span className="flex items-center gap-2 text-body">
@@ -64,7 +72,7 @@ export default function Education() {
 
                   <div className="flex flex-wrap gap-2">
                     {["Deep Space Communication", "Delay Tolerant Networking", "LEO Satellites", "Network Resilience", "Machine Learning"].map(kw => (
-                      <span key={kw} className="px-2.5 py-1 bg-surface text-muted text-xs font-semibold rounded border border-line">
+                      <span key={kw} className="px-2.5 py-1 bg-surface text-muted text-xs font-semibold border border-line">
                         {kw}
                       </span>
                     ))}
@@ -82,9 +90,9 @@ export default function Education() {
               </div>
               <div className="col-span-4 relative group">
                 {/* Timeline dot */}
-                <div className="absolute -left-6 sm:-left-8 md:-left-[2.4rem] top-1.5 w-3 h-3 bg-surface-2 rounded-full ring-4 ring-bg group-hover:scale-150 group-hover:bg-surface-2 transition-all duration-300 z-10" />
+                <div className="absolute -left-6 sm:-left-8 md:-left-[2.4rem] top-1.5 w-3 h-3 bg-surface-2 rounded-full ring-4 ring-surface group-hover:scale-150 group-hover:bg-surface-2 transition-all duration-300 z-10" />
 
-                <div className="interactive-card bg-surface p-4 sm:p-6 md:p-8 rounded-none border border-line shadow-sm hover:border-accent-dim">
+                <div className="interactive-card bg-surface p-4 sm:p-6 md:p-8 rounded-none border border-line">
                   <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-body mb-2 group-hover:text-accent transition-colors [overflow-wrap:anywhere]">Master of Science (MS) in Computer Science</h3>
                   <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-muted mb-6 font-medium">
                     <span className="flex items-center gap-2 text-body">
@@ -128,7 +136,7 @@ export default function Education() {
                     </ul>
                     <div className="flex flex-wrap gap-2">
                       {["LEO Satellites", "Maritime Communication", "Network Resilience", "Machine Learning"].map(kw => (
-                        <span key={kw} className="px-2.5 py-1 bg-surface text-muted text-xs font-semibold rounded border border-line">
+                        <span key={kw} className="px-2.5 py-1 bg-surface text-muted text-xs font-semibold border border-line">
                           {kw}
                         </span>
                       ))}
@@ -148,9 +156,9 @@ export default function Education() {
               </div>
               <div className="col-span-4 relative group">
                 {/* Timeline dot */}
-                <div className="absolute -left-6 sm:-left-8 md:-left-[2.4rem] top-1.5 w-3 h-3 bg-accent rounded-full ring-4 ring-bg group-hover:scale-150 transition-all duration-300 z-10" />
+                <div className="absolute -left-6 sm:-left-8 md:-left-[2.4rem] top-1.5 w-3 h-3 bg-accent rounded-full ring-4 ring-surface group-hover:scale-150 transition-all duration-300 z-10" />
 
-                <div className="interactive-card bg-surface p-4 sm:p-6 md:p-8 rounded-none border border-line shadow-sm hover:border-accent-dim">
+                <div className="interactive-card bg-surface p-4 sm:p-6 md:p-8 rounded-none border border-line">
                   <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-body mb-2 group-hover:text-accent transition-colors [overflow-wrap:anywhere]">Bachelor of Science (B.Sc.) in Computer Science and Engineering</h3>
                   <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-muted mb-6 font-medium">
                     <span className="flex items-center gap-2 text-body">
@@ -190,7 +198,7 @@ export default function Education() {
                     </ul>
                     <div className="flex flex-wrap gap-2">
                       {["Computational Geometry", "Graph Layout Algorithms", "Turing Test"].map(kw => (
-                        <span key={kw} className="px-2.5 py-1 bg-surface text-muted text-xs font-semibold rounded border border-line">
+                        <span key={kw} className="px-2.5 py-1 bg-surface text-muted text-xs font-semibold border border-line">
                           {kw}
                         </span>
                       ))}
@@ -216,7 +224,7 @@ export default function Education() {
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           {/* ICS Cybersecurity 201 */}
-          <div className="interactive-card group bg-surface p-4 md:p-6 rounded-none border border-line shadow-sm hover:border-accent-dim flex flex-col gap-3 md:gap-4">
+          <div className="interactive-card group bg-surface p-4 md:p-6 rounded-none border border-line flex flex-col gap-3 md:gap-4">
             <div className="relative w-full aspect-[4/3] rounded-none overflow-hidden border border-line mb-2">
               <Image
                 src="/cert-ics-201.jpg"
@@ -232,7 +240,7 @@ export default function Education() {
           </div>
 
           {/* ICS Cybersecurity 202 */}
-          <div className="interactive-card group bg-surface p-4 md:p-6 rounded-none border border-line shadow-sm hover:border-accent-dim flex flex-col gap-3 md:gap-4">
+          <div className="interactive-card group bg-surface p-4 md:p-6 rounded-none border border-line flex flex-col gap-3 md:gap-4">
             <div className="relative w-full aspect-[4/3] rounded-none overflow-hidden border border-line mb-2">
               <Image
                 src="/cert-ics-202.jpg"
@@ -248,7 +256,7 @@ export default function Education() {
           </div>
 
           {/* CyberStrike Nemesis */}
-          <div className="interactive-card group bg-surface p-4 md:p-6 rounded-none border border-line shadow-sm hover:border-accent-dim flex flex-col gap-3 md:gap-4">
+          <div className="interactive-card group bg-surface p-4 md:p-6 rounded-none border border-line flex flex-col gap-3 md:gap-4">
             <div className="relative w-full aspect-[4/3] rounded-none overflow-hidden border border-line mb-2">
               <Image
                 src="/cert-cyberstrike.jpg"

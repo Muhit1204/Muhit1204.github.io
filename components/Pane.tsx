@@ -1,12 +1,15 @@
 import type { ReactNode } from 'react';
-import Reveal from '@/components/Reveal';
+import DesktopWindow from '@/components/desktop/DesktopWindow';
 import ScrambleText from '@/components/ScrambleText';
+import DesktopIcon from '@/components/desktop/DesktopIcon';
+import { WINDOWS } from '@/components/desktop/windows';
 
 /*
- * Every section is a pane in a terminal multiplexer: an index and path in the
- * title bar, the command that "produced" the contents, then the output, over
- * a status strip. The frame carries the identity so the content inside can
- * stay plain and readable.
+ * A section of the site, as a window. On the home route it is a managed
+ * desktop window that opens from the taskbar or its icon; on the other routes
+ * the same frame sits in the page flow. Either way the frame carries the
+ * identity so the content inside can stay plain and readable: the command
+ * that "produced" the contents, the heading, then the output.
  */
 export default function Pane({
   id,
@@ -27,38 +30,31 @@ export default function Pane({
   status?: string;
   children: ReactNode;
 }) {
+  const icon = WINDOWS.find((spec) => spec.id === id)?.icon ?? (id === 'education' ? 'cap' : 'doc');
   return (
-    <Reveal>
-      <section id={id} className="rounded-none border border-line bg-surface/40 overflow-hidden">
-        {/* Pane title bar */}
-        <div className="flex items-center gap-3 px-4 py-2.5 border-b border-line bg-surface-2 font-mono text-xs">
-          <span className="text-accent shrink-0">[{index}]</span>
-          <span className="text-muted truncate">{path}</span>
-          <span className="ml-auto text-muted hidden sm:inline shrink-0">
-            {index}:{id}
-            <span className="text-accent">*</span>
-          </span>
-        </div>
-
-        <div className="p-4 md:p-7 space-y-6">
-          <div className="space-y-2 border-b border-line pb-3">
-            <p className="term-label">{command}</p>
-            <h2 className="text-2xl md:text-3xl font-bold text-body">
-              <ScrambleText text={title} />
-            </h2>
-          </div>
-          {children}
-        </div>
-
-        {/* Status strip */}
-        <div className="flex items-center gap-3 px-4 py-2 border-t border-line bg-surface-2 font-mono text-[0.65rem] text-muted">
-          <span className="text-accent">muntasir@portfolio</span>
+    <DesktopWindow
+      id={id}
+      title={path}
+      footer={
+        <>
+          <span className="font-bold">muntasir@portfolio</span>
           <span className="truncate">{status ?? path}</span>
           <span className="ml-auto hidden sm:inline shrink-0">
             {index}/{total}
           </span>
+        </>
+      }
+    >
+      <div className="space-y-6">
+        <div className="space-y-2 border-b border-line pb-3">
+          <p className="term-label">{command}</p>
+          <h2 className="flex items-center gap-3 text-2xl md:text-3xl font-bold text-body">
+            <DesktopIcon name={icon} size={32} className="shrink-0" />
+            <ScrambleText text={title} />
+          </h2>
         </div>
-      </section>
-    </Reveal>
+        {children}
+      </div>
+    </DesktopWindow>
   );
 }

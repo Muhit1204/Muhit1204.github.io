@@ -6,7 +6,7 @@ import { audio } from '@/lib/audio';
 
 /*
  * A machine coming up: firmware, kernel, services, login, session handoff.
- * It deliberately takes a few seconds — the point is the feeling of watching
+ * It plays a quick startup sequence — the point is the feeling of watching
  * something start, not a splash screen. Skippable at any moment, and it never
  * blocks the page, which renders underneath from first paint.
  */
@@ -51,6 +51,8 @@ const LINES: Line[] = [
   { kind: 'cmd', text: './portfolio --start' },
 ];
 
+// Including the fade-out: about 3 seconds on first visit and 1 second on return.
+const TIMING_SCALE = 0.5;
 const CHAR_MS = 32;
 const LINE_MS = 90;
 const BAR_STEPS = 24;
@@ -70,7 +72,7 @@ const SESSION_KEY = 'boot-seen';
  * The boot plays on every load — it is the front door. What changes is its
  * length: the full sequence on a first visit, an abbreviated one thereafter
  * within the same session, so a returning reader is not made to wait through
- * six seconds again to re-read a section.
+ * the full sequence again to re-read a section.
  *
  * Reduced motion still skips it entirely: a typing animation is exactly the
  * pattern that preference asks us to drop.
@@ -156,7 +158,7 @@ export default function BootSequence() {
     }
 
     const schedule = (fn: () => void, ms: number) => {
-      timer.current = setTimeout(fn, ms);
+      timer.current = setTimeout(fn, ms * TIMING_SCALE);
     };
 
     if (step >= lines.length) {
@@ -280,7 +282,7 @@ export default function BootSequence() {
           key="boot"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.4, ease: 'easeInOut' }}
+          transition={{ duration: 0.2, ease: 'easeInOut' }}
           className="fixed inset-0 z-[100] bg-bg flex flex-col"
         >
           <div ref={scrollRef} className="flex-1 overflow-hidden px-3 py-5 md:px-10 md:py-10">

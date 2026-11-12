@@ -1,0 +1,285 @@
+{
+  "licence": "CC0-1.0",
+  "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "sources": [
+    {
+      "author": "unicaegames",
+      "page": "https://opengameart.org/content/keyboard-soundpack-1-typing-and-single-keystrokes",
+      "download": "https://opengameart.org/sites/default/files/unicae_games_keyboard_soundpack_1.zip",
+      "archiveSha256": "96507fc9aeec34cdff0e7c558dabb96afec4156c06532a38d7006b9acdf31f06"
+    },
+    {
+      "author": "Isaiah Odhner (1j01)",
+      "page": "https://opengameart.org/content/middle-mouse-click",
+      "downloads": [
+        "https://opengameart.org/sites/default/files/middle-click-press.wav",
+        "https://opengameart.org/sites/default/files/middle-click-release.wav"
+      ]
+    }
+  ],
+  "processing": "Mono 22050Hz 16-bit PCM WAVE; peak normalized to 0.65 with short fades. Key press/release transients selected by peak timing. Space and shift use generic single-key recordings, not identified physical keys. Left/right mouse sounds share middle-button recordings; three variants are resampled derivatives, not separate recorded buttons. Runtime adds small gain/rate jitter. WAVE keeps the whole set small without an encoder dependency.",
+  "inputs": [
+    {
+      "file": "keypress-001.wav",
+      "sha256": "7b873548c399b9aa0efbe63052fe1344c5317a9b23455b8be3523f47d434daf1"
+    },
+    {
+      "file": "keypress-002.wav",
+      "sha256": "f58f93430c1ad434feb341a89b89740ccad75e7a775d778d91b7f206e0acbe8e"
+    },
+    {
+      "file": "keypress-003.wav",
+      "sha256": "d67cf9547d99fc65c815c4c68fa9181e0af71419761cbb1d1f0a10eb8491a8d2"
+    },
+    {
+      "file": "keypress-004.wav",
+      "sha256": "29e1aea1fb841a0663ce75e9d83e675ddc7ae5cef00c623bdda65a72604fde7e"
+    },
+    {
+      "file": "keypress-005.wav",
+      "sha256": "619eb7e26571657b76fc9e1e3d99e85c3fc2259fa91c4c45f57384a85774ac24"
+    },
+    {
+      "file": "keypress-006.wav",
+      "sha256": "419bde001e7ed1cae63b84f60c803fb024a0254e1afe65e59d8c6d8ad4196eb7"
+    },
+    {
+      "file": "keypress-007.wav",
+      "sha256": "522834f471e6c2935fd1e6a28042c0864925556efbec32c36d7c7a98026d4bfc"
+    },
+    {
+      "file": "keypress-008.wav",
+      "sha256": "c2ab8722a81a2f1cab66cd863a09a9ec00392e2ede61362b3707a7bcc0eee506"
+    },
+    {
+      "file": "keypress-009.wav",
+      "sha256": "25595c1d1e0e18aada04dce3a651dc2c499f1fbc2647c1ab0b3c4e718275b16b"
+    },
+    {
+      "file": "middle-click-press.wav",
+      "sha256": "8a0ec2e7341f70b33f0802aadeb6a0689aed893048a600bfd46b1a6716fbe8fe"
+    },
+    {
+      "file": "middle-click-release.wav",
+      "sha256": "189005834fc3fef2fd4f024d503fbf98d313111b86bbf9904808aa276383a0f3"
+    }
+  ],
+  "assets": [
+    {
+      "file": "key-down-1.wav",
+      "input": "keypress-001.wav",
+      "startSeconds": 0.036047619047619044,
+      "durationSeconds": 0.049977324263038546,
+      "speed": 1,
+      "bytes": 2248,
+      "sha256": "3628866a5368211345660b2c3d7f17b3a9221560ad436a2da7613fcfdb065911"
+    },
+    {
+      "file": "key-up-1.wav",
+      "input": "keypress-001.wav",
+      "startSeconds": 0.15661451247165534,
+      "durationSeconds": 0.06498866213151927,
+      "speed": 1,
+      "bytes": 2910,
+      "sha256": "625c99aa197c919f21e33616c6612fc06265e1158050154adee42eec3034737c"
+    },
+    {
+      "file": "key-down-2.wav",
+      "input": "keypress-002.wav",
+      "startSeconds": 0.04289569160997732,
+      "durationSeconds": 0.049977324263038546,
+      "speed": 1,
+      "bytes": 2248,
+      "sha256": "49e01c60d43dc95013dfcf2d9f9f2b38d4e138f218e3bf40e3c1330bf5c10149"
+    },
+    {
+      "file": "key-up-2.wav",
+      "input": "keypress-002.wav",
+      "startSeconds": 0.11972108843537414,
+      "durationSeconds": 0.06498866213151927,
+      "speed": 1,
+      "bytes": 2910,
+      "sha256": "7db680adf00369678574fc9b77c16da03020657f9cbcefc4fb5e41144e33f2e3"
+    },
+    {
+      "file": "key-down-3.wav",
+      "input": "keypress-003.wav",
+      "startSeconds": 0.013394557823129254,
+      "durationSeconds": 0.049977324263038546,
+      "speed": 1,
+      "bytes": 2248,
+      "sha256": "c710ede4e748b8f981b9aa658a0580461799a58ea198013d906d94e97f3c6ee3"
+    },
+    {
+      "file": "key-up-3.wav",
+      "input": "keypress-003.wav",
+      "startSeconds": 0.09178458049886622,
+      "durationSeconds": 0.06498866213151927,
+      "speed": 1,
+      "bytes": 2910,
+      "sha256": "2c0fad0db1df777e00550425e9d300e954bff6f6831b31701f47e919b910192f"
+    },
+    {
+      "file": "space-down-1.wav",
+      "input": "keypress-004.wav",
+      "startSeconds": 0.013213151927437643,
+      "durationSeconds": 0.049977324263038546,
+      "speed": 1,
+      "bytes": 2248,
+      "sha256": "a68f3a31c409cc1aeb47c4366d58a7f73494b9ffa1cd87b5f924ae3142840877"
+    },
+    {
+      "file": "space-up-1.wav",
+      "input": "keypress-004.wav",
+      "startSeconds": 0.11117233560090703,
+      "durationSeconds": 0.06498866213151927,
+      "speed": 1,
+      "bytes": 2910,
+      "sha256": "99d4488207ae142025fb6d9017acd1e3c6dd0715e8febdb52202ae1ba46813cc"
+    },
+    {
+      "file": "space-down-2.wav",
+      "input": "keypress-005.wav",
+      "startSeconds": 0.02899546485260771,
+      "durationSeconds": 0.049977324263038546,
+      "speed": 1,
+      "bytes": 2248,
+      "sha256": "4d7f608ccff3e286e6ac2cc6f809a525ac4aa1d2d0be3ffdf092704d7c6fa1d3"
+    },
+    {
+      "file": "space-up-2.wav",
+      "input": "keypress-005.wav",
+      "startSeconds": 0.13008390022675737,
+      "durationSeconds": 0.06498866213151927,
+      "speed": 1,
+      "bytes": 2910,
+      "sha256": "db07049f527503580389582f3f5d92b7d23c414156cb9c70d3bd6503d614ed31"
+    },
+    {
+      "file": "space-down-3.wav",
+      "input": "keypress-006.wav",
+      "startSeconds": 0.00829251700680272,
+      "durationSeconds": 0.049977324263038546,
+      "speed": 1,
+      "bytes": 2248,
+      "sha256": "cd5d813cfb60b4eb3e5ddfbf613f3af84eb18e90e1893983b000e579e57debf2"
+    },
+    {
+      "file": "space-up-3.wav",
+      "input": "keypress-006.wav",
+      "startSeconds": 0.08874603174603174,
+      "durationSeconds": 0.06498866213151927,
+      "speed": 1,
+      "bytes": 2910,
+      "sha256": "ecc60c25e7f3ef9b1a0db705f6163fbfb13ddf4c140b9931089854b157b3c4ef"
+    },
+    {
+      "file": "shift-down-1.wav",
+      "input": "keypress-007.wav",
+      "startSeconds": 0.006591836734693878,
+      "durationSeconds": 0.049977324263038546,
+      "speed": 1,
+      "bytes": 2248,
+      "sha256": "920be858eae9315ecb1da345cd9f6f4aadec0cb4097c65ee9c63fb23a8ac521b"
+    },
+    {
+      "file": "shift-up-1.wav",
+      "input": "keypress-007.wav",
+      "startSeconds": 0.07359863945578231,
+      "durationSeconds": 0.06498866213151927,
+      "speed": 1,
+      "bytes": 2910,
+      "sha256": "4d1399f5099903cec3f487a5ee91c3f94a989ff02fe10a7690b548ddf5afd74b"
+    },
+    {
+      "file": "shift-down-2.wav",
+      "input": "keypress-008.wav",
+      "startSeconds": 0.0543469387755102,
+      "durationSeconds": 0.049977324263038546,
+      "speed": 1,
+      "bytes": 2248,
+      "sha256": "b2b36a54b2c1899b8fb92b576282b65888fc46d39ca0edd9ff43a3495f6b3809"
+    },
+    {
+      "file": "shift-up-2.wav",
+      "input": "keypress-008.wav",
+      "startSeconds": 0.12858730158730158,
+      "durationSeconds": 0.06498866213151927,
+      "speed": 1,
+      "bytes": 2910,
+      "sha256": "9005999ca4038c88442107e6f8d4a76f71b6e7d877e74d0f306abbe75b33416f"
+    },
+    {
+      "file": "shift-down-3.wav",
+      "input": "keypress-009.wav",
+      "startSeconds": 0.04963038548752834,
+      "durationSeconds": 0.049977324263038546,
+      "speed": 1,
+      "bytes": 2248,
+      "sha256": "2dd5f09b9d43007a92b20bd437733050c2fd7e0311167a3561c3278c934195bd"
+    },
+    {
+      "file": "shift-up-3.wav",
+      "input": "keypress-009.wav",
+      "startSeconds": 0.1824875283446712,
+      "durationSeconds": 0.06498866213151927,
+      "speed": 1,
+      "bytes": 2910,
+      "sha256": "a2e98ff4ee66c4f31ea44d1cffaed8adc777cdb55e382f515da2339d03b50e98"
+    },
+    {
+      "file": "mouse-down-1.wav",
+      "input": "middle-click-press.wav",
+      "startSeconds": 0,
+      "durationSeconds": 0.06498866213151927,
+      "speed": 0.94,
+      "bytes": 2910,
+      "sha256": "2702728c2a8daa2567c5229cb27c3538945ff96605cc53cc7c9a68ad9bec106f"
+    },
+    {
+      "file": "mouse-down-2.wav",
+      "input": "middle-click-press.wav",
+      "startSeconds": 0,
+      "durationSeconds": 0.06498866213151927,
+      "speed": 1,
+      "bytes": 2910,
+      "sha256": "09d1ab787601102f3b86cc38887b97516ec8a0487f67d82b71971ed82e5a5106"
+    },
+    {
+      "file": "mouse-down-3.wav",
+      "input": "middle-click-press.wav",
+      "startSeconds": 0,
+      "durationSeconds": 0.06498866213151927,
+      "speed": 1.06,
+      "bytes": 2910,
+      "sha256": "e83fb496fede0ab44c84ff3f06f6f61605ad9833ea9a82e75efd3e392e3247d1"
+    },
+    {
+      "file": "mouse-up-1.wav",
+      "input": "middle-click-release.wav",
+      "startSeconds": 0,
+      "durationSeconds": 0.06498866213151927,
+      "speed": 0.94,
+      "bytes": 2910,
+      "sha256": "5d4559610a79a73e5042659c910ed300c6627c2f434ecc63153eb01757c34b2e"
+    },
+    {
+      "file": "mouse-up-2.wav",
+      "input": "middle-click-release.wav",
+      "startSeconds": 0,
+      "durationSeconds": 0.06498866213151927,
+      "speed": 1,
+      "bytes": 2910,
+      "sha256": "e43eef3ef5101a3297a64175f9e8b430a48a18a2082f65414b4598b045634c78"
+    },
+    {
+      "file": "mouse-up-3.wav",
+      "input": "middle-click-release.wav",
+      "startSeconds": 0,
+      "durationSeconds": 0.06498866213151927,
+      "speed": 1.06,
+      "bytes": 2910,
+      "sha256": "1e7c0ef96a4f06defb93b1d3ab847017acd0a17e0b25f120ca2170f00a33f959"
+    }
+  ]
+}

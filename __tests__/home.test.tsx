@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import Home from '../app/page'
+import { describe, expect, it } from 'vitest'
+import Home from '../app/desktop/page'
 
 describe('Home Page', () => {
     it('renders without runtime crashing', () => {
@@ -33,5 +34,16 @@ describe('Home Page', () => {
         expect(
             screen.getAllByRole('heading', { name: /AWS AI Pitch Competition/ }),
         ).toHaveLength(1)
+    })
+
+    it('keeps skill names accessible alongside their decorative icons', () => {
+        const { container } = render(<Home />)
+        const skillsWindow = container.querySelector('#skills') as HTMLElement
+
+        for (const name of ['Python', 'TypeScript', 'NumPy', 'NS-3', 'LangGraph', 'ICS/SCADA Security']) {
+            expect(skillsWindow).toHaveTextContent(name)
+        }
+        expect(skillsWindow.querySelector('img[src="/icons/skills/python.svg"]')).toHaveAttribute('alt', '')
+        expect(skillsWindow.querySelectorAll('ul li')).toHaveLength(52)
     })
 })

@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 import { ExternalLink, X } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { audio } from '@/lib/audio';
+import DesktopIcon from '@/components/desktop/DesktopIcon';
 
 // pdfjs is heavy and only needed once a document window opens.
 const PdfViewer = dynamic(() => import('@/components/PdfViewer'), { ssr: false });
@@ -131,7 +132,7 @@ export default function WindowModal({
   };
 
   const modal = (
-    <div className="fixed inset-0 z-[90] flex items-center justify-center md:p-4 bg-bg/95 md:bg-bg/85" onClick={hide}>
+    <div className="fixed inset-0 z-[90] flex items-center justify-center md:p-4 bg-black/40" onClick={hide}>
       <div
         ref={dialogRef}
         role="dialog"
@@ -139,51 +140,45 @@ export default function WindowModal({
         aria-label={title}
         onClick={(event) => event.stopPropagation()}
         style={draggable ? { transform: `translate(${offset.x}px, ${offset.y}px)` } : undefined}
-        className="w-full h-full md:h-[85vh] md:max-w-5xl flex flex-col md:border border-accent-dim bg-surface md:shadow-[0_0_40px_rgba(0,255,156,0.15)]"
+        className="window desk-window w-full h-full md:h-[85vh] md:max-w-5xl flex flex-col"
       >
         <div
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={endDrag}
           onPointerCancel={endDrag}
-          className={`flex items-center gap-3 px-3 py-2.5 border-b border-line bg-surface-2 text-xs shrink-0 select-none ${draggable ? 'cursor-move touch-none' : ''}`}
+          className={`titlebar titlebar-active mb-[3px] shrink-0 ${draggable ? 'cursor-move touch-none' : ''}`}
         >
-          <span className="text-accent">●</span>
-          <span className="text-muted truncate">{title}</span>
-          <div className="ml-auto flex items-center gap-3">
-            <a
-              href={src}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-muted hover:text-accent transition-colors py-1"
-            >
-              open in tab
-            </a>
-            <button
-              ref={closeRef}
-              type="button"
-              onClick={hide}
-              aria-label="Close window"
-              className="text-muted hover:text-danger transition-colors p-1 -m-1"
-            >
-              <X className="w-5 h-5 md:w-4 md:h-4" />
-            </button>
-          </div>
+          <DesktopIcon name={kind === 'pdf' ? 'pdf' : 'doc'} size={20} className="shrink-0" />
+          <span className="truncate">{title}</span>
+          <span className="titlebar-grip" aria-hidden="true" />
+          <a href={src} target="_blank" rel="noopener noreferrer" className="btn !py-1 text-xs font-normal">
+            open in tab
+          </a>
+          <button
+            ref={closeRef}
+            type="button"
+            onClick={hide}
+            aria-label="Close window"
+            className="btn !p-0 w-11 h-9 md:w-7 md:h-6"
+          >
+            <X className="w-4 h-4" />
+          </button>
         </div>
 
-        <div className="flex-1 min-h-0 bg-bg">
+        <div className="bevel-sunken flex-1 min-h-0 p-[2px] bg-[#808080]">
           {kind === 'pdf' ? (
             <PdfViewer src={src} title={title} />
           ) : (
             <div className="w-full h-full overflow-auto p-4">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={src} alt={title} className="w-full h-auto border border-line" />
+              <img src={src} alt={title} className="w-full h-auto shadow-[4px_4px_0_rgba(0,0,0,0.4)]" />
             </div>
           )}
         </div>
 
-        <div className="px-3 py-1.5 border-t border-line bg-surface-2 text-[0.65rem] text-muted shrink-0">
-          <span className="text-accent">esc</span> to close
+        <div className="px-2 pt-1.5 pb-0.5 font-mono text-[0.65rem] text-black shrink-0">
+          <span className="font-bold">esc</span> to close
           {draggable && ' · drag the title bar to move'}
         </div>
       </div>

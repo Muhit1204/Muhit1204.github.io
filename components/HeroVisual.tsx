@@ -1,8 +1,9 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useEffect, useState } from 'react';
-import SatelliteOrbitDiagram from '@/components/SatelliteOrbitDiagram';
+import { useContext, useEffect, useState } from 'react';
+import StaticOrbitDiagram from '@/components/StaticOrbitDiagram';
+import { InDesktopContext, useDesktop } from '@/components/desktop/DesktopProvider';
 
 /*
  * Decides what the hero shows. The three.js globe is ~150 KB gzipped, so it
@@ -12,20 +13,23 @@ import SatelliteOrbitDiagram from '@/components/SatelliteOrbitDiagram';
  */
 const LeoGlobe = dynamic(() => import('@/components/LeoGlobe'), {
   ssr: false,
-  loading: () => <SatelliteOrbitDiagram />,
+  loading: () => <StaticOrbitDiagram />,
 });
 
-const WIDE = '(min-width: 768px)';
+const WIDE = '(min-width: 1024px) and (hover: hover) and (pointer: fine)';
 const REDUCED = '(prefers-reduced-motion: reduce)';
 
 export default function HeroVisual() {
   const [use3d, setUse3d] = useState(false);
+  const managed = useContext(InDesktopContext);
+  const desktop = useDesktop();
+  const visible = !managed || Boolean(desktop?.isOpen('globe'));
 
   useEffect(() => {
     const wide = window.matchMedia(WIDE);
     const reduced = window.matchMedia(REDUCED);
 
-    const sync = () => setUse3d(wide.matches && !reduced.matches);
+    const sync = () => setUse3d(window.self === window.top && wide.matches && !reduced.matches);
     sync();
 
     wide.addEventListener('change', sync);
@@ -36,5 +40,5 @@ export default function HeroVisual() {
     };
   }, []);
 
-  return use3d ? <LeoGlobe /> : <SatelliteOrbitDiagram />;
+  return use3d && visible ? <LeoGlobe /> : <StaticOrbitDiagram />;
 }

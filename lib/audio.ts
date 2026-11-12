@@ -1,324 +1,170 @@
-/*
- * One Web Audio graph for the whole site: the ambient machine room plus the
- * short effects (key clicks, window open/close, the boot surge). A single
- * shared context because browsers cap how many a page may hold, and because
- * one master gain should mute everything at once.
- *
- * Nothing is downloaded — every sound is synthesised, so the texture can
- * drift instead of looping audibly and there is no audio payload to fetch.
- *
- * Everything is gated on `unlocked`. An AudioContext created before the
- * visitor's first gesture starts suspended, and a suspended context's clock
- * does not advance — so anything scheduled against it queues at t=0 and then
- * fires all at once the moment the context resumes. Refusing to schedule
- * until the context is genuinely running is what keeps that pile-up from
- * landing on the first click.
- */
-
+﻿/* One opt-in graph for CC0 input samples. No synthesized ambience or tones.
+ * Physical input is handled once so component callbacks never double-play it. */
 type Listener = (on: boolean) => void;
+export type AudioStatus = 'off' | 'loading' | 'ready' | 'error';
+type Group = 'mouse' | 'key' | 'space' | 'shift';
+type Edge = 'down' | 'up';
+const FILES = (['mouse', 'key', 'space', 'shift'] as const).flatMap(group =>
+  (['down', 'up'] as const).flatMap(edge => [1, 2, 3].map(i => `${group}-${edge}-${i}.wav`)));
 
-const AMBIENT_GAIN = 0.05;
-
-class AudioEngine {
+export class AudioEngine {
   private context: AudioContext | null = null;
   private master: GainNode | null = null;
-  private ambient: GainNode | null = null;
-  private stopAmbient: (() => void) | null = null;
+  private buffers = new Map<string, AudioBuffer>();
+  private loading: Promise<Map<string, AudioBuffer>> | null = null;
+  private voices = new Set<AudioBufferSourceNode>();
   private listeners = new Set<Listener>();
-  private armed = false;
-  /** True only once the context is actually running and safe to schedule on. */
-  private unlocked = false;
   private unlockCallbacks = new Set<() => void>();
-
-  /** New visitors are silent until they explicitly use the sound toggle. */
+  private keys = new Set<string>();
+  private pointers = new Set<string>();
+  private listening = false;
+  private activation = 0;
   enabled = false;
+  status: AudioStatus = 'off';
 
   subscribe(listener: Listener) {
     this.listeners.add(listener);
     return () => this.listeners.delete(listener);
   }
-
-  private emit() {
-    this.listeners.forEach((listener) => listener(this.enabled));
-  }
-
-  /**
-   * Runs once the context is live. Callers that want to make a sound before
-   * any gesture has happened register here instead of firing into a
-   * suspended context, where the sound would queue and then land late.
-   */
+  private emit() { this.listeners.forEach(listener => listener(this.enabled)); }
   onUnlock(callback: () => void) {
-    if (this.unlocked) {
-      callback();
-      return () => {};
-    }
-    this.unlockCallbacks.add(callback);
-    return () => this.unlockCallbacks.delete(callback);
+    if (this.enabled && this.context?.state === 'running') callback();
+    else this.unlockCallbacks.add(callback);
+    return () => { this.unlockCallbacks.delete(callback); };
   }
-
-  /** Compatibility hook for explicit callers; the UI does not auto-arm it. */
-  armAutoStart() {
-    if (this.armed || typeof window === 'undefined') return;
-    this.armed = true;
-
-    const start = () => {
-      void this.unlock();
-      window.removeEventListener('pointerdown', start);
-      window.removeEventListener('keydown', start);
-    };
-
-    window.addEventListener('pointerdown', start);
-    window.addEventListener('keydown', start);
-  }
-
-  /**
-   * Creates the context if needed, resumes it, and only then starts the
-   * ambient bed. Nothing is scheduled before the resume resolves.
-   */
-  private async unlock(): Promise<void> {
-    if (typeof window === 'undefined' || this.unlocked) return;
-
-    if (!this.context) {
-      const Ctor =
-        window.AudioContext ??
-        (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-      if (!Ctor) return;
-
-      const context = new Ctor();
-      const master = context.createGain();
-      master.gain.value = 0;
-      master.connect(context.destination);
-      this.context = context;
-      this.master = master;
-    }
-
-    try {
-      await this.context.resume();
-    } catch {
-      return; // Gesture was not enough for this browser; try again on the next one.
-    }
-    if (this.context.state !== 'running') return;
-
-    this.unlocked = true;
-
-    // Fade up rather than snapping on, now that the clock is actually moving.
-    if (this.master) {
-      const now = this.context.currentTime;
-      this.master.gain.cancelScheduledValues(now);
-      this.master.gain.setValueAtTime(0, now);
-      this.master.gain.linearRampToValueAtTime(this.enabled ? 1 : 0, now + 1.2);
-    }
-
-    this.startAmbient();
-
-    const callbacks = [...this.unlockCallbacks];
-    this.unlockCallbacks.clear();
-    callbacks.forEach((callback) => callback());
-  }
-
-  /** The context, but only when it is safe to schedule against. */
-  private live(): AudioContext | null {
-    if (!this.unlocked || !this.enabled) return null;
-    if (!this.context || this.context.state !== 'running') return null;
-    return this.context;
-  }
-
-  private startAmbient() {
-    const context = this.context;
-    const master = this.master;
-    if (!context || !master || this.stopAmbient) return;
-
-    const bed = context.createGain();
-    bed.gain.setValueAtTime(0, context.currentTime);
-    bed.gain.linearRampToValueAtTime(AMBIENT_GAIN, context.currentTime + 2.5);
-    bed.connect(master);
-    this.ambient = bed;
-
-    // Two detuned low oscillators: the room tone.
-    const hums = [55, 82.5].map((frequency, i) => {
-      const osc = context.createOscillator();
-      osc.type = 'sine';
-      osc.frequency.value = frequency;
-      const gain = context.createGain();
-      gain.gain.value = i === 0 ? 0.5 : 0.18;
-      osc.connect(gain).connect(bed);
-      osc.start();
-      return osc;
-    });
-
-    // Low-passed white noise: fans and air.
-    const noise = context.createBufferSource();
-    noise.buffer = this.noiseBuffer(2);
-    noise.loop = true;
-    const filter = context.createBiquadFilter();
-    filter.type = 'lowpass';
-    filter.frequency.value = 620;
-    const noiseGain = context.createGain();
-    noiseGain.gain.value = 0.07;
-    noise.connect(filter).connect(noiseGain).connect(bed);
-    noise.start();
-
-    // Blips on an uneven schedule, so the room sounds busy rather than idle.
-    let timer: ReturnType<typeof setTimeout>;
-    const blip = () => {
-      this.tone({
-        frequency: 420 + Math.random() * 1500,
-        type: Math.random() > 0.5 ? 'square' : 'triangle',
-        gain: 0.05,
-        decay: 0.05 + Math.random() * 0.08,
-        target: bed,
+  private load(context: AudioContext) {
+    if (!this.loading) {
+      this.loading = Promise.all(FILES.map(async file => {
+        const response = await fetch(`/sounds/${file}`);
+        if (!response.ok) throw Error('Sample unavailable');
+        const data = await response.arrayBuffer();
+        if (data.byteLength > 64000) throw Error('Sample too large');
+        const buffer = await context.decodeAudioData(data);
+        if (buffer.duration > 0.15) throw Error('Sample too long');
+        return [file, buffer] as const;
+      })).then(entries => new Map(entries)).catch(error => {
+        this.loading = null; // A later explicit toggle can retry.
+        throw error;
       });
-      timer = setTimeout(blip, 400 + Math.random() * 2600);
-    };
-    timer = setTimeout(blip, 800);
-
-    this.stopAmbient = () => {
-      clearTimeout(timer);
-      hums.forEach((osc) => osc.stop());
-      noise.stop();
-    };
+    }
+    return this.loading;
   }
-
-  private noiseBuffer(seconds: number) {
-    const context = this.context!;
-    const frames = Math.floor(context.sampleRate * seconds);
-    const buffer = context.createBuffer(1, frames, context.sampleRate);
-    const channel = buffer.getChannelData(0);
-    for (let i = 0; i < frames; i += 1) channel[i] = Math.random() * 2 - 1;
-    return buffer;
-  }
-
-  /** One short shaped tone. The building block for every effect below. */
-  private tone({
-    frequency,
-    type = 'square',
-    gain = 0.06,
-    decay = 0.06,
-    attack = 0.004,
-    target,
-  }: {
-    frequency: number;
-    type?: OscillatorType;
-    gain?: number;
-    decay?: number;
-    attack?: number;
-    target?: AudioNode;
-  }) {
-    const context = this.live();
-    const destination = target ?? this.master;
-    if (!context || !destination) return;
-
-    const osc = context.createOscillator();
-    const envelope = context.createGain();
-    osc.type = type;
-    osc.frequency.value = frequency;
-
-    const now = context.currentTime;
-    envelope.gain.setValueAtTime(0, now);
-    envelope.gain.linearRampToValueAtTime(gain, now + attack);
-    envelope.gain.exponentialRampToValueAtTime(0.0001, now + attack + decay);
-
-    osc.connect(envelope).connect(destination);
-    osc.start(now);
-    osc.stop(now + attack + decay + 0.05);
-  }
-
-  setEnabled(next: boolean) {
+  async setEnabled(next: boolean): Promise<void> {
+    const activation = ++this.activation;
     this.enabled = next;
-    this.emit();
-
-    if (next) {
-      // A toggle is itself a gesture, so this is a valid moment to unlock.
-      void this.unlock().then(() => {
-        if (this.context && this.master && this.context.state === 'running') {
-          this.master.gain.setTargetAtTime(1, this.context.currentTime, 0.2);
-        }
-      });
-    } else if (this.context && this.master) {
-      this.master.gain.cancelScheduledValues(this.context.currentTime);
-      this.master.gain.setTargetAtTime(0, this.context.currentTime, 0.15);
+    if (!next) {
+      this.status = 'off'; this.detach(); this.stopVoices();
+      if (this.context?.state === 'running') this.master?.gain.setValueAtTime(0, this.context.currentTime);
+      this.emit(); return;
+    }
+    this.status = 'loading'; this.emit();
+    try {
+      if (typeof window === 'undefined') throw Error('Audio unavailable');
+      if (!this.context) {
+        const Ctor = window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+        if (!Ctor) throw Error('Audio unavailable');
+        this.context = new Ctor();
+        this.master = this.context.createGain();
+        this.master.gain.value = 0;
+        this.master.connect(this.context.destination);
+      }
+      const context = this.context;
+      await context.resume();
+      if (activation !== this.activation) return;
+      if (context.state !== 'running') throw Error('Audio suspended');
+      const callbacks = [...this.unlockCallbacks]; this.unlockCallbacks.clear();
+      callbacks.forEach(callback => callback());
+      // No fetch, decode or scheduling until the explicit unlock completes.
+      const buffers = await this.load(context);
+      if (activation !== this.activation || this.context !== context || !this.enabled) return;
+      this.buffers = buffers;
+      if (context.state !== 'running') throw Error('Audio suspended');
+      this.master!.gain.setValueAtTime(0.3, context.currentTime);
+      this.status = 'ready'; this.attach(); this.emit();
+    } catch {
+      if (activation !== this.activation) return;
+      this.enabled = false; this.status = 'error';
+      this.detach(); this.stopVoices(); this.emit();
     }
   }
-
-  /** A keystroke in the prompt. Pitch varies so typing does not machine-gun. */
-  key() {
-    this.tone({ frequency: 1400 + Math.random() * 700, type: 'square', gain: 0.035, decay: 0.018 });
-  }
-
-  /** Enter, or any committing action. */
-  click() {
-    this.tone({ frequency: 900, type: 'square', gain: 0.05, decay: 0.035 });
-    this.tone({ frequency: 1650, type: 'square', gain: 0.03, decay: 0.05 });
-  }
-
-  /** A window coming up: two rising notes. */
-  open() {
-    this.tone({ frequency: 620, gain: 0.03, decay: 0.05 });
-    setTimeout(() => this.tone({ frequency: 980, gain: 0.03, decay: 0.07 }), 55);
-  }
-
-  /** A window going away: the same two notes, falling. */
-  close() {
-    this.tone({ frequency: 900, gain: 0.028, decay: 0.045 });
-    setTimeout(() => this.tone({ frequency: 480, gain: 0.028, decay: 0.07 }), 55);
-  }
-
-  /**
-   * Machine spin-up for the boot screen: a noise burst that opens up and
-   * settles, plus a rising sweep — the sound of fans and drives coming on.
-   */
-  surge(seconds = 2.4) {
-    const context = this.live();
-    if (!context || !this.master) return;
-
-    const now = context.currentTime;
-
-    const noise = context.createBufferSource();
-    noise.buffer = this.noiseBuffer(seconds);
-
-    const filter = context.createBiquadFilter();
-    filter.type = 'bandpass';
-    filter.Q.value = 0.8;
-    filter.frequency.setValueAtTime(140, now);
-    filter.frequency.exponentialRampToValueAtTime(2400, now + seconds * 0.35);
-    filter.frequency.exponentialRampToValueAtTime(500, now + seconds);
-
+  private play(group: Group, edge: Edge, rate = 1) {
+    const context = this.context;
+    if (!this.enabled || this.status !== 'ready' || !context || context.state !== 'running' || !this.master) return;
+    const buffer = this.buffers.get(`${group}-${edge}-${Math.floor(Math.random() * 3) + 1}.wav`);
+    if (!buffer) return; // Loading input is dropped, never queued.
+    if (this.voices.size >= 16) {
+      const oldest = this.voices.values().next().value;
+      oldest?.stop(); if (oldest) this.voices.delete(oldest);
+    }
+    const voice = context.createBufferSource();
     const gain = context.createGain();
-    gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.exponentialRampToValueAtTime(0.2, now + 0.35);
-    gain.gain.exponentialRampToValueAtTime(0.06, now + seconds);
-
-    noise.connect(filter).connect(gain).connect(this.master);
-    noise.start(now);
-    noise.stop(now + seconds);
-
-    // Drive spin-up underneath the noise.
-    const sweep = context.createOscillator();
-    const sweepGain = context.createGain();
-    sweep.type = 'sawtooth';
-    sweep.frequency.setValueAtTime(38, now);
-    sweep.frequency.exponentialRampToValueAtTime(190, now + seconds * 0.7);
-    sweepGain.gain.setValueAtTime(0.0001, now);
-    sweepGain.gain.exponentialRampToValueAtTime(0.08, now + 0.45);
-    sweepGain.gain.exponentialRampToValueAtTime(0.0001, now + seconds);
-    sweep.connect(sweepGain).connect(this.master);
-    sweep.start(now);
-    sweep.stop(now + seconds);
+    voice.buffer = buffer;
+    voice.playbackRate.value = rate * (0.97 + Math.random() * 0.06);
+    gain.gain.value = 0.92 + Math.random() * 0.16;
+    voice.connect(gain).connect(this.master);
+    this.voices.add(voice);
+    voice.onended = () => { this.voices.delete(voice); voice.disconnect(); gain.disconnect(); };
+    voice.start(context.currentTime);
   }
-
-  /** A service line landing during boot. */
-  tick() {
-    this.tone({ frequency: 2200 + Math.random() * 400, type: 'square', gain: 0.022, decay: 0.012 });
+  private group(event: KeyboardEvent): Group {
+    return event.code === 'Space' ? 'space' : event.code.startsWith('Shift') ? 'shift' : 'key';
   }
-
+  private keyDown = (event: KeyboardEvent) => {
+    if (event.repeat || event.isComposing || this.context?.state !== 'running') return;
+    const key = event.code || event.key;
+    if (this.keys.has(key)) return;
+    this.keys.add(key);
+    this.play(this.group(event), 'down', event.code === 'Space' ? 0.85 : 1);
+  };
+  private keyUp = (event: KeyboardEvent) => {
+    if (!this.keys.delete(event.code || event.key)) return;
+    this.play(this.group(event), 'up', event.code === 'Space' ? 0.85 : 1);
+  };
+  private pointerDown = (event: PointerEvent) => {
+    if (event.pointerType === 'touch' || ![0, 2].includes(event.button) || this.context?.state !== 'running') return;
+    this.pointers.add(`${event.pointerId}:${event.button}`);
+    this.play('mouse', 'down', event.button === 2 ? 0.92 : 1);
+  };
+  private pointerUp = (event: PointerEvent) => {
+    if (!this.pointers.delete(`${event.pointerId}:${event.button}`)) return;
+    this.play('mouse', 'up', event.button === 2 ? 0.92 : 1);
+  };
+  private resetPressed = () => { this.keys.clear(); this.pointers.clear(); };
+  private attach() {
+    if (this.listening) return;
+    this.listening = true;
+    window.addEventListener('pointerdown', this.pointerDown, true);
+    window.addEventListener('pointerup', this.pointerUp, true);
+    window.addEventListener('keydown', this.keyDown, true);
+    window.addEventListener('keyup', this.keyUp, true);
+    window.addEventListener('pointercancel', this.resetPressed, true);
+    window.addEventListener('blur', this.resetPressed);
+  }
+  private detach() {
+    if (this.listening) {
+      window.removeEventListener('pointerdown', this.pointerDown, true);
+      window.removeEventListener('pointerup', this.pointerUp, true);
+      window.removeEventListener('keydown', this.keyDown, true);
+      window.removeEventListener('keyup', this.keyUp, true);
+      window.removeEventListener('pointercancel', this.resetPressed, true);
+      window.removeEventListener('blur', this.resetPressed);
+    }
+    this.listening = false; this.resetPressed();
+  }
+  private stopVoices() { this.voices.forEach(voice => voice.stop()); this.voices.clear(); }
+  // Preserve callers, especially the owner's untouched BootSequence. Only
+  // physical input plays audio, so these former synthesis hooks are silent.
+  key() {}
+  click() {}
+  open() {}
+  close() {}
+  surge() {}
+  tick() {}
   dispose() {
-    this.stopAmbient?.();
-    this.stopAmbient = null;
+    ++this.activation; this.detach(); this.stopVoices();
     void this.context?.close();
-    this.context = null;
-    this.master = null;
-    this.ambient = null;
+    this.context = null; this.master = null; this.buffers.clear(); this.loading = null;
+    this.unlockCallbacks.clear(); this.enabled = false; this.status = 'off'; this.emit();
   }
 }
-
 export const audio = new AudioEngine();

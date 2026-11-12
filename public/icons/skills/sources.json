@@ -1,0 +1,72 @@
+{
+  "project": "https://github.com/devicons/devicon",
+  "release": "v2.17.0",
+  "commit": "54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08",
+  "licence": "MIT",
+  "licenceUrl": "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/LICENSE",
+  "licenceSha256": "121194741d4a915b9f5890fdd6dd95121f9b1f816517c792358d72d7c838d664",
+  "assets": [
+    {
+      "file": "python.svg",
+      "url": "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/python/python-original.svg",
+      "sha256": "71493b4a732f0532b3a03a7a95da3ee11a65766367c8303b901ffbe7bf91a3a2"
+    },
+    {
+      "file": "typescript.svg",
+      "url": "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/typescript/typescript-original.svg",
+      "sha256": "c9191199f4049920c2fc19035b8a6664f37f4689fcd9e8434e786097e78863f0"
+    },
+    {
+      "file": "javascript.svg",
+      "url": "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/javascript/javascript-original.svg",
+      "sha256": "0656ff65fc8eeacda5c78d7f9ffe91ec1eb919db64f56e0b7dcd460af4bbd36c"
+    },
+    {
+      "file": "php.svg",
+      "url": "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/php/php-original.svg",
+      "sha256": "e111a2310eea247e8091065ed748e21886582a3e44d8dc2c2bbf3b413b1d88be",
+      "sourceSha256": "f22619a19c99a123e4678d71826f65f223721a739631dff46de39827c9ee0633",
+      "processing": "Removed trailing blank line only; SVG drawing unchanged."
+    },
+    {
+      "file": "pandas.svg",
+      "url": "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/pandas/pandas-original.svg",
+      "sha256": "0051003a5e5f8739c3304386456843a51be4717dab49c4fea6732ecc6e891b3d"
+    },
+    {
+      "file": "numpy.svg",
+      "url": "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/numpy/numpy-original.svg",
+      "sha256": "efd53b9bf8637500d43ece39fe7ac43c972066f7166e408c5fd13e7cb73d7a05"
+    },
+    {
+      "file": "react.svg",
+      "url": "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/react/react-original.svg",
+      "sha256": "5825b649c8c04dec13ecf01d0182401bd0ec71789d2fa06224866d882cd1515f"
+    },
+    {
+      "file": "nextjs.svg",
+      "url": "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/nextjs/nextjs-original.svg",
+      "sha256": "d9435c4ede7133b376c0173a80226bb3856729366707cd96e9a66e39448d0288"
+    },
+    {
+      "file": "tailwindcss.svg",
+      "url": "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/tailwindcss/tailwindcss-original.svg",
+      "sha256": "f8cec54589553807eb603bcaf4e056aa090196211698b056542e3cc62a2f3448"
+    },
+    {
+      "file": "laravel.svg",
+      "url": "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/laravel/laravel-original.svg",
+      "sha256": "b293960cd642537d2b19a1442168a396f25bdd31eb10f4f92447623cfc5730df"
+    },
+    {
+      "file": "git.svg",
+      "url": "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/git/git-original.svg",
+      "sha256": "717a57ea97bf7e86de721dab3e68afac66332a10676d5c9abce4ae6a5a9c9983"
+    },
+    {
+      "file": "sqlite.svg",
+      "url": "https://raw.githubusercontent.com/devicons/devicon/54cfe13ac10eaa1ef817a343ab0a9437eb3c2e08/icons/sqlite/sqlite-original.svg",
+      "sha256": "2b91c30887d3602479ba845cc012ef6ae577fba71eb96705a05b12e35d2c5e7e"
+    }
+  ]
+}

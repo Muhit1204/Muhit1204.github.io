@@ -54,7 +54,7 @@ export default function CiteButton({ bibtex }: { bibtex: string }) {
           {copied ? <Check className="w-3.5 h-3.5 text-accent" /> : <Copy className="w-3.5 h-3.5" />}
           {copied ? 'copied' : failed ? 'select below to copy' : 'copy entry'}
         </button>
-        <pre className="overflow-x-auto border border-line bg-bg p-3 text-[0.68rem] leading-relaxed text-muted">
+        <pre className="overflow-x-auto border border-line bg-surface-2 p-3 text-[0.68rem] leading-relaxed text-muted">
           {bibtex}
         </pre>
       </div>

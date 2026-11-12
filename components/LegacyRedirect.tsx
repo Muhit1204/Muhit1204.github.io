@@ -13,7 +13,7 @@ export default function LegacyRedirect({ destination, label }: { destination: st
       <p className="term-label">route moved</p>
       <h1 className="text-2xl font-bold text-body">Opening {label}</h1>
       <p className="text-muted">
-        This content now lives on the portfolio homepage. If the redirect does not start,{' '}
+        This content now lives on the portfolio desktop. If the redirect does not start,{' '}
         <Link href={destination}>continue to {label}</Link>.
       </p>
     </div>

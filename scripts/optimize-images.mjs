@@ -6,11 +6,20 @@ import { mkdir } from "node:fs/promises";
 // the resizing ahead of time. Full-resolution originals live in source-docs/.
 const PRESETS = [
   {
+    name: "AAPA convention panel photo",
+    src: "source-docs/image-originals/aapa-convention-2026.jpg",
+    out: "public/optimized",
+    base: "aapa-convention-2026",
+    widths: [480, 800],
+    webp: 72,
+    jpeg: 82,
+  },
+  {
     name: "profile portrait",
     src: "source-docs/image-originals/profile-image.jpeg",
     out: "public/optimized",
     base: "profile",
-    widths: [704, 1056, 1408],
+    widths: [320, 480, 704, 1056, 1408],
     avif: 65,
     webp: 82,
     jpeg: 85,
@@ -37,9 +46,12 @@ const PRESETS = [
   },
 ];
 
-for (const preset of PRESETS) {
+// Optional name filter avoids re-encoding unrelated assets for a targeted update.
+const requested = process.argv[2];
+const requestedWidths = process.argv.slice(3).map(Number);
+for (const preset of PRESETS.filter((entry) => !requested || entry.base === requested)) {
   await mkdir(preset.out, { recursive: true });
-  for (const width of preset.widths) {
+  for (const width of preset.widths.filter((value) => !requestedWidths.length || requestedWidths.includes(value))) {
     const image = sharp(preset.src).resize({ width, withoutEnlargement: true });
     const stem = `${preset.out}/${preset.base}-${width}`;
     if (preset.avif) await image.clone().avif({ quality: preset.avif }).toFile(`${stem}.avif`);

@@ -9,5 +9,5 @@ export const LEGACY_ROUTES = {
 export type LegacyRoute = keyof typeof LEGACY_ROUTES;
 
 export function legacyDestination(route: LegacyRoute): string {
-  return '/#' + LEGACY_ROUTES[route];
+  return '/desktop#' + LEGACY_ROUTES[route];
 }

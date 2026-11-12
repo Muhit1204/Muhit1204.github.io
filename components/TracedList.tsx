@@ -55,7 +55,7 @@ function TracedNode({ index, children }: { index: number; children: ReactNode })
       <span
         aria-hidden="true"
         className={`absolute left-0 top-1.5 flex items-center justify-center w-6 h-6 border text-[0.6rem] transition-colors duration-300 ${
-          active ? 'border-accent text-accent bg-bg' : 'border-line text-muted bg-bg'
+          active ? 'border-accent text-accent bg-surface' : 'border-line text-muted bg-surface'
         }`}
       >
         {active ? '◆' : '◇'}
@@ -92,7 +92,11 @@ export default function TracedList({
     const measure = () => {
       queued = false;
       const rect = track.getBoundingClientRect();
-      const line = window.innerHeight * 0.55;
+      // Closed windows have no layout; avoid NaN progress and needless work.
+      if (rect.height === 0 || document.hidden) return;
+      const scroller = track.closest('.well');
+      const bounds = scroller?.getBoundingClientRect();
+      const line = bounds ? bounds.top + bounds.height * 0.55 : window.innerHeight * 0.55;
       setScrolled(Math.min(Math.max((line - rect.top) / rect.height, 0), 1));
     };
 
@@ -103,11 +107,17 @@ export default function TracedList({
     };
 
     measure();
-    window.addEventListener('scroll', onScroll, { passive: true });
+    // Captured on the document: the list usually scrolls inside a window's
+    // own well, and scroll events from a nested scroller do not bubble.
+    document.addEventListener('scroll', onScroll, { passive: true, capture: true });
     window.addEventListener('resize', onScroll);
+    // A window that was closed has no size; measure again when it opens.
+    const resize = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(onScroll);
+    resize?.observe(track);
     return () => {
-      window.removeEventListener('scroll', onScroll);
+      document.removeEventListener('scroll', onScroll, { capture: true });
       window.removeEventListener('resize', onScroll);
+      resize?.disconnect();
     };
   }, [reduced]);
 
@@ -116,7 +126,7 @@ export default function TracedList({
       <div aria-hidden="true" className="absolute left-3 top-2 bottom-2 w-px bg-line">
         <span
           className="absolute inset-x-0 top-0 bg-accent"
-          style={{ height: `${progress * 100}%`, boxShadow: '0 0 8px rgba(0,255,156,0.6)' }}
+          style={{ height: `${progress * 100}%` }}
         />
       </div>
 

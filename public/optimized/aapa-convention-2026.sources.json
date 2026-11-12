@@ -1,0 +1,32 @@
+{
+  "source": "https://lnkd.in/p/gw_4mbta",
+  "post": "https://www.linkedin.com/posts/center-for-data-ai-and-cybersecurity-55a92a3b7_aapaevents-ports-maritimetechnology-share-7513321374216773632-VMnP/",
+  "description": "Matching uncropped group photograph from the user-supplied public LinkedIn post. The downloaded public copy is 800 by 600 pixels.",
+  "original": {
+    "bytes": 87990,
+    "sha256": "598a4a6ec031f50544fb5cf78ce895c6f25cd8fc907e20de18eacdc8d0646d25"
+  },
+  "processing": "Existing installed Sharp; resize without enlargement to widths 480 and 800; WebP quality 72, JPEG fallback quality 82. WebP preferred by the news picture element. No crop or content alteration.",
+  "outputs": [
+    {
+      "file": "aapa-convention-2026-480.webp",
+      "bytes": 19954,
+      "sha256": "0b41a375125a2cceaecd88d98018750453ce6a88afb0fca6f92c34ad57cd0022"
+    },
+    {
+      "file": "aapa-convention-2026-480.jpg",
+      "bytes": 30135,
+      "sha256": "a772155a05bcf01625f0e62123d63fe46ef9fe48c9f4735e0f84817403ce3b12"
+    },
+    {
+      "file": "aapa-convention-2026-800.webp",
+      "bytes": 44054,
+      "sha256": "68b0ba23e91999874eeb6e00eb646d7b38c636f7c9014a53d3fd71058e4e059e"
+    },
+    {
+      "file": "aapa-convention-2026-800.jpg",
+      "bytes": 71436,
+      "sha256": "4e30b4324d86709d36f2b8476be000557e6eb8f8161271dba1f3ee5d6cc5cc5f"
+    }
+  ]
+}

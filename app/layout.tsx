@@ -1,25 +1,20 @@
-import type { Metadata } from 'next';
-import { Inter, JetBrains_Mono } from 'next/font/google';
+import type { Metadata, Viewport } from 'next';
+import { Noto_Serif, JetBrains_Mono } from 'next/font/google';
 import Script from 'next/script';
 import './globals.css';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import BackToTop from '@/components/BackToTop';
-import BootSequence from '@/components/BootSequence';
 import { PERSON, SITE_URL } from '@/lib/site';
 import { publications } from '@/lib/publications';
 import { serializeJsonLd } from '@/lib/json-ld';
-import GlyphField from '@/components/GlyphField';
-import StatusTicker from '@/components/StatusTicker';
 
-// Inter carries body copy — the long research prose stays readable.
-const inter = Inter({
+// Noto Serif carries body copy. It keeps the `--font-sans` variable so the
+// `font-sans` utility and every component using it stay as they are.
+const notoSerif = Noto_Serif({
   subsets: ['latin'],
   variable: '--font-sans',
   display: 'swap',
 });
 
-// JetBrains Mono carries the terminal voice: headings, nav, labels, metadata.
+// JetBrains Mono carries the terminal voice: prompts, labels, metadata.
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
@@ -28,6 +23,8 @@ const jetbrainsMono = JetBrains_Mono({
 
 const DESCRIPTION =
   'Md Muntasir Hossain — Doctor of Engineering student and Graduate Research Assistant at Lamar University, researching AI-enabled cybersecurity for LEO satellite communications, Delay Tolerant Networking and maritime satellite reliability.';
+
+export const viewport: Viewport = { width: 'device-width', initialScale: 1, viewportFit: 'cover' };
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -90,7 +87,7 @@ const STRUCTURED_DATA = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en" className={`${notoSerif.variable} ${jetbrainsMono.variable}`}>
       <head>
         <script
           type="application/ld+json"
@@ -105,45 +102,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           gtag('config', 'G-FTSNVMRKNX');
         `}</Script>
       </head>
-      <body className="font-sans bg-bg text-body min-h-screen flex flex-col selection:bg-accent/30 relative" suppressHydrationWarning>
-        {/* Scroll reveal starts hidden and is un-hidden by script. Without
-            script there is nothing to un-hide it, so show everything. */}
-        <noscript>
-          <style>{`.reveal { opacity: 1 !important; transform: none !important; }`}</style>
-        </noscript>
-
-        {/* Ambient layers. All decorative, all hidden from assistive tech. */}
-        <GlyphField />
-        <div className="scanlines" aria-hidden="true" />
-
-        {/* HUD corners */}
-        <div
-          aria-hidden="true"
-          className="hidden xl:block fixed left-4 top-3 z-30 pointer-events-none text-[0.62rem] tracking-widest"
-        >
-          <span className="bg-accent text-bg px-1.5 py-0.5">CONNECTED — CDAIC/SATLINK</span>
-        </div>
-        <div
-          aria-hidden="true"
-          className="hidden xl:block fixed right-24 bottom-7 z-30 pointer-events-none text-[0.62rem] tracking-widest text-muted"
-        >
-          <span className="text-accent">30.08N 94.13W</span> · PORT OF BEAUMONT
-        </div>
-
-        <StatusTicker />
-
-        {/*
-          Decorative overlay only. The page below renders from first paint so
-          the boot animation never delays LCP or hides content from a reader.
-        */}
-        <BootSequence />
-
-        <Navbar />
-        <main className="flex-grow w-full max-w-6xl mx-auto px-4 md:px-6 py-6 md:py-12">
-          {children}
-        </main>
-        <Footer />
-        <BackToTop />
+      <body className="font-sans text-body min-h-screen selection:bg-accent/30" suppressHydrationWarning>
+        {children}
       </body>
     </html>
   );

@@ -1,0 +1,6 @@
+CC0 1.0 Universal
+https://creativecommons.org/publicdomain/zero/1.0/
+
+Keyboard recordings: unicaegames
+Mouse recordings: Isaiah Odhner (1j01)
+See sources.json for author pages, original download links, hashes and processing details.

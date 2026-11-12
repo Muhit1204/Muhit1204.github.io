@@ -7,21 +7,11 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        // Wires `font-sans` to the Inter variable set in app/layout.tsx.
-        // Without this, Tailwind's default system stack wins and Inter never loads visually.
-        sans: [
-          'var(--font-sans)',
-          'ui-sans-serif',
-          'system-ui',
-          '-apple-system',
-          'Segoe UI',
-          'Roboto',
-          'Helvetica Neue',
-          'Arial',
-          'sans-serif',
-        ],
-        // JetBrains Mono is the only typeface on the site; `font-sans` is
-        // kept pointing at Inter for the rare block of long-form prose.
+        // Wires `font-sans` to the Noto Serif variable set in app/layout.tsx.
+        // The utility keeps its name so no component had to change; the
+        // fallbacks are serif so a slow font load does not reflow to sans.
+        sans: ['var(--font-sans)', 'Georgia', 'Times New Roman', 'serif'],
+        // JetBrains Mono carries the terminal voice: prompts, labels, metadata.
         mono: [
           'var(--font-mono)',
           'ui-monospace',

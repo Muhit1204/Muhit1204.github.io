@@ -2,6 +2,7 @@
 
 import { useCallback, useRef, useSyncExternalStore } from 'react';
 import Link from 'next/link';
+import DesktopShell from '@/components/desktop/DesktopShell';
 
 /*
  * The site used to have /experience, /projects, /publications and /contact as
@@ -42,14 +43,14 @@ export default function NotFound() {
   const moved = MOVED[slug] ?? null;
 
   return (
-    <div className="max-w-2xl mx-auto py-10 md:py-20 space-y-6">
-      <div className="border border-line bg-surface">
-        <div className="flex items-center gap-2 px-4 py-2 border-b border-line bg-surface-2 text-xs">
-          <span className="text-danger">●</span>
-          <span className="text-muted">muntasir@portfolio: {path || '/…'}</span>
+    <DesktopShell><div className="max-w-2xl mx-auto px-2 pt-6 md:pt-16 pb-20">
+      <div className="window desk-window">
+        <div className="titlebar titlebar-active mb-[3px]">
+          <span className="truncate">muntasir@portfolio: {path || '/…'}</span>
+          <span className="titlebar-grip" aria-hidden="true" />
         </div>
 
-        <div className="p-5 md:p-7 space-y-5 text-sm">
+        <div className="well space-y-5 text-sm">
           <p className="text-muted">
             <span className="text-accent">$ </span>
             cat {path || 'page'}
@@ -62,14 +63,14 @@ export default function NotFound() {
           {moved ? (
             <p className="text-muted leading-relaxed">
               That section moved onto the single page. It now lives at{' '}
-              <Link href={`/#${moved.id}`} className="text-accent">
+              <Link href={`/desktop#${moved.id}`} className="text-accent">
                 #{moved.id}
               </Link>
               .
             </p>
           ) : (
             <p className="text-muted leading-relaxed">
-              The site is one page now. Everything is below, or reachable from the prompt in the hero.
+              The site is one page now. Every section is a window on the desktop, reachable from the bar at the bottom.
             </p>
           )}
 
@@ -77,8 +78,8 @@ export default function NotFound() {
             {SECTIONS.map((section) => (
               <Link
                 key={section.id}
-                href={`/#${section.id}`}
-                className="px-3 py-2 border border-line text-xs text-muted hover:border-accent-dim hover:text-accent transition-colors"
+                href={`/desktop#${section.id}`}
+                className="btn text-xs"
               >
                 {section.label}
               </Link>
@@ -86,13 +87,13 @@ export default function NotFound() {
           </div>
 
           <Link
-            href="/"
-            className="inline-flex px-4 py-2.5 border border-accent-dim text-accent hover:bg-accent/10 transition-colors"
+            href="/desktop"
+            className="btn font-bold !px-4 !py-2.5"
           >
             cd ~
           </Link>
         </div>
       </div>
-    </div>
+    </div></DesktopShell>
   );
 }

@@ -13,10 +13,10 @@ import * as THREE from 'three';
  * for small screens and for prefers-reduced-motion, and loads this lazily.
  */
 
-const ACCENT = 0x00ff9c;
+const ACCENT = 0xff6a00;
 const DANGER = 0xff4438;
-const LINE = 0x1c2a20;
-const MUTED = 0x4a6b56;
+const LINE = 0x3a3a3a;
+const MUTED = 0x8a8a8a;
 
 const EARTH_RADIUS = 1;
 const ORBIT_RADIUS = 1.42;
@@ -82,7 +82,7 @@ export default function LeoGlobe() {
     world.add(
       new THREE.Mesh(
         globeGeometry,
-        new THREE.MeshBasicMaterial({ color: 0x081109, transparent: true, opacity: 0.85 }),
+        new THREE.MeshBasicMaterial({ color: 0x0a0a0a, transparent: true, opacity: 0.85 }),
       ),
     );
     world.add(
@@ -180,22 +180,8 @@ export default function LeoGlobe() {
 
     /* Pause when scrolled away or the tab is hidden — an idle GPU loop behind
        a hidden hero is pure battery cost. */
-    let running = true;
-    const visibility = new IntersectionObserver(
-      ([entry]) => {
-        running = entry.isIntersecting && !document.hidden;
-        if (running) clock.getDelta();
-      },
-      { threshold: 0 },
-    );
-    visibility.observe(mount);
-
-    const onVisibilityChange = () => {
-      running = !document.hidden;
-      if (running) clock.getDelta();
-    };
-    document.addEventListener('visibilitychange', onVisibilityChange);
-
+    let running = false;
+    let inView = false;
     let elapsed = 0;
     let frame = 0;
     let activeIndex = -1;
@@ -207,9 +193,8 @@ export default function LeoGlobe() {
     const linkPoints = [new THREE.Vector3(), new THREE.Vector3()];
 
     const animate = () => {
-      frame = requestAnimationFrame(animate);
-      const delta = clock.getDelta();
       if (!running) return;
+      const delta = clock.getDelta();
       elapsed += delta;
 
       world.rotation.y += delta * 0.06;
@@ -270,14 +255,32 @@ export default function LeoGlobe() {
       });
 
       renderer.render(scene, camera);
+      frame = requestAnimationFrame(animate);
     };
-    animate();
+    const syncVisibility = () => {
+      const next = inView && !document.hidden;
+      if (next === running) return;
+      running = next;
+      if (running) {
+        clock.getDelta();
+        frame = requestAnimationFrame(animate);
+      } else {
+        cancelAnimationFrame(frame);
+        frame = 0;
+      }
+    };
+    const visibility = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      syncVisibility();
+    }, { threshold: 0 });
+    visibility.observe(mount);
+    document.addEventListener('visibilitychange', syncVisibility);
 
     return () => {
       cancelAnimationFrame(frame);
       resizeObserver.disconnect();
       visibility.disconnect();
-      document.removeEventListener('visibilitychange', onVisibilityChange);
+      document.removeEventListener('visibilitychange', syncVisibility);
       // Three keeps GPU handles until asked; leaking them across route changes
       // is how a page ends up with a dozen live contexts.
       scene.traverse((object) => {
@@ -294,7 +297,7 @@ export default function LeoGlobe() {
   }, []);
 
   return (
-    <div className="relative w-full h-64 md:h-[26rem] bg-bg">
+    <div className="relative w-full flex-1 min-h-[16rem] bg-bg">
       <div ref={mountRef} className="absolute inset-0" aria-hidden="true" />
 
       {/* The same state in text, for anyone who cannot see the canvas. */}

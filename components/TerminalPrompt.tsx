@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { requestWindow } from '@/components/desktop/windows';
 import { audio } from '@/lib/audio';
 
 /*
@@ -83,7 +84,10 @@ export default function TerminalPrompt() {
   const goTo = useCallback((id: string) => {
     const target = document.getElementById(id);
     if (!target) return false;
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // On the desktop a section is a window, so open it. The scroll still
+    // matters on a route where the target sits in the page flow.
+    requestWindow(id);
+    target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     return true;
   }, []);
 
@@ -240,7 +244,7 @@ export default function TerminalPrompt() {
 
   return (
     <div
-      className="rounded-none border border-line bg-surface overflow-hidden"
+      className="flex-1 min-h-0 flex flex-col bg-surface overflow-hidden"
       onClick={() => inputRef.current?.focus()}
     >
       <div className="flex items-center gap-2 px-4 py-2 border-b border-line bg-surface-2 text-xs">
@@ -249,7 +253,7 @@ export default function TerminalPrompt() {
         <span className="ml-auto text-muted hidden sm:inline">bash</span>
       </div>
 
-      <div ref={logRef} className="p-3 sm:p-4 h-48 sm:h-64 md:h-80 overflow-y-auto text-xs md:text-sm leading-relaxed space-y-1">
+      <div ref={logRef} className="flex-1 min-h-[10rem] p-3 sm:p-4 overflow-y-auto font-mono text-xs md:text-sm leading-relaxed space-y-1">
         {history.map((entry, i) => (
           <div key={i} className="space-y-0.5">
             {entry.prompt !== undefined && (

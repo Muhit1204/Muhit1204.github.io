@@ -1,7 +1,11 @@
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { describe, expect, it, beforeEach } from 'vitest'
+import { describe, expect, it, beforeEach, vi } from 'vitest'
+import type { ReactNode } from 'react'
 import NotFound from '../app/not-found'
+
+// Test the recovery links independently; browser QA exercises the actual shell.
+vi.mock('../components/desktop/DesktopShell', () => ({ default: ({ children }: { children: ReactNode }) => children }))
 
 /** The retired routes are in search results and bookmarks; they must land somewhere useful. */
 function visit(path: string) {
@@ -19,7 +23,7 @@ describe('NotFound', () => {
         render(<NotFound />)
 
         const link = await screen.findByRole('link', { name: '#projects' })
-        expect(link).toHaveAttribute('href', '/#projects')
+        expect(link).toHaveAttribute('href', '/desktop#projects')
     })
 
     it('handles a trailing slash on a retired route', async () => {
@@ -44,8 +48,8 @@ describe('NotFound', () => {
         render(<NotFound />)
 
         for (const id of ['about', 'experience', 'publications', 'projects', 'contact']) {
-            expect(screen.getByRole('link', { name: id })).toHaveAttribute('href', `/#${id}`)
+            expect(screen.getByRole('link', { name: id })).toHaveAttribute('href', `/desktop#${id}`)
         }
-        expect(screen.getByRole('link', { name: 'cd ~' })).toHaveAttribute('href', '/')
+        expect(screen.getByRole('link', { name: 'cd ~' })).toHaveAttribute('href', '/desktop')
     })
 })

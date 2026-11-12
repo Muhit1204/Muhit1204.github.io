@@ -40,7 +40,7 @@ export default function SatelliteOrbitDiagram() {
   }, [satellites.length]);
 
   return (
-    <div className="relative w-full h-64 md:h-[26rem] bg-bg overflow-hidden flex flex-col items-center justify-end">
+    <div className="relative w-full flex-1 min-h-[16rem] bg-bg overflow-hidden flex flex-col items-center justify-end">
       {/* Background Stars/Space */}
       <div className="absolute inset-0 opacity-20">
         {stars.map((star, i) => (
@@ -75,14 +75,14 @@ export default function SatelliteOrbitDiagram() {
           y1="220" // Ground terminal position
           x2={satellites[activeSatellite].cx}
           y2={satellites[activeSatellite].cy}
-          stroke={isHandoff ? "#ff4438" : "#00ff9c"} // Red during handoff, accent otherwise
+          stroke={isHandoff ? "#ff4438" : "#ff6a00"} // Red during handoff, accent otherwise
           strokeWidth="2"
           strokeDasharray={isHandoff ? "2 4" : "0"}
           initial={false}
           animate={{
             x2: satellites[activeSatellite].cx,
             y2: satellites[activeSatellite].cy,
-            stroke: isHandoff ? "#ff4438" : "#00ff9c",
+            stroke: isHandoff ? "#ff4438" : "#ff6a00",
           }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
         />
